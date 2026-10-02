@@ -208,6 +208,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
   <section class="screen" id="pause">
     <div class="order"><h2>일시정지</h2><p class="date">조종 설정</p>
+      <div class="toggle"><span>쉬운 조종 (손을 떼면 수평 비행, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>소리</span><button id="tSound" aria-pressed="true">켜짐</button></div>
@@ -428,7 +429,7 @@ function buildHillObjs(){WD.targets=[];WD.friends=[];
   const pm=new T.MeshLambertMaterial({color:0xff7a1a,emissive:0x662200});
   [[-30,-52],[28,-58],[62,-18],[-62,12],[0,60],[46,44]].forEach(([x,z])=>{const y=hHill(x,z),m=new T.Mesh(new T.BoxGeometry(7,.3,2.6),pm);
     m.position.set(x,y+.6,z);m.rotation.y=rnd(0,3);world.add(m);WD.friends.push(V(x,y,z));});
-  [[-210,-300],[-60,-385],[115,-330],[262,-215],[-335,-165]].forEach(([x,z])=>{const y=hHill(x,z),g=new T.Group();g.position.set(x,y,z);
+  [[-200,-300],[60,-370],[250,-230]].forEach(([x,z])=>{const y=hHill(x,z),g=new T.Group();g.position.set(x,y,z);
     const ring=new T.Mesh(new T.TorusGeometry(5,1.3,6,14),sandM);ring.rotation.x=Math.PI/2;ring.position.y=.6;g.add(ring);
     const roof=new T.Mesh(new T.BoxGeometry(7,1,7),logM);roof.position.y=2.2;g.add(roof);
     const b=new T.Mesh(new T.CylinderGeometry(.28,.28,6,6),gunM);b.rotation.x=Math.PI/2-.35;b.position.set(0,2.6,3);g.add(b);
@@ -464,13 +465,14 @@ function sfx(kind,dist){if(!AC||muted)return;try{const vol=dist?clamp(1-dist/300
 
 /* ---------- state ---------- */
 const PL={pos:V(0,0,0),q:new T.Quaternion(),v:115,thr:.75,hp:100,mesh:null,ord:0,gun:0,view:0};
-const G={mode:'title',mkey:null,t:0,at:0,keys:{},inp:{pitch:0,roll:0},gunHeld:false,assist:true,invert:true,cool:0,gunCool:0,gunSide:1,
+const G={mode:'title',mkey:null,t:0,at:0,keys:{},inp:{pitch:0,roll:0},gunHeld:false,assist:true,easy:true,saved:0,invert:true,cool:0,gunCool:0,gunSide:1,
   flash:0,shake:0,endT:0,result:null,flakT:0,warnT:0};
 let MI={};const projs=[],bullets=[],trPool=[];let wing=[],att=[];
 const bombMat=new T.MeshPhongMaterial({color:0x3f4637}),rocketMat=new T.MeshPhongMaterial({color:0x5a5f52});
 const tracerGeo=new T.BoxGeometry(.2,.2,10),trP=new T.MeshBasicMaterial({color:0xffd27a}),trE=new T.MeshBasicMaterial({color:0xa6ff8a});
 const ring=new T.Mesh(new T.RingGeometry(.86,1,48),new T.MeshBasicMaterial({color:0xffc04a,transparent:true,opacity:.85,depthTest:false,side:T.DoubleSide}));
 ring.geometry.rotateX(-Math.PI/2);ring.renderOrder=5;
+const beacon=new T.Mesh(new T.CylinderGeometry(4,4,900,12,1,true),new T.MeshBasicMaterial({color:0xff5a4a,transparent:true,opacity:.35,depthWrite:false,blending:T.AdditiveBlending,fog:false,side:T.DoubleSide}));beacon.userData.keepGeo=true;
 const qT=new T.Quaternion(),vT=V(0,0,0);
 const fwdOf=q=>V(0,0,-1).applyQuaternion(q),upOf=q=>V(0,1,0).applyQuaternion(q),rightOf=q=>V(1,0,0).applyQuaternion(q);
 function groundY(x,z){let y=Math.max(WD.hf(x,z),WD.water);
@@ -487,17 +489,17 @@ function toast(t,s,ms){const el=$('toast');el.innerHTML=t+(s?`<small>${s}</small
 
 /* ---------- mission start ---------- */
 const MDEF={
- bridge:{start:[0,1250,6600],load:'bombs',ord:4,obj:'승호리 철교'},
- hill:{start:[-300,950,6200],load:'rockets',ord:6,obj:'351고지'}};
+ bridge:{start:[0,1150,4800],load:'bombs',ord:4,obj:'승호리 철교'},
+ hill:{start:[200,800,-3000],load:'rockets',ord:6,obj:'351고지'}};
 function startMission(key){audioInit();G.mkey=key;buildWorld(key);const d=MDEF[key];
-  PL.mesh=makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();
-  PL.v=118;PL.thr=.75;PL.hp=100;PL.ord=d.ord;PL.gun=1600;PL.view=0;updStores();
+  PL.mesh=makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
+  PL.v=118;PL.thr=.75;PL.hp=100;PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
   wing=[[-26,1,-8,'2번기'],[26,1,-8,'3번기']].map(o=>{const m=makePlane({load:d.load});world.add(m);m.position.copy(PL.pos);m.userData.off=V(o[0],o[1],o[2]);return m;});
-  world.add(ring);ring.visible=false;
+  world.add(ring);world.add(beacon);ring.visible=false;
   Object.assign(G,{mode:'play',t:0,result:null,endT:0,cool:0,gunCool:0,flash:0,shake:0,flakT:2,inp:{pitch:0,roll:0}});
   radioQ.length=0;radioT=0;$('radio').classList.remove('on');
   MI=key==='bridge'?{hits:0,rel:[],said:{},won:false,winT:0}
-    :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:10,said:{},navy:[{t:16,i:0},{t:31,i:1},{t:46,i:2}],bar:null,won:false,winT:0,started:false};
+    :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:4,said:{},navy:[{t:6,i:0},{t:13,i:1},{t:20,i:2}],bar:null,won:false,winT:0,started:false};
   camSnap=true;showScreen(null);$('hud').classList.add('on');$('pauseBtn').style.display='block';$('fsHud').style.display='block';$('helpHud').style.display='block';
   if(touchUI)$('touch').classList.add('on');
   $('bA').textContent=key==='bridge'?'투하':'로켓';$('bG').style.display=key==='bridge'?'none':'';
@@ -538,6 +540,7 @@ function flight(dt){const k=G.keys;let p=0,r=0;
   p=clamp(p,-1,1);r=clamp(r,-1,1);if(G.invert)p=-p;
   if(k.KeyE||k.Equal||k.NumpadAdd||k.ShiftLeft)PL.thr=Math.min(1,PL.thr+.45*dt);if(k.KeyQ||k.Minus||k.NumpadSubtract)PL.thr=Math.max(.2,PL.thr-.45*dt);
   G.inp.pitch=lerp(G.inp.pitch,p,1-Math.exp(-dt*8));G.inp.roll=lerp(G.inp.roll,r,1-Math.exp(-dt*8));
+  if(G.easy){easyFly(dt);}else{
   const auth=clamp((PL.v-40)/70,.3,1.15);
   qT.setFromAxisAngle(AX,G.inp.pitch*1.05*auth*dt);PL.q.multiply(qT);
   qT.setFromAxisAngle(AZ,-G.inp.roll*2.1*auth*dt);PL.q.multiply(qT);
@@ -547,11 +550,17 @@ function flight(dt){const k=G.keys;let p=0,r=0;
   if(PL.v<52){qT.setFromAxisAngle(AX,-(52-PL.v)*.025*dt);PL.q.multiply(qT);}
   PL.q.normalize();const fwd=fwdOf(PL.q);
   PL.v+=(PL.thr*27-.00108*PL.v*PL.v-9.8*fwd.y)*dt;PL.v=clamp(PL.v,38,235);
-  PL.pos.addScaledVector(fwd,PL.v*dt);if(PL.v<60)PL.pos.y-=(60-PL.v)*.18*dt;
+  PL.pos.addScaledVector(fwd,PL.v*dt);if(PL.v<60)PL.pos.y-=(60-PL.v)*.18*dt;}
   PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);
   const gy=WD.hf(PL.pos.x,PL.pos.z);
   if(PL.pos.y<Math.max(gy,WD.water)+1.6)return crash();
   if(WD.key==='bridge'&&Math.abs(PL.pos.x)<6&&Math.abs(PL.pos.z)<112&&PL.pos.y<DECK+8&&PL.pos.y>DECK-2){const s=WD.spans[Math.min(3,Math.floor((PL.pos.z+110)/55))];if(s&&s.alive)return crash();}}
+const EZ={yaw:0,pit:0,bank:0},eul=new T.Euler(0,0,0,'YXZ');
+function syncEZ(){const f=fwdOf(PL.q),u=upOf(PL.q),r=rightOf(PL.q);EZ.pit=Math.asin(clamp(f.y,-1,1));EZ.yaw=Math.atan2(-f.x,-f.z);EZ.bank=Math.atan2(-r.y,u.y);}
+function easyFly(dt){let tp=G.inp.pitch>0?G.inp.pitch*.55:G.inp.pitch*.95,tb=G.inp.roll*.85,rate=1.1;
+  EZ.pit+=clamp((tp-EZ.pit)*2.4,-rate,rate)*dt;EZ.bank+=clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
+  eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
+  PL.v=lerp(PL.v,clamp(100+PL.thr*28-EZ.pit*70,70,200),1-Math.exp(-dt*.9));PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);}
 function crash(){explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
 
 function spinProps(dt,list){list.forEach(m=>{if(!m)return;m.userData.prop.rotation.z+=dt*55;});}
@@ -565,9 +574,11 @@ function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.no
 function fireMain(){if(G.mode!=='play'||G.cool>0||PL.ord<=0)return;G.cool=G.mkey==='bridge'?.7:.35;PL.ord--;updStores();
   const fwd=fwdOf(PL.q);
   if(G.mkey==='bridge'){const p=PL.pos.clone().add(V(0,-1.3,0).applyQuaternion(PL.q)),v=fwd.clone().multiplyScalar(PL.v),pr=predict(p,v,1);
-    if(pr){const agl=p.y-pr.p.y,sg=clamp(agl*.028,3,60);v.x+=gauss()*sg/Math.max(.6,pr.t);v.z+=gauss()*sg/Math.max(.6,pr.t);MI.rel.push(Math.round(agl*FT));}
+    if(pr){if(G.easy&&Math.abs(pr.p.x)<35&&Math.abs(pr.p.z)<95){const zc=(WD.spans[1].alive&&(!WD.spans[2].alive||pr.p.z<0))?-27.5:27.5,T2=Math.max(.6,pr.t);v.x+=-pr.p.x*.85/T2;v.z+=(zc-pr.p.z)*.9/T2;}
+      const agl=p.y-pr.p.y,sg=clamp(agl*.028,3,60)*(G.easy?.45:1);v.x+=gauss()*sg/Math.max(.6,pr.t);v.z+=gauss()*sg/Math.max(.6,pr.t);MI.rel.push(Math.round(agl*FT));}
     const m=makeBombMesh(bombMat);m.position.copy(p);world.add(m);projs.push({type:'bomb',m,pos:p,vel:v});sfx('thunk');}
   else{const side=PL.ord%2?1:-1,p=PL.pos.clone().add(V(side*3.2,-.6,-1).applyQuaternion(PL.q)),v=fwd.clone().multiplyScalar(PL.v+300);
+    if(G.easy&&MI.cur>=0&&WD.targets[MI.cur].alive){const td=WD.targets[MI.cur].pos.clone().sub(p),dist=td.length();td.normalize();if(td.angleTo(fwd)<.2){v.copy(td).multiplyScalar(PL.v+300);v.y+=9.8*.35*(dist/(PL.v+300))*.5;}}
     const m=makeRocketMesh(rocketMat);m.position.copy(p);world.add(m);projs.push({type:'rocket',m,pos:p,vel:v,t:0});sfx('thunk');}
   updHUD();}
 function shoot(from,dir,speed,enemy){const m=trPool.pop()||new T.Mesh(tracerGeo,trP);m.material=enemy?trE:trP;m.visible=true;world.add(m);
@@ -579,7 +590,7 @@ function updGuns(dt){G.gunCool-=dt;const want=G.gunHeld||G.keys.KeyF;
     shoot(from,dir,870+PL.v,false);if(Math.random()<.5)sfx('gun');}
   for(let i=bullets.length-1;i>=0;i--){const b=bullets[i];b.prev.copy(b.pos);b.pos.addScaledVector(b.vel,dt);b.life-=dt;
     b.m.position.copy(b.pos);b.m.quaternion.setFromUnitVectors(AZ,vT.copy(b.vel).normalize());let dead=b.life<=0;
-    if(!dead&&!b.enemy&&WD.targets){for(const t of WD.targets)if(t.alive&&segDist(b.prev,b.pos,t.pos)<7){hitTarget(t,8);dead=true;puff(texSoft,t.pos.clone(),null,.15,2,5,1,0xffc070,true);break;}
+    if(!dead&&!b.enemy&&WD.targets){for(const t of WD.targets)if(t.alive&&segDist(b.prev,b.pos,t.pos)<7){hitTarget(t,G.easy?14:8);dead=true;puff(texSoft,t.pos.clone(),null,.15,2,5,1,0xffc070,true);break;}
       if(!dead)for(const a of WD.aa)if(a.active&&segDist(b.prev,b.pos,a.pos)<6){a.hp-=8;dead=true;if(a.hp<=0)killAA(a);break;}}
     if(!dead&&b.enemy&&G.mode==='play'&&segDist(b.prev,b.pos,PL.pos)<5.5){damage(4);dead=true;}
     if(!dead&&b.pos.y<groundY(b.pos.x,b.pos.z)){dead=true;if(!b.enemy){puff(texPuff,b.pos.clone(),V(0,4,0),1,2,7,.7,0x8a7a62,false);friendlyCheck(b.pos,22,3);}}
@@ -590,8 +601,8 @@ function updProjs(dt){for(let i=projs.length-1;i>=0;i--){const p=projs[i];
   p.vel.y-=9.8*(p.type==='bomb'?1:.35)*dt;p.pos.addScaledVector(p.vel,dt);p.m.position.copy(p.pos);p.m.quaternion.setFromUnitVectors(V(0,0,-1),vT.copy(p.vel).normalize());
   if(p.type==='rocket'){p.t+=dt;puff(texPuff,p.pos.clone(),null,1.2,1.2,5,.7,0xdedad2,false);puff(texSoft,p.pos.clone(),null,.08,1.5,2.5,1,0xffb050,true);}
   let hit=null,span=-1;
-  if(WD.key==='bridge'&&Math.abs(p.pos.x)<5.5&&Math.abs(p.pos.z)<110&&p.pos.y<DECK+7&&p.pos.y>DECK-3){const k=Math.min(3,Math.floor((p.pos.z+110)/55));if(WD.spans[k].alive){hit=p.pos.clone();span=k;}}
-  if(!hit&&p.pos.y<=groundY(p.pos.x,p.pos.z))hit=p.pos.clone();
+  if(WD.key==='bridge'&&Math.abs(p.pos.x)<(G.easy?9:5.5)&&Math.abs(p.pos.z)<110&&p.pos.y<DECK+7&&p.pos.y>DECK-3){const k=Math.min(3,Math.floor((p.pos.z+110)/55));if(WD.spans[k].alive){hit=p.pos.clone();span=k;}}
+  if(!hit&&p.pos.y<=groundY(p.pos.x,p.pos.z)){hit=p.pos.clone();if(WD.key==='bridge'&&Math.abs(p.pos.x)<(G.easy?9:5.5)&&Math.abs(p.pos.z)<110){const k=Math.min(3,Math.floor((p.pos.z+110)/55));if(WD.spans[k].alive){span=k;hit.y=DECK;}}}
   if(hit){world.remove(p.m);projs.splice(i,1);if(p.type==='bomb')bombImpact(hit,span);else rocketImpact(hit);}}}
 
 function bombImpact(pos,span){const d=pos.distanceTo(PL.pos);sfx('boom',d);G.shake=Math.max(G.shake,clamp(1-d/2500,0,.6));
@@ -606,7 +617,7 @@ function bombImpact(pos,span){const d=pos.distanceTo(PL.pos);sfx('boom',d);G.sha
   if(MI.hits>=2&&!MI.won){MI.won=true;MI.winT=5;radio('편대장','철교 절단 확인. 전 편대 귀환한다.');}
   else if(PL.ord<=0&&!MI.won&&!projs.some(q=>q.type==='bomb'))endMission('ammo');}
 function rocketImpact(pos){const d=pos.distanceTo(PL.pos);sfx('boom',d);explosion(pos,1.1);G.shake=Math.max(G.shake,clamp(1-d/1500,0,.4));
-  WD.targets.forEach(t=>{if(!t.alive)return;const dd=t.pos.distanceTo(pos);if(dd<13)hitTarget(t,100);else if(dd<28)hitTarget(t,55);});
+  WD.targets.forEach(t=>{if(!t.alive)return;const dd=t.pos.distanceTo(pos);if(dd<(G.easy?20:13))hitTarget(t,100);else if(dd<(G.easy?40:28))hitTarget(t,55);});
   WD.aa.forEach(a=>{if(a.active&&a.pos.distanceTo(pos)<20)killAA(a);});
   friendlyCheck(pos,48,10);
   if(PL.ord<=0&&!MI.won)radio('모스키토','로켓을 다 썼다. 기총으로 공격하라!');}
@@ -614,10 +625,10 @@ function friendlyCheck(pos,r,pen){if(!WD.friends)return;if(!WD.friends.some(f=>f
   if(G.t-MI.ffT<3)return;MI.ffT=G.t;MI.ff++;MI.def=Math.max(0,MI.def-pen);radio('지상 통제반','아군 진지 근처다! 사격 중지! 주황색 천을 확인하라!',4);toast('아군 진지 근처!','주황색 천 근처는 아군이에요');}
 function hitTarget(t,n){if(!t.alive)return;t.hp-=n;if(t.hp<=0){t.alive=false;t.marked=false;t.burn=14;
   explosion(t.pos.clone(),1.8,true);t.g.children.forEach(c=>{c.material=logM;});t.g.scale.y=.45;MI.killed++;MI.def=Math.min(100,MI.def+8);
-  if(MI.killed>=5){if(!MI.won){MI.won=true;MI.winT=6;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
-  else{toast('적 진지 파괴',`${MI.killed} / 5`);radio('모스키토','명중이다! 다음 목표에 연막을 표시하겠다.');if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;MI.markT=3.5;}}}}
+  if(MI.killed>=WD.targets.length){if(!MI.won){MI.won=true;MI.winT=6;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
+  else{toast('적 진지 파괴',`${MI.killed} / ${WD.targets.length}`);radio('모스키토','명중이다! 다음 목표에 연막을 표시하겠다.');if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;MI.markT=3.5;}}}}
 function killAA(a){a.active=false;explosion(a.pos.clone(),1.2,true);a.g.scale.y=.4;}
-function damage(n){if(G.mode!=='play'||MI.won)return;PL.hp=Math.max(0,PL.hp-n);G.flash=.55;G.shake=Math.max(G.shake,.35);sfx('flak');
+function damage(n){if(G.mode!=='play'||MI.won)return;if(G.easy)n*=.4;PL.hp=Math.max(0,PL.hp-n);G.flash=.55;G.shake=Math.max(G.shake,.35);sfx('flak');
   if(PL.hp<=0){explosion(PL.pos.clone(),1.4,true);endMission('shot');}}
 function aaFire(a,dt,range,accuracy){a.cd-=dt;if(!a.active||a.cd>0)return;a.cd=rnd(1.2,2.2);const d=a.pos.distanceTo(PL.pos);if(d>range)return;
   const tf=d/650,aim=PL.pos.clone().addScaledVector(fwdOf(PL.q),PL.v*tf);
@@ -631,10 +642,10 @@ function updMission(dt){
     if(d<3800&&!MI.said.near){MI.said.near=1;radio('3번기','전방에 대공포 연기! 철교가 보입니다.');}
     if(d<2600&&!MI.said.dive){MI.said.dive=1;toast('급강하 준비','철교를 따라 내려가며 노란 원을 다리에 맞추세요',3200);}
     if(G.mode==='play'&&!MI.won&&d<3800){G.flakT-=dt;if(G.flakT<=0){G.flakT=rnd(.35,.8)*(d<1500?.75:1);
-      const fwd=fwdOf(PL.q),pAim=(agl<700?.11:.06)*(d<1500?1.2:1);
+      const fwd=fwdOf(PL.q),pAim=(agl<700?.11:.06)*(d<1500?1.2:1)*(G.easy?.45:1);
       if(Math.random()<pAim){const p=PL.pos.clone().add(V(rnd(-22,22),rnd(-15,15),rnd(-22,22)));flakBurst(p);damage(rnd(6,12));}
       else{const p=PL.pos.clone().addScaledVector(fwd,rnd(60,500)).add(V(gauss()*130,gauss()*70,gauss()*130));flakBurst(p);sfx('flak',p.distanceTo(PL.pos));}}}
-    if(agl<1000)WD.aa.forEach(a=>aaFire(a,dt,1500,16));
+    if(agl<1000)WD.aa.forEach(a=>aaFire(a,dt,G.easy?1000:1500,G.easy?30:16));
     WD.spans.forEach(s=>{if(s.fall>0&&s.fall<1){s.fall=Math.min(1,s.fall+dt*.7);s.g.position.y=lerp(DECK,WD.water-4,s.fall*s.fall);s.g.rotation.x=s.rot*s.fall;s.g.rotation.z=s.rot*.6*s.fall;
       if(Math.random()<.3)puff(texPuff,s.g.position.clone(),V(0,8,0),3,8,30,.7,0x55524e,false,2);}});}
   else{
@@ -652,8 +663,8 @@ function updMission(dt){
       puff(texSoft,WD.ship.position.clone().add(V(0,8,-38)),null,.25,10,24,1,0xffc070,true);
       const p=a.pos.clone().add(V(rnd(-30,30),0,rnd(-30,30)));p.y=WD.hf(p.x,p.z);explosion(p,1.3,true);sfx('far',p.distanceTo(PL.pos));
       if(++MI.bar.k>=5){if(a.active)killAA(a);if(MI.bar.i===2)radio('모스키토','대공포가 조용해졌다. 해군, 고맙다!');MI.bar=null;}}}
-    WD.aa.forEach(a=>aaFire(a,dt,2000,14));
-    if(MI.started&&!MI.won&&G.mode==='play'){MI.def-=.3*dt;if(MI.def<=0){MI.def=0;endMission('lost');}}}
+    WD.aa.forEach(a=>aaFire(a,dt,G.easy?1200:2000,G.easy?32:14));
+    if(MI.started&&!MI.won&&G.mode==='play'){MI.def-=(G.easy?.12:.3)*dt;if(MI.def<=0){MI.def=0;endMission('lost');}}}
   if(MI.won&&G.mode==='play'){MI.winT-=dt;if(MI.winT<=0)endMission('win');}
   if(PL.hp<45&&G.mode==='play'&&Math.random()<.5)puff(texPuff,PL.pos.clone().addScaledVector(fwdOf(PL.q),-6),null,2.5,2,10,.6,0x333333,false);}
 
@@ -686,9 +697,9 @@ function updHUD(){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textConten
   $('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
   $('dmg').firstElementChild.style.width=PL.hp+'%';$('dmg').firstElementChild.style.background=PL.hp<40?'#e0604f':'';
   if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z);$('objT').textContent='승호리 철교 차단';
-    $('objS').textContent=`가운데 경간 ${MI.hits}/2 끊기 · ${(d/1000).toFixed(1)}km`;$('ammo').innerHTML=`폭탄 <b>${PL.ord}</b>발`;}
+    $('objS').textContent=d>2600?`① 붉은 빛기둥(철교) 쪽으로 날아가요 · ${(d/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 투하! · 경간 ${MI.hits}/2`;$('ammo').innerHTML=`폭탄 <b>${PL.ord}</b>발`;}
   else{const al=WD.targets.filter(t=>!t.alive).length;$('objT').textContent='351고지 근접항공지원';
-    $('objS').textContent=MI.cur>=0?`흰 연막 옆 적 진지 공격 · ${al}/5`:`모스키토의 연막 표시를 기다리세요 · ${al}/5`;
+    const n=WD.targets.length,ct=MI.cur>=0?WD.targets[MI.cur]:null,cd=ct?PL.pos.distanceTo(ct.pos):0;$('objS').textContent=!ct?`모스키토가 흰 연막을 쏠 때까지 기다려요 · ${al}/${n}`:cd>1300?`① 흰 빛기둥 쪽으로 날아가요 · ${(cd/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 로켓! · ${al}/${n}`;
     $('defbar').firstElementChild.style.width=MI.def+'%';$('defbar').firstElementChild.style.background=MI.def<30?'#e0604f':'';
     $('ammo').innerHTML=`로켓 <b>${PL.ord}</b> · 기총 <b>${PL.gun}</b>`;}}
 function proj(p){const v=p.clone().project(cam);return{x:(v.x+1)/2*W,y:(1-v.y)/2*H,behind:v.z>1};}
@@ -708,10 +719,11 @@ function draw2D(dt){hx.clearRect(0,0,W,H);if(G.mode!=='play'&&G.mode!=='ending')
   if(G.mkey==='bridge'){const alive=WD.spans[1].alive||WD.spans[2].alive;if(alive)marker(V(0,DECK,0),`승호리 철교 ${(PL.pos.distanceTo(V(0,DECK,0))/1000).toFixed(1)}km`,'#ff6a5a');}
   else{if(MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];marker(t.pos,`연막 표시 목표 ${(PL.pos.distanceTo(t.pos)/1000).toFixed(1)}km`,'#ffffff');}
     else marker(V(0,360,0),`351고지 ${(Math.hypot(PL.pos.x,PL.pos.z)/1000).toFixed(1)}km`,'#ffd27a');}
+  if(G.ringGo&&ring.visible){const q=proj(ring.position);if(!q.behind){hx.font='22px "Black Han Sans",sans-serif';hx.textAlign='center';hx.lineWidth=4;hx.strokeStyle='rgba(0,0,0,.6)';const tx=G.mkey==='bridge'?'지금 투하!':'지금 발사!';hx.strokeText(tx,q.x,q.y-30);hx.fillStyle='#7dff95';hx.fillText(tx,q.x,q.y-30);}}
   if(G.flash>0){const g=hx.createRadialGradient(W/2,H/2,Math.min(W,H)*.3,W/2,H/2,Math.max(W,H)*.7);g.addColorStop(0,'rgba(200,40,30,0)');g.addColorStop(1,`rgba(200,40,30,${G.flash})`);
     hx.fillStyle=g;hx.fillRect(0,0,W,H);G.flash=Math.max(0,G.flash-dt);}
   const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);let w='';
-  if(G.mode==='play'){if(agl<45||(agl<160&&fwd.y<-.2))w=`고도 낮음! 기수를 올리세요 (${G.invert?'↓':'↑'})`;else if(PL.v<55)w='속도 부족! 추력을 올리세요';
+  if(G.mode==='play'){if(G.saved>0){G.saved-=dt;w='땅이 가까워 자동으로 기수를 올렸어요';}else if(agl<45||(agl<160&&fwd.y<-.2))w=`고도 낮음! 기수를 올리세요 (${G.invert?'↓':'↑'})`;else if(PL.v<55)w='속도 부족! 추력을 올리세요';
     else if(Math.abs(PL.pos.x)>8200||Math.abs(PL.pos.z)>8200)w='작전 구역을 벗어나고 있어요';}
   $('warn').textContent=w;$('warn').style.display=w?'block':'none';
   drawMini();}
@@ -723,10 +735,18 @@ function drawMini(){const c=$('mini').getContext('2d'),S=240,R0=112,range=G.mkey
   if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>range*.9)dot(0,0,6,'#ff6a5a');const a=pt(0,-110),b=pt(0,110);c.strokeStyle='#ff6a5a';c.lineWidth=5;c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();}
   else{WD.friends.forEach(f=>dot(f.x,f.z,4,'#ff9a3a'));WD.targets.forEach((t,i)=>{if(t.alive)dot(t.pos.x,t.pos.z,i===MI.cur?7:5,i===MI.cur?'#ffffff':'#ff6a5a');});dot(WD.mos.position.x,WD.mos.position.z,4,'#ffd27a');}
   c.fillStyle='#ffc04a';c.beginPath();c.moveTo(0,-12);c.lineTo(8,9);c.lineTo(0,5);c.lineTo(-8,9);c.closePath();c.fill();c.restore();}
-function updRing(){ring.visible=false;if(G.mode!=='play'||PL.ord<=0)return;const fwd=fwdOf(PL.q);
+function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
+  if(G.mode==='play'){const op=.28+Math.sin(G.t*4)*.1;
+    if(G.mkey==='bridge'){if(WD.spans[1].alive||WD.spans[2].alive){beacon.visible=true;beacon.position.set(0,DECK+450,0);beacon.material.color.set(0xff5a4a);}}
+    else if(MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];beacon.visible=true;beacon.position.set(t.pos.x,t.pos.y+450,t.pos.z);beacon.material.color.set(0xffffff);}
+    beacon.material.opacity=op;}
+  if(G.mode!=='play'||PL.ord<=0)return;const fwd=fwdOf(PL.q);let go=false;
   if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>3200)return;const p=PL.pos.clone().add(V(0,-1.3,0)),pr=predict(p,fwd.clone().multiplyScalar(PL.v),1);if(!pr)return;
-    const sg=clamp((p.y-pr.p.y)*.028,3,60);ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(sg*2);ring.visible=true;}
-  else{if(fwd.y>-.05)return;const pr=predict(PL.pos.clone(),fwd.clone().multiplyScalar(PL.v+300),.35);if(!pr||pr.t>6)return;ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(14);ring.visible=true;}}
+    const sg=clamp((p.y-pr.p.y)*.028,3,60)*(G.easy?.45:1);ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(sg*2);ring.visible=true;
+    const k=Math.floor((pr.p.z+110)/55);go=Math.abs(pr.p.x)<(G.easy?20:6)&&Math.abs(pr.p.z)<(G.easy?70:48)&&(G.easy?(WD.spans[1].alive||WD.spans[2].alive):WD.spans[pr.p.z<0?1:2].alive);}
+  else{if(fwd.y>-.05)return;const pr=predict(PL.pos.clone(),fwd.clone().multiplyScalar(PL.v+300),.35);if(!pr||pr.t>6)return;ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(14);ring.visible=true;
+    if(MI.cur>=0){const t=WD.targets[MI.cur];go=t.alive&&Math.hypot(pr.p.x-t.pos.x,pr.p.z-t.pos.z)<(G.easy?30:16);}}
+  G.ringGo=go;ring.material.color.set(go?0x5cff7a:0xffc04a);}
 
 /* ---------- end / screens ---------- */
 function endMission(r){if(G.mode!=='play')return;G.mode='ending';G.result=r;G.endT=r==='win'?1.5:3.2;G.gunHeld=false;
@@ -754,8 +774,8 @@ function helpHTML(){const inv=G.invert,br=G.mkey==='bridge';
       :`<div class="a">로켓 발사</div><div><kbd>Space</kbd></div><div>빨간 로켓 버튼</div><div class="a">기총 쏘기</div><div><kbd>F</kbd> 누르고 있기</div><div>기총 버튼 누르고 있기</div>`}
   <div class="a">시점 바꾸기</div><div><kbd>C</kbd></div><div>시점 버튼</div>
   <div class="a">일시정지</div><div><kbd>Esc</kbd></div><div>II 버튼</div></div>
-  <ul>${br?'<li>땅에 보이는 <mark>노란 원</mark>이 폭탄이 떨어질 곳이에요. 원이 철교 위에 올 때 투하하세요.</li><li>낮게 내려갈수록 원이 작아져서 잘 맞지만, 땅에 부딪히지 않게 바로 상승하세요.</li>'
-     :'<li><b>흰 연막</b> 옆이 적 진지예요. 노란 원이 그 위에 오면 로켓을 쏘세요.</li><li><b>주황색 천</b>이 있는 꼭대기는 아군이에요. 절대 쏘면 안 돼요.</li>'}
+  <ul>${br?'<li>땅에 보이는 <mark>노란 원</mark>이 폭탄이 떨어질 곳이에요. 원이 철교 위에서 초록색이 되면 투하하세요.</li><li>낮게 내려갈수록 원이 작아져서 잘 맞지만, 땅에 부딪히지 않게 바로 상승하세요.</li>'
+     :'<li><b>흰 연막</b> 옆이 적 진지예요. 하얀 빛기둥을 따라가서 노란 원이 초록색이 되면 로켓을 쏘세요.</li><li><b>주황색 천</b>이 있는 꼭대기는 아군이에요. 절대 쏘면 안 돼요.</li>'}
   <li>조종간에서 손을 떼면 날개가 저절로 수평으로 돌아와요.</li></ul>`;}
 function openHelp(){if(G.mode==='play'){G.mode='pause';engineSet(false);G.keys={};G.gunHeld=false;helpFrom='play';}else if(G.mode==='pause')helpFrom='pause';else return;
   $('helpBody').innerHTML=helpHTML();showScreen('help');$('help').scrollTop=0;}
@@ -774,10 +794,11 @@ $('pResume').onclick=()=>{showScreen(null);G.mode='play';};
 $('pRestart').onclick=()=>startMission(G.mkey);
 $('pQuit').onclick=toSelect;
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
-tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tInvert',()=>G.invert,v=>G.invert=v);tgl('tSound',()=>!muted,v=>{muted=!v;});
+tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);tgl('tSound',()=>!muted,v=>{muted=!v;});
 
 const CTRL=`<li><b>조종</b> — 실제 비행기 조종간처럼 <kbd>↓</kbd>(<kbd>S</kbd>)를 누르면 기수가 올라가 <mark>상승</mark>하고, <kbd>↑</kbd>(<kbd>W</kbd>)를 누르면 기수가 내려가 <mark>하강</mark>해요. <kbd>A</kbd><kbd>D</kbd>(또는 <kbd>←</kbd><kbd>→</kbd>) 날개를 기울여 돌기. <kbd>E</kbd><kbd>Q</kbd> 추력, <kbd>C</kbd> 조종석 시점, <kbd>Esc</kbd> 일시정지</li>
-<li><b>태블릿</b> — 왼쪽 조종간을 아래로 당기면 상승, 위로 밀면 하강해요. 반대가 편하면 일시정지 메뉴에서 바꿀 수 있어요. 오른쪽 버튼으로 무장을 쏴요. 손을 떼면 날개가 저절로 수평이 돼요.</li>`;
+<li><b>태블릿</b> — 왼쪽 조종간을 아래로 당기면 상승, 위로 밀면 하강해요. 반대가 편하면 일시정지 메뉴에서 바꿀 수 있어요. 오른쪽 버튼으로 무장을 쏴요. 손을 떼면 저절로 수평 비행으로 돌아와요.</li>
+<li>땅에 너무 가까워지면 화면에 경고가 떠요. 바로 기수를 올리세요. 부딪히면 임무 실패예요!</li>`;
 const BRIEF={
  bridge:[`<h2>왜 이 다리인가</h2><p class="date">1952년 1월, 강릉 기지</p>
 <svg class="mapsvg" viewBox="0 0 320 170" aria-label="작전 경로 약도"><path d="M70 10 C40 40 60 70 50 100 C45 130 80 160 120 165 L300 165 L300 10 Z" fill="#d3ccb7"/>
@@ -792,24 +813,30 @@ const BRIEF={
 <p>이 임무는 대한민국 공군에게 맡겨졌어요. 1952년 1월 12일 두 차례 출격해 폭탄을 떨어뜨렸지만 <mark>모두 실패</mark>했어요.</p>
 <p>그래서 방법을 바꿨어요. 대공포화가 아무리 거세도 더 낮게 내려가 정확히 떨어뜨리기로요. 실제 조종사들은 약 4,000피트에서 급강하했어요.</p>`,
 `<h2>작전 방법</h2><p class="date">1952년 1월 15일 출격</p><ul>
-<li>북쪽의 붉은 표시를 따라 철교로 날아가요. 오른쪽 위 지도에서 붉은 선이 철교예요.</li>
+<li>북쪽에 보이는 <b>붉은 빛기둥</b>이 철교예요. 그쪽으로 날아가요.</li>
 <li>철교에 가까워지면 땅에 <mark>노란 원</mark>이 보여요. 폭탄이 떨어질 곳이에요. 높을수록 원이 크고(흩어짐), 낮을수록 작아져요.</li>
-<li>노란 원이 다리 위에 올 때 <kbd>Space</kbd> 또는 <b>투하</b>. 다리 방향을 따라 내려가면 맞히기 쉬워요.</li>
+<li>노란 원이 다리 위에서 <b style="color:#2f8a46">초록색</b>으로 바뀌면 <kbd>Space</kbd> 또는 <b>투하</b>. 다리 방향을 따라 내려가면 맞히기 쉬워요.</li>
 <li>목표: 폭탄 4발로 <mark>가운데 경간 2개</mark> 끊기. 너무 낮게 내려가면 땅에 부딪혀요!</li>${CTRL}</ul>`],
- hill:[`<h2>351고지는 어디인가</h2><p class="date">1953년 3월, 동해안 전선</p>
+ hill:[`<h2>351고지 이야기</h2><p class="date">1953년 3월, 동해 바다 가까운 산</p>
 <svg class="mapsvg" viewBox="0 0 320 150" aria-label="351고지 위치 약도"><path d="M40 0 C70 40 50 80 90 150 L0 150 L0 0Z" fill="#d3ccb7"/><path d="M40 0 C70 40 50 80 90 150 L320 150 L320 0Z" fill="#c7d3d8"/>
 <path d="M0 64 C40 60 52 70 66 66" stroke="#6d6556" stroke-width="2" fill="none" stroke-dasharray="5 4"/><text x="4" y="58" font-size="11" fill="#6d6556">전선</text>
 <circle cx="62" cy="66" r="9" fill="none" stroke="#C8372D" stroke-width="3"/><text x="78" y="70" font-size="12" fill="#C8372D">351고지</text><text x="200" y="80" font-size="13" fill="#5b6f7a">동해</text></svg>
-<p>351고지는 동해안 가까이, 지금 휴전선 동쪽 끝 부근에 있는 고지예요. 높이가 351m라서 이렇게 불러요.</p>
-<p>휴전 회담이 이어지는 동안에도 고지를 차지하려는 싸움은 계속됐어요. 적이 고지를 공격했고, <mark>국군 제15사단</mark>이 이곳을 지키고 있었어요.</p>`,
-`<h2>하늘과 땅이 함께</h2><p class="date">근접항공지원 작전</p>
-<p><mark>윤응렬 소령</mark>이 이끄는 한국 공군 F-51 16대가 출격했어요. 미 공군 T-6 정찰기 <b>모스키토</b>가 하늘을 돌며 연막 로켓으로 목표를 표시하고, 땅의 통제반이 무전으로 안내했어요.</p>
-<p>미 해군 함포와 국군 포병은 적의 대공포를 눌러 주었어요. 땅에서 싸우는 아군을 비행기가 가까이에서 돕는 작전을 <mark>근접항공지원</mark>이라고 해요.</p>`,
-`<h2>작전 방법</h2><p class="date">351고지 상공</p><ul>
-<li><b>흰 연막</b> 옆이 적 포진지예요. 기수를 내려 로켓(<kbd>Space</kbd>)과 기총(<kbd>F</kbd>)으로 공격해요.</li>
-<li><b>주황색 천</b>이 깔린 꼭대기는 아군 진지예요. <mark>절대 쏘면 안 돼요.</mark></li>
-<li>왼쪽 위 초록 막대는 고지 방어 상태예요. 적 진지를 부술수록 다시 차올라요.</li>
-<li>시간이 지나면 바다의 미 해군 구축함이 적 대공포를 하나씩 제압해 줘요.</li>${CTRL}</ul>`]};
+<p>351고지는 동해 바다 가까이에 있는 산이에요. 높이가 <mark>351m</mark>라서 이런 이름이 붙었어요.</p>
+<p>적군이 이 산을 빼앗으려고 공격했어요. 산꼭대기에서는 <mark>국군 병사들</mark>이 산을 지키고 있었어요.</p>`,
+`<h2>하늘에서 돕기</h2><p class="date">비행기가 땅의 군인을 돕는 작전</p>
+<p><mark>윤응렬 소령</mark>이 이끈 우리 공군 F-51 16대가 도우러 출격했어요.</p>
+<p>작은 비행기 <b>모스키토</b>가 먼저 날아가 <b>흰 연기</b>를 쏘아 "여기에 적이 있어!" 하고 알려 주었어요. 바다의 미국 군함은 적의 대포를 막아 주었어요.</p>
+<p>이렇게 땅에서 싸우는 군인을 비행기가 가까이에서 돕는 것을 <mark>근접항공지원</mark>이라고 해요.</p>`,
+`<h2>작전 방법</h2><p class="date">순서대로 따라 해요</p>
+<div class="hgrid" style="grid-template-columns:auto 1fr"><div class="h">①</div><div class="h">흰 빛기둥 찾기</div>
+<div class="a">찾기</div><div>모스키토가 흰 연기를 쏘면 하늘까지 <b>흰 빛기둥</b>이 솟아요. 그쪽으로 날아가요.</div>
+<div class="h">②</div><div class="h">기수 숙이기</div>
+<div class="a">조준</div><div>가까이 가서 기수를 숙이면 땅에 <b>노란 원</b>이 보여요. 원을 흰 연기 쪽으로 옮겨요.</div>
+<div class="h">③</div><div class="h">초록색이 되면 발사</div>
+<div class="a">발사</div><div>원이 <b style="color:#2f8a46">초록색</b>이 되면 <kbd>Space</kbd> 또는 <b>로켓</b> 버튼! 쏜 뒤에는 바로 올라가요.</div>
+<div class="h">!</div><div class="h">주의</div>
+<div class="a">아군</div><div>산꼭대기 <b style="color:#d4600f">주황색 천</b>은 우리 편이에요. 쏘면 안 돼요.</div></div>
+<p>적 진지 <mark>3곳</mark>을 부수면 성공이에요.</p><ul>${CTRL}</ul>`]};
 let bk='bridge',bp=0;
 function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
   $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'출격':'다음';$('brief').scrollTop=0;}
@@ -831,7 +858,7 @@ function debrief(){G.mode='debrief';$('hud').classList.remove('on');$('pauseBtn'
     <p>유치곤 장군은 전쟁 동안 203회 출격했고, 영화 「빨간 마후라」의 실제 주인공이기도 해요.</p>`;}
   else{const lead=win?'흰 연막이 가리킨 적 진지를 모두 부수고 351고지를 지켜 냈어요.':r==='lost'?'적 진지를 제때 부수지 못해 방어선이 밀렸어요. 연막 표시를 빨리 찾아가 보세요.':r==='crash'?'고지 근처에서 땅에 부딪혔어요. 공격 뒤에는 바로 기수를 올려야 해요.':'기체가 크게 상했어요. 대공포 진지가 제압될 때까지 높이 머무는 것도 방법이에요.';
     html=`<div class="stamp">${win?'완료':'재출격'}</div><h2>${head}</h2><p class="date">351고지 작전 결과</p><p>${lead}</p>
-    <div class="stat"><div><small>부순 적 진지</small><b>${MI.killed} / 5</b></div><div><small>고지 방어</small><b>${Math.round(MI.def)}%</b></div><div><small>아군 근처 사격</small><b>${MI.ff}회</b></div></div>
+    <div class="stat"><div><small>부순 적 진지</small><b>${MI.killed} / ${WD.targets.length}</b></div><div><small>고지 방어</small><b>${Math.round(MI.def)}%</b></div><div><small>아군 근처 사격</small><b>${MI.ff}회</b></div></div>
     <p>1953년 3월, <mark>윤응렬 소령</mark>이 이끈 한국 공군 F-51 16대가 351고지를 공격하던 적을 공격했어요. 미 공군 T-6 모스키토 정찰기(한국 공군 조종사도 함께 탔어요)와 지상 통제반이 목표를 알려 주었고, 미 해군 함포와 국군 포병이 적 대공포를 눌러 주었어요.</p>
     <p>그 덕분에 <mark>국군 제15사단</mark>이 351고지를 지켜 냈어요. 공군·해군·육군, 그리고 한국과 미국이 힘을 합친 합동작전이었어요.</p>`;}
   html+=`<p class="note">게임 속 무전 대화와 지형은 이해를 돕기 위해 새로 꾸민 장면이에요.</p>
@@ -845,10 +872,10 @@ const QZ={bridge:[
  {q:'1월 15일 작전이 성공한 가장 큰 까닭은 무엇일까요?',o:['더 많은 폭격기가 출격해서','밤에 몰래 공격해서','대공포화를 무릅쓰고 낮게 내려가 정확히 떨어뜨려서'],a:2,e:'게임의 노란 원처럼, 낮을수록 폭탄이 덜 흩어져요. 조종사들은 위험을 알면서도 낮게 내려갔어요.'},
  {q:'생각해 보기: 이 작전 이야기에서 가장 마음에 남는 것은 무엇인가요?',o:['포기하지 않고 방법을 바꾼 점','목숨을 걸고 임무를 해낸 조종사들의 용기','전쟁이 다시는 없어야 한다는 생각'],a:-1,e:'정답이 없는 질문이에요. 친구와 이유를 나누어 보세요. 승리 뒤에는 늘 많은 사람의 희생과 아픔이 함께 있었다는 것도 기억해요.'}],
  hill:[
- {q:'근접항공지원이란 무엇일까요?',o:['땅에서 싸우는 아군을 비행기가 가까이에서 돕는 작전','멀리 있는 적의 공장을 폭격하는 작전','비행기끼리 하늘에서 싸우는 공중전'],a:0,e:'351고지 작전처럼 지상군 바로 앞의 적을 하늘에서 공격해 아군을 돕는 작전이에요.'},
- {q:'T-6 정찰기 모스키토가 한 일은 무엇일까요?',o:['폭탄을 가장 많이 싣고 폭격했다','연막으로 공격할 목표를 표시하고 안내했다','적 전투기와 공중전을 벌였다'],a:1,e:'모스키토는 하늘을 돌며 연막 로켓으로 목표를 표시하고 전투기에게 알려 주었어요.'},
- {q:'근접항공지원에서 조종사가 공격 전에 꼭 구별해야 했던 것은?',o:['구름의 모양','적의 깃발 색깔','아군 진지와 적 진지의 위치'],a:2,e:'아군과 적이 아주 가까이 있어서, 주황색 표시 같은 신호로 아군 위치를 확인해야 했어요.'},
- {q:'생각해 보기: 공군·해군·육군과 여러 나라가 함께한 이 작전에서 배울 점은?',o:['서로 믿고 역할을 나누는 협력','정확한 정보를 주고받는 소통','한 사람의 힘보다 팀의 힘'],a:-1,e:'정답이 없는 질문이에요. 우리 반에서 협력이 필요했던 경험과도 이어서 이야기해 보세요.'}]};
+ {q:'351고지 작전에서 비행기는 누구를 도왔나요?',o:['산 위에서 고지를 지키던 국군','바다에서 고기를 잡던 어부','길을 잃은 다른 비행기'],a:0,e:'비행기가 땅에서 싸우는 국군을 가까이에서 도왔어요. 이것을 근접항공지원이라고 해요.'},
+ {q:'작은 비행기 모스키토는 적이 있는 곳을 어떻게 알려 주었나요?',o:['큰 소리로 외쳐서','흰 연기를 쏘아서','깃발을 흔들어서'],a:1,e:'모스키토가 흰 연기를 쏘면, 전투기 조종사들은 그 연기를 보고 공격할 곳을 찾았어요.'},
+ {q:'조종사가 공격하기 전에 꼭 확인해야 했던 것은?',o:['구름의 모양','비행기의 색깔','우리 편이 있는 곳'],a:2,e:'우리 편과 적이 아주 가까이 있었어요. 그래서 주황색 천 같은 표시로 우리 편 위치를 꼭 확인했어요.'},
+ {q:'생각해 보기: 공군, 해군, 육군이 함께한 이 작전에서 배울 점은?',o:['서로 믿고 역할을 나누는 협력','정확하게 알려 주는 소통','혼자보다 함께하는 힘'],a:-1,e:'정답이 없는 질문이에요. 우리 반에서 협력이 필요했던 경험과도 이어서 이야기해 보세요.'}]};
 let qi=0,score=0;
 function renderQuiz(){const Q=QZ[G.mkey],it=Q[qi];
   $('quizBody').innerHTML=`<h2>확인 문제 ${qi+1} / ${Q.length}</h2><p class="date">${it.a<0?'정답 없는 질문':'알맞은 답을 고르세요'}</p><p>${it.q}</p>
