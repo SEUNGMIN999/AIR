@@ -208,7 +208,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
   <section class="screen" id="pause">
     <div class="order"><h2>일시정지</h2><p class="date">조종 설정</p>
-      <div class="toggle"><span>쉬운 조종 (손을 떼면 수평 비행, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
+      <div class="toggle"><span>쉬운 조종 (손을 떼면 날개 수평, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>소리</span><button id="tSound" aria-pressed="true">켜짐</button></div>
@@ -557,11 +557,11 @@ function flight(dt){const k=G.keys;let p=0,r=0;
   if(WD.key==='bridge'&&Math.abs(PL.pos.x)<6&&Math.abs(PL.pos.z)<112&&PL.pos.y<DECK+8&&PL.pos.y>DECK-2){const s=WD.spans[Math.min(3,Math.floor((PL.pos.z+110)/55))];if(s&&s.alive)return crash();}}
 const EZ={yaw:0,pit:0,bank:0},eul=new T.Euler(0,0,0,'YXZ');
 function syncEZ(){const f=fwdOf(PL.q),u=upOf(PL.q),r=rightOf(PL.q);EZ.pit=Math.asin(clamp(f.y,-1,1));EZ.yaw=Math.atan2(-f.x,-f.z);EZ.bank=Math.atan2(-r.y,u.y);}
-function easyFly(dt){let tp=G.inp.pitch>0?G.inp.pitch*.55:G.inp.pitch*.95,tb=G.inp.roll*.85,rate=1.1;
-  EZ.pit+=clamp((tp-EZ.pit)*2.4,-rate,rate)*dt;EZ.bank+=clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
+function easyFly(dt){const tb=G.inp.roll*.85;
+  EZ.pit=clamp(EZ.pit+G.inp.pitch*.8*dt,-1.15,.75);EZ.bank+=clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
   eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
   PL.v=lerp(PL.v,clamp(100+PL.thr*28-EZ.pit*70,70,200),1-Math.exp(-dt*.9));PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);}
-function crash(){explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
+function crash(){if(G.mode!=='play')return;explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
 
 function spinProps(dt,list){list.forEach(m=>{if(!m)return;m.userData.prop.rotation.z+=dt*55;});}
 function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.normalize();yaw.setFromUnitVectors(V(0,0,-1),f);
@@ -614,7 +614,7 @@ function bombImpact(pos,span){const d=pos.distanceTo(PL.pos);sfx('boom',d);G.sha
     else{toast('바깥 경간 명중','목표는 가운데 경간 2개예요');}}
   else{const off=Math.abs(pos.x)<5.5?0:Math.round(Math.max(0,Math.hypot(Math.max(0,Math.abs(pos.x)-3.5),Math.max(0,Math.abs(pos.z)-110))));
     toast('빗나감',`다리에서 약 ${Math.max(4,off)}m 벗어났어요`);radio('3번기',MI.said.miss?'좀 더 낮게 들어가 보십시오!':'빗나갔습니다. 다시 들어가십시오!');MI.said.miss=1;}
-  if(MI.hits>=2&&!MI.won){MI.won=true;MI.winT=5;radio('편대장','철교 절단 확인. 전 편대 귀환한다.');}
+  if(MI.hits>=2&&!MI.won){MI.won=true;MI.winT=.3;radio('편대장','철교 절단 확인. 전 편대 귀환한다.');}
   else if(PL.ord<=0&&!MI.won&&!projs.some(q=>q.type==='bomb'))endMission('ammo');}
 function rocketImpact(pos){const d=pos.distanceTo(PL.pos);sfx('boom',d);explosion(pos,1.1);G.shake=Math.max(G.shake,clamp(1-d/1500,0,.4));
   WD.targets.forEach(t=>{if(!t.alive)return;const dd=t.pos.distanceTo(pos);if(dd<(G.easy?20:13))hitTarget(t,100);else if(dd<(G.easy?40:28))hitTarget(t,55);});
@@ -625,7 +625,7 @@ function friendlyCheck(pos,r,pen){if(!WD.friends)return;if(!WD.friends.some(f=>f
   if(G.t-MI.ffT<3)return;MI.ffT=G.t;MI.ff++;MI.def=Math.max(0,MI.def-pen);radio('지상 통제반','아군 진지 근처다! 사격 중지! 주황색 천을 확인하라!',4);toast('아군 진지 근처!','주황색 천 근처는 아군이에요');}
 function hitTarget(t,n){if(!t.alive)return;t.hp-=n;if(t.hp<=0){t.alive=false;t.marked=false;t.burn=14;
   explosion(t.pos.clone(),1.8,true);t.g.children.forEach(c=>{c.material=logM;});t.g.scale.y=.45;MI.killed++;MI.def=Math.min(100,MI.def+8);
-  if(MI.killed>=WD.targets.length){if(!MI.won){MI.won=true;MI.winT=6;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
+  if(MI.killed>=WD.targets.length){if(!MI.won){MI.won=true;MI.winT=.3;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
   else{toast('적 진지 파괴',`${MI.killed} / ${WD.targets.length}`);radio('모스키토','명중이다! 다음 목표에 연막을 표시하겠다.');if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;MI.markT=3.5;}}}}
 function killAA(a){a.active=false;explosion(a.pos.clone(),1.2,true);a.g.scale.y=.4;}
 function damage(n){if(G.mode!=='play'||MI.won)return;if(G.easy)n*=.4;PL.hp=Math.max(0,PL.hp-n);G.flash=.55;G.shake=Math.max(G.shake,.35);sfx('flak');
@@ -675,7 +675,7 @@ function updCam(dt){const fwd=fwdOf(PL.q),up=upOf(PL.q);
   else{if(G.mode==='play')PL.mesh.visible=true;cam.fov=62;
     const want=G.mode==='play'?PL.pos.clone().add(V(0,4.2,17).applyQuaternion(PL.q)):PL.pos.clone().add(V(Math.cos(G.t*.3)*40,18,Math.sin(G.t*.3)*40));
     camPos.lerp(want,camSnap?1:1-Math.exp(-dt*6));cam.position.copy(camPos);
-    const tu=V(0,1,0).lerp(up,G.mode==='play'?.6:0).normalize();camUp.lerp(tu,camSnap?1:1-Math.exp(-dt*4)).normalize();cam.up.copy(camUp);
+    const tu=V(0,1,0).lerp(up,G.mode==='play'?(G.easy?.25:.5):0).normalize();camUp.lerp(tu,camSnap?1:1-Math.exp(-dt*4)).normalize();cam.up.copy(camUp);
     cam.lookAt(G.mode==='play'?PL.pos.clone().addScaledVector(fwd,30):PL.pos);
     const gy=Math.max(WD.hf(cam.position.x,cam.position.z),WD.water)+3;if(cam.position.y<gy)cam.position.y=gy;}
   camSnap=false;
@@ -749,7 +749,7 @@ function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
   G.ringGo=go;ring.material.color.set(go?0x5cff7a:0xffc04a);}
 
 /* ---------- end / screens ---------- */
-function endMission(r){if(G.mode!=='play')return;G.mode='ending';G.result=r;G.endT=r==='win'?1.5:3.2;G.gunHeld=false;
+function endMission(r){if(G.mode!=='play')return;G.mode='ending';G.result=r;G.endT=r==='win'?3.5:3.2;G.endAt=performance.now();G.gunHeld=false;
   const m={crash:['지면 충돌','기체를 잃었어요'],shot:['기체 손상','더 날 수 없어 비상 탈출했어요'],ammo:['무장 소진','철교를 끊지 못하고 귀환해요'],lost:['방어선 후퇴','고지 방어선이 밀렸어요'],win:['임무 완료','기지로 귀환해요']}[r];
   toast(m[0],m[1],3000);$('touch').classList.remove('on');engineSet(r==='win');}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));}
@@ -797,7 +797,7 @@ function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed
 tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);tgl('tSound',()=>!muted,v=>{muted=!v;});
 
 const CTRL=`<li><b>조종</b> — 실제 비행기 조종간처럼 <kbd>↓</kbd>(<kbd>S</kbd>)를 누르면 기수가 올라가 <mark>상승</mark>하고, <kbd>↑</kbd>(<kbd>W</kbd>)를 누르면 기수가 내려가 <mark>하강</mark>해요. <kbd>A</kbd><kbd>D</kbd>(또는 <kbd>←</kbd><kbd>→</kbd>) 날개를 기울여 돌기. <kbd>E</kbd><kbd>Q</kbd> 추력, <kbd>C</kbd> 조종석 시점, <kbd>Esc</kbd> 일시정지</li>
-<li><b>태블릿</b> — 왼쪽 조종간을 아래로 당기면 상승, 위로 밀면 하강해요. 반대가 편하면 일시정지 메뉴에서 바꿀 수 있어요. 오른쪽 버튼으로 무장을 쏴요. 손을 떼면 저절로 수평 비행으로 돌아와요.</li>
+<li><b>태블릿</b> — 왼쪽 조종간을 아래로 당기면 상승, 위로 밀면 하강해요. 반대가 편하면 일시정지 메뉴에서 바꿀 수 있어요. 오른쪽 버튼으로 무장을 쏴요. 손을 떼면 날개는 수평으로 돌아오고, 기수 각도는 그대로 유지돼요. 내려가다가 손을 떼도 계속 내려가니 꼭 다시 올려 주세요.</li>
 <li>땅에 너무 가까워지면 화면에 경고가 떠요. 바로 기수를 올리세요. 부딪히면 임무 실패예요!</li>`;
 const BRIEF={
  bridge:[`<h2>왜 이 다리인가</h2><p class="date">1952년 1월, 강릉 기지</p>
@@ -891,17 +891,21 @@ function renderQuiz(){const Q=QZ[G.mkey],it=Q[qi];
 
 /* ---------- loop ---------- */
 let last=performance.now(),hudT=0;
-function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+function winCruise(dt){EZ.pit=Math.min(EZ.pit+dt*.35,.3);EZ.bank*=Math.exp(-dt*2);eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
+  PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);PL.pos.y=Math.max(PL.pos.y,groundY(PL.pos.x,PL.pos.z)+30);PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);}
+function loop(now){requestAnimationFrame(loop);try{frame(now);}catch(e){console.error(e);if(!loop.err){loop.err=1;toast('잠깐 문제가 생겼어요',String(e&&e.message||e).slice(0,70),6000);}
+  if(G.mode==='ending'||G.mode==='play'){G.mode='ending';G.result=G.result||'ammo';debrief();}}}
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(G.mode==='play'||G.mode==='ending'){G.t+=dt;
     if(G.mode==='play'){flight(dt);}
-    if(G.mode==='play'||G.result==='win'){if(G.mode==='ending'&&G.result==='win')flight(dt);}
+    if(G.mode==='ending'&&G.result==='win'){if(!G.easy)syncEZ();winCruise(dt);}
     if(G.mode!=='pause'){updWing(dt);updMission(dt);updGuns(dt);updProjs(dt);updParts(dt);updRadio(dt);G.cool-=dt;
       spinProps(dt,[PL.mesh,...wing,WD.mos]);updCam(dt);updRing();hudT-=dt;if(hudT<=0){hudT=.1;updHUD();}engineSet(G.mode==='play'||G.result==='win');}
-    if(G.mode==='ending'){G.endT-=dt;if(G.endT<=0)debrief();}
+    if(G.mode==='ending'){G.endT-=dt;if(G.endT<=0||performance.now()-G.endAt>7000)debrief();}
     draw2D(dt);}
   else if(G.mode==='pause'){}
   else{attract(dt);updParts(dt);hx.clearRect(0,0,W,H);}
-  R.render(scene,cam);requestAnimationFrame(loop);}
+  R.render(scene,cam);}
 resize();buildWorld('bridge');$('loading').style.display='none';requestAnimationFrame(loop);
 window.__G=G;window.__PL=PL;window.__start=startMission;
 })();
