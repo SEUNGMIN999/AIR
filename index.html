@@ -24,7 +24,7 @@
 html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
 body{height:100%;margin:0;background:var(--ink);color:var(--snow);overflow:hidden;
   font-family:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none}
+  -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:none;word-break:keep-all;overflow-wrap:break-word}
 #app{position:relative;height:100%;width:100%;overflow:hidden}
 #gl,#hud2d{position:absolute;inset:0;width:100%;height:100%;display:block}
 #hud2d{pointer-events:none}
@@ -49,7 +49,8 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .missions{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;width:min(900px,100%)}
 .mcard{background:var(--paper);color:var(--paper-ink);border-radius:3px;padding:22px;text-align:left;border:0;cursor:pointer;font:inherit;
   box-shadow:0 14px 30px rgba(0,0,0,.4);position:relative;display:flex;flex-direction:column;gap:8px}
-.mcard:nth-child(1){transform:rotate(-.6deg)} .mcard:nth-child(2){transform:rotate(.5deg)}
+.mcard:nth-child(1){transform:rotate(-.6deg)} .mcard:nth-child(2){transform:rotate(.5deg)} .mcard:nth-child(3){transform:rotate(-.3deg)}
+.mcard h3,.mcard .d{word-break:keep-all}
 .mcard h3{font-family:"Black Han Sans",sans-serif;font-weight:400;font-size:26px;margin:0}
 .mcard .d{color:#6d6556;font-size:15px}
 .mcard p{margin:4px 0 0;font-size:16px;line-height:1.6}
@@ -136,7 +137,40 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .toggle button{font:inherit;border:2px solid #8d846f;background:#efe9da;border-radius:20px;padding:4px 14px;cursor:pointer;color:var(--paper-ink)}
 .toggle button[aria-pressed="true"]{background:var(--paper-ink);color:var(--paper)}
 #loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--ink);font-size:18px;z-index:9}
-@media (max-width:620px){ #inst div{min-width:48px} #inst b{font-size:17px} #obj{top:76px;max-width:60vw} #mini{width:96px;height:96px} #ammo{top:114px} }
+.prog{width:min(520px,100%);text-align:center;font-size:15px}
+.pbar{height:8px;background:rgba(255,255,255,.2);border-radius:4px;overflow:hidden;margin-bottom:6px}.pbar i{display:block;height:100%;width:0;background:var(--brass)}
+#cert{background:rgba(14,22,30,.6)}.certbox{max-width:860px}
+.certin{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 14px}.certin label{font-size:17px}
+.certin input{font:inherit;font-size:18px;padding:10px 12px;border:2px solid #b9b09a;border-radius:4px;background:#fffdf6;color:var(--paper-ink);flex:1;min-width:140px}
+#certImg{width:100%;height:auto;display:block;border-radius:2px;box-shadow:0 6px 18px rgba(0,0,0,.25);-webkit-user-select:auto;user-select:auto;-webkit-touch-callout:default}
+@media print{body *{visibility:hidden!important}#certImg,#certImg *{visibility:visible!important}#certImg{position:fixed;left:0;top:0;width:100%;box-shadow:none}}
+.tabs{display:flex;gap:6px;margin:10px 0 14px;flex-wrap:wrap}
+.tab{font:inherit;font-size:15.5px;padding:9px 12px;border:2px solid #b9b09a;border-radius:20px;background:#efe9da;color:var(--paper-ink);cursor:pointer;flex:1;min-width:max-content}
+.tab[aria-selected="true"]{background:#1d3b6e;border-color:#1d3b6e;color:#fff}
+.tabbody{min-height:300px}
+.hcard2{border:2px solid #cfc6b0;border-radius:6px;padding:10px 14px;margin:8px 0;background:#ece5d3}
+.hcard2 b{font-family:"Black Han Sans";font-weight:400;font-size:17px}.hcard2 p{margin:4px 0 0}
+.hcard2.goal{border-color:#c9a227;background:#f3e8c4}
+.steps{list-style:none;padding:0;margin:4px 0}.steps li{display:flex;gap:12px;align-items:flex-start;margin:0 0 10px}
+.steps .sn{flex:none;width:32px;height:32px;border-radius:50%;background:#1d3b6e;color:#fff;font-family:"Black Han Sans";display:flex;align-items:center;justify-content:center;font-size:17px}
+.steps b{font-family:"Black Han Sans";font-weight:400;font-size:17px}.steps p{margin:2px 0 0}
+.tip{padding:9px 12px;border-radius:6px;background:#e3ecd9;margin:8px 0;font-size:15.5px;line-height:1.6}.tip.warn{background:#f1dcd6}
+.subtabs{display:flex;gap:6px;margin:10px 0 6px}.sub{font:inherit;font-size:15px;padding:7px 12px;border:2px solid #b9b09a;border-radius:6px;background:#efe9da;color:var(--paper-ink);cursor:pointer}
+.sub[aria-pressed="true"]{background:var(--paper-ink);color:var(--paper)}
+.ctrls{border:2px solid #b9b09a;border-radius:6px;overflow:hidden}.crow{display:flex;justify-content:space-between;gap:10px;padding:9px 12px;border-top:1px solid #cfc6b0;font-size:15.5px}
+.crow:first-child{border-top:0}.crow span:first-child{font-weight:700}
+#mtask{position:absolute;left:50%;top:84px;transform:translateX(-50%);width:min(92%,460px);text-align:center;display:none;padding:10px 14px}
+#mtask.on{display:block}#mtask b#mtT{display:block;font-family:"Black Han Sans";font-weight:400;font-size:22px;color:#ffd84a}#mtask span{font-size:15px}
+.mbar{height:8px;background:#4a5761;border-radius:4px;overflow:hidden;margin-top:7px}.mbar i{display:block;height:100%;width:0;background:#7fd0ff}
+.cheer{height:6px;width:110px;background:#4a5761;border-radius:3px;overflow:hidden;margin:5px 0 2px auto}.cheer i{display:block;height:100%;background:#ff8a6a}
+.tricks{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}.tricks span{padding:6px 10px;border-radius:16px;border:2px solid #c9c0aa;color:#8a8170;font-size:15px}
+.tricks span.ok{border-color:#3d7a4a;background:#d7e6d3;color:#24502f;font-weight:700}
+#cards{position:absolute;left:12px;top:112px;display:none;flex-direction:column;gap:6px;pointer-events:auto;width:180px}
+#cards.on{display:flex}#aaLeft{font-size:13px;background:var(--glass);border-radius:6px;padding:4px 8px;align-self:flex-start}
+.card{position:relative;overflow:hidden;text-align:left;font:inherit;border:2px solid #d9a441;border-radius:8px;background:rgba(16,26,34,.8);color:#fff;padding:7px 10px;cursor:pointer;touch-action:none}
+.card b{display:block;font-family:"Black Han Sans";font-weight:400;font-size:16px}.card small{font-size:12px;color:#c9d4dc}
+.card i{position:absolute;left:0;bottom:0;height:3px;background:#d9a441}.card:disabled{border-color:#55636e;opacity:.75}
+@media (max-width:620px){ #inst div{min-width:48px} #inst b{font-size:17px} #obj{top:76px;max-width:60vw} #mtask{top:150px} #cards{top:150px;width:150px} #mini{width:96px;height:96px} #ammo{top:114px} }
 @media (prefers-reduced-motion: reduce){#toast{transition:none}}
 </style>
 </head>
@@ -157,9 +191,11 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     </div>
     <canvas id="mini" width="240" height="240"></canvas>
     <div class="panel" id="ammo"></div>
+    <div id="cards"><span id="aaLeft"></span><button class="card" id="cNavy"></button><button class="card" id="cArt"></button></div>
     <div class="panel" id="radio"><b id="rWho"></b> <span id="rTxt"></span></div>
     <div id="toast"></div>
     <div id="warn"></div>
+    <div class="panel" id="mtask"><b id="mtT"></b><span id="mtS"></span><div class="mbar"><i id="mtB"></i></div></div>
   </div>
 
   <div id="touch">
@@ -177,7 +213,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
   <section class="screen on" id="title">
     <div class="wrap">
       <h1><small>6·25 전쟁 대한민국 공군</small>하늘의 작전</h1>
-      <p>F-51 무스탕 조종석에 앉아 1952~1953년 한국 공군이 해낸 두 작전을 직접 날아 봐요. 끊기지 않던 철교, 그리고 351고지의 하늘.</p>
+      <p>F-51 무스탕 조종석에 앉아 6·25 전쟁 때 한국 공군이 해낸 작전을 직접 날아 봐요. 끊기지 않던 철교, 351고지의 하늘, 그리고 블랙이글스 에어쇼까지.</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSelect">작전 고르기</button><button class="btn ghost fsBtn">전체화면</button></div>
     </div>
   </section>
@@ -197,8 +233,17 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
         <circle cx="100" cy="52" r="9" fill="#fff" opacity=".85"/><circle cx="104" cy="42" r="7" fill="#fff" opacity=".7"/><circle cx="108" cy="33" r="5" fill="#fff" opacity=".5"/></svg>
         <h3>351고지 근접항공지원</h3><span class="d">1953년 3월 · 동해안 전선</span>
         <p>정찰기가 연막으로 표시한 적 진지를 로켓과 기총으로 공격해 고지를 지키는 국군을 도와요.</p></button>
+      <button class="mcard" data-m="show"><span class="done">완료</span>
+        <svg viewBox="0 0 300 90" aria-hidden="true"><rect width="300" height="90" fill="#9fc3e3"/>
+        <path d="M150 78 C110 55 92 30 112 16 C128 6 146 16 150 30" fill="none" stroke="#e0393e" stroke-width="5" stroke-linecap="round"/>
+        <path d="M150 78 C190 55 208 30 188 16 C172 6 154 16 150 30" fill="none" stroke="#2b5fd9" stroke-width="5" stroke-linecap="round"/>
+        <g fill="#17181b"><path d="M30 64 l14 -4 l-14 -4 l3 4z"/><path d="M46 72 l14 -4 l-14 -4 l3 4z"/><path d="M46 56 l14 -4 l-14 -4 l3 4z"/></g>
+        <path d="M0 64 H30 M10 72 H46 M10 56 H46" stroke="#fff" stroke-width="3" opacity=".8"/></svg>
+        <h3>블랙이글스 에어쇼</h3><span class="d">1953년 첫 특수비행 → 오늘의 T-50B</span>
+        <p>전쟁이 끝난 하늘에서 시작된 공군 특수비행팀. 노란 고리를 통과하고 마지막엔 하트를 그려요.</p></button>
     </div>
-    <button class="btn ghost" id="backTitle">처음으로</button>
+    <div class="prog"><div class="pbar"><i id="progBar"></i></div><span id="progTxt"></span></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn" id="certBtn" style="display:none">🎖 명예 공군증 받기</button><button class="btn ghost" id="backTitle">처음으로</button></div>
   </section>
 
   <section class="screen" id="brief">
@@ -211,14 +256,21 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
       <div class="toggle"><span>쉬운 조종 (손을 떼면 날개 수평, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
-      <div class="toggle"><span>소리</span><button id="tSound" aria-pressed="true">켜짐</button></div>
+      <div class="toggle"><span>소리 (전체)</span><button id="tSound" aria-pressed="true">켜짐</button></div>
+      <div class="toggle"><span>배경음악</span><button id="tMusic" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>조종법 다시 보기</span><button id="pHelp">보기</button></div>
       <div class="toggle"><span>전체화면</span><button class="fsBtn" aria-pressed="false">켜기</button></div>
       <div class="row"><button class="btn ghost" id="pQuit">작전 고르기</button><div style="display:flex;gap:10px"><button class="btn ghost" id="pRestart">다시 시작</button><button class="btn" id="pResume">계속</button></div></div></div>
   </section>
 
-  <section class="screen" id="help"><div class="order"><div id="helpBody"></div><div class="row"><span class="note" style="font-size:14px">H 키로도 열 수 있어요</span><button class="btn" id="helpClose">계속 비행하기</button></div></div></section>
+  <section class="screen" id="help"><div class="order"><div id="helpBody"></div><div class="row"><span class="note" style="font-size:14px">비행 중 <b>?</b> 버튼이나 H 키로 다시 볼 수 있어요</span><button class="btn" id="helpClose">계속 비행하기</button></div></div></section>
+  <section class="screen" id="act" style="background:rgba(14,22,30,.6)"><div class="order" id="actBody"></div></section>
   <section class="screen" id="debrief"><div class="order" id="debriefBody"></div></section>
+  <section class="screen" id="cert"><div class="order certbox"><h2>명예 공군증</h2><p class="date">세 작전을 모두 마친 조종사에게 드려요</p>
+    <div class="certin"><label for="certName">이름</label><input id="certName" maxlength="10" placeholder="이름을 써요" autocomplete="off"><button class="btn" id="certMake">공군증 만들기</button></div>
+    <img id="certImg" alt="명예 공군증">
+    <p class="note">저장 버튼이 안 되면 그림을 길게 누르거나 마우스 오른쪽 버튼으로 저장해요.</p>
+    <div class="row"><button class="btn ghost" id="certBack">작전 고르기</button><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="certPrint">인쇄</button><a class="btn" id="certDl" href="#" download style="text-decoration:none">그림으로 저장</a></div></div></div></section>
   <section class="screen" id="quiz"><div class="order" id="quizBody"></div></section>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -245,6 +297,7 @@ function ridge(x,y){let s=0,a=1,f=1,n=0;for(let i=0;i<4;i++){s+=a*(1-Math.abs(2*
 /* ---------- height functions ---------- */
 const DECK=68;
 const riverZ=x=>Math.sin(x/900)*180+Math.sin(x/370+1)*60-Math.sin(1)*60;
+const valleyX=z=>380*Math.sin((z-1200)/900);
 function hBridge(x,z){const d=Math.hypot(x,z);
   let h=(fbm(x/2400+3,z/2400+7)*.55+ridge(x/1500,z/1500)*.6)*980-300;
   h=lerp(62+fbm(x/520,z/520,3)*34,h,smooth(700,3300,d));
@@ -353,12 +406,12 @@ const sky=new T.Mesh(new T.SphereGeometry(20000,32,16),skyMat);sky.renderOrder=-
 let world=null,WD=null;
 const Cc=h=>new T.Color(h);
 const cSnow=Cc(0xeef2f5),cSnowS=Cc(0xd2dbe2),cRock=Cc(0x7c8186),cBank=Cc(0xa79f90),cDirt=Cc(0x958a77);
-const cGrass=Cc(0x7c7556),cOlive=Cc(0x646e49),cBrown=Cc(0x6f5c46),cSand=Cc(0xc8bd98),cRockS=Cc(0x8a8478);
+const cAut=Cc(0x96703f),cGrass=Cc(0x7c7556),cOlive=Cc(0x646e49),cBrown=Cc(0x6f5c46),cSand=Cc(0xc8bd98),cRockS=Cc(0x8a8478);
 function colorAt(x,y,z,ny,out){const n=fbm(x/160,z/160,3),n2=vn(x/40,z/40);
   if(WD.winter){out.copy(cSnow).lerp(cSnowS,n);out.lerp(cRock,(1-smooth(.62,.9,ny))*.85);
     if(y<WD.water+9)out.lerp(cBank,.7);if(n>.6)out.lerp(cDirt,Math.min(1,(n-.6)*1.3));}
   else{out.copy(cGrass).lerp(cOlive,n);if(n2>.6)out.lerp(cBrown,.35);out.lerp(cRockS,(1-smooth(.6,.88,ny))*.8);
-    if(y>470)out.lerp(cSnow,smooth(470,620,y+n*90));out.lerp(cBrown,(1-smooth(150,540,Math.hypot(x,z)))*.55);if(y<5)out.copy(cSand);}
+    if(y>470)out.lerp(cSnow,smooth(470,620,y+n*90));if(WD.key==='hill')out.lerp(cBrown,(1-smooth(150,540,Math.hypot(x,z)))*.55);else if(n2>.55)out.lerp(cAut,Math.min(.55,(n2-.55)*1.2));if(y<5)out.copy(cSand);}
   return out.multiplyScalar(.9+n2*.14);}
 
 function buildWorld(key){
@@ -366,10 +419,11 @@ function buildWorld(key){
   clearParts();bullets.length=0;projs.length=0;
   world=new T.Group();scene.add(world);
   const winter=key==='bridge';
-  WD={key,winter,hf:winter?hBridge:hHill,water:winter?24:0};
+  WD={key,winter,hf:winter?hBridge:key==='show'?hShow:hHill,water:winter?24:key==='show'?-60:0};
   skyMat.uniforms.top.value.set(winter?0x4a79a8:0x7d97ab);skyMat.uniforms.bot.value.set(winter?0xd6e1e9:0xd5d8d2);
   scene.fog=new T.Fog(winter?0xd6e1e9:0xd5d8d2,1600,winter?11500:8500);
   hemi.color.set(winter?0xd8e6f2:0xd9dccf);hemi.groundColor.set(winter?0x7b7a74:0x5e5444);sun.intensity=winter?.95:.85;
+  if(key==='show'){skyMat.uniforms.top.value.set(0x3a76b8);skyMat.uniforms.bot.value.set(0xd8e5ee);scene.fog=new T.Fog(0xd8e5ee,2600,14000);sun.intensity=1;}
   const size=19000,seg=240,geo=new T.PlaneGeometry(size,size,seg,seg);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position;for(let i=0;i<pos.count;i++)pos.setY(i,WD.hf(pos.getX(i),pos.getZ(i)));
   geo.computeVertexNormals();const nr=geo.attributes.normal,cols=new Float32Array(pos.count*3),tc=new T.Color();
@@ -385,7 +439,7 @@ function buildWorld(key){
   const tmesh=new T.InstancedMesh(tg,new T.MeshLambertMaterial({color:winter?0x4d6455:0x34493a}),N),dm=new T.Object3D();let c=0,tries=0;
   while(c<N&&tries<N*10){tries++;const x=rnd(-7500,7500),z=rnd(-7500,7800);if(fbm(x/700,z/700,3)<.52)continue;
     const y=WD.hf(x,z);if(y<WD.water+8)continue;const sl=(Math.abs(WD.hf(x+8,z)-y)+Math.abs(WD.hf(x,z+8)-y))/8;if(sl>.9)continue;
-    if(winter){if(Math.abs(x)<90&&Math.abs(z)<1400)continue;}else{if(Math.hypot(x,z)<560||x>coastX(z)-750)continue;}
+    if(winter){if(Math.abs(x)<90&&Math.abs(z)<1400)continue;}else if(key==='show'){if(Math.abs(x-60)<450&&Math.abs(z)<1850)continue;}else{if(Math.hypot(x,z)<560||x>coastX(z)-750)continue;}
     dm.position.set(x,y-1,z);const s=rnd(.7,1.5);dm.scale.set(s,s*rnd(.9,1.3),s);dm.rotation.y=rnd(0,6);dm.updateMatrix();tmesh.setMatrixAt(c++,dm.matrix);}
   tmesh.count=c;world.add(tmesh);
   // clouds
@@ -397,7 +451,7 @@ function buildWorld(key){
   villages.forEach(([vx,vz])=>{for(let i=0;i<9;i++){const x=vx+rnd(-90,90),z=vz+rnd(-90,90),y=WD.hf(x,z);if(y<WD.water+4)continue;
     const h=new T.Mesh(new T.BoxGeometry(8,3.5,5.5),wall);h.position.set(x,y+1.6,z);h.rotation.y=rnd(0,3);world.add(h);
     const r=new T.Mesh(new T.ConeGeometry(6.4,3,4),roof);r.position.set(x,y+4.6,z);r.rotation.y=h.rotation.y+Math.PI/4;r.scale.set(1,1,.75);world.add(r);}});
-  if(winter)buildBridgeObjs();else buildHillObjs();
+  if(winter)buildBridgeObjs();else if(key==='show')buildShowObjs();else buildHillObjs();
 }
 
 const steel=new T.MeshPhongMaterial({color:0x3b3a36,shininess:30}),conc=new T.MeshLambertMaterial({color:0x8d887e}),ballast=new T.MeshLambertMaterial({color:0x6e665c});
@@ -434,7 +488,7 @@ function buildHillObjs(){WD.targets=[];WD.friends=[];
     const roof=new T.Mesh(new T.BoxGeometry(7,1,7),logM);roof.position.y=2.2;g.add(roof);
     const b=new T.Mesh(new T.CylinderGeometry(.28,.28,6,6),gunM);b.rotation.x=Math.PI/2-.35;b.position.set(0,2.6,3);g.add(b);
     world.add(g);WD.targets.push({g,pos:V(x,y+2,z),hp:100,alive:true,marked:false,smoke:0,burn:0});});
-  WD.aa=[[-660,-720],[480,-820],[870,-330]].map(([x,z])=>aaSite(x,z));
+  WD.aa=[[-660,-720],[480,-820],[870,-330]].map(([x,z])=>aaSite(x,z));buildLandmarks();
   const cg=new T.CircleGeometry(1,10);cg.rotateX(-Math.PI/2);const cmat=new T.MeshLambertMaterial({color:0x3e342a,polygonOffset:true,polygonOffsetFactor:-3});
   for(let i=0;i<90;i++){const d=rnd(40,560),a=rnd(0,6.28),x=Math.cos(a)*d,z=Math.sin(a)*d,m=new T.Mesh(cg,cmat);m.scale.setScalar(rnd(3,9));m.position.set(x,hHill(x,z)+.4,z);world.add(m);}
   const ship=new T.Group(),gm=new T.MeshPhongMaterial({color:0x6d7378,shininess:20});
@@ -489,25 +543,29 @@ function toast(t,s,ms){const el=$('toast');el.innerHTML=t+(s?`<small>${s}</small
 
 /* ---------- mission start ---------- */
 const MDEF={
- bridge:{start:[0,1150,4800],load:'bombs',ord:4,obj:'승호리 철교'},
+ bridge:{start:[0,1350,3000],load:'bombs',ord:2,obj:'승호리 철교'},
+ show:{start:[0,320,2700],load:'none',ord:0,obj:'에어쇼'},
  hill:{start:[200,800,-3000],load:'rockets',ord:6,obj:'351고지'}};
-function startMission(key){audioInit();G.mkey=key;buildWorld(key);const d=MDEF[key];
-  PL.mesh=makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
+function startMission(key){audioInit();bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
+  PL.mesh=key==='show'?makeJet():makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
   PL.v=118;PL.thr=.75;PL.hp=100;PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
-  wing=[[-26,1,-8,'2번기'],[26,1,-8,'3번기']].map(o=>{const m=makePlane({load:d.load});world.add(m);m.position.copy(PL.pos);m.userData.off=V(o[0],o[1],o[2]);return m;});
+  wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
   world.add(ring);world.add(beacon);ring.visible=false;
   Object.assign(G,{mode:'play',t:0,result:null,endT:0,cool:0,gunCool:0,flash:0,shake:0,flakT:2,inp:{pitch:0,roll:0}});
-  radioQ.length=0;radioT=0;$('radio').classList.remove('on');
-  MI=key==='bridge'?{hits:0,rel:[],said:{},won:false,winT:0}
-    :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:4,said:{},navy:[{t:6,i:0},{t:13,i:1},{t:20,i:2}],bar:null,won:false,winT:0,started:false};
+  radioQ.length=0;radioT=0;$('radio').classList.remove('on');$('mtask').classList.remove('on');
+  MI=key==='show'?{ring:0,passed:0,missed:0,stars:0,cheer:0,smoke:true,finale:false,finT:0,trT:0,pre:0,lastD:null,won:false,winT:0,said:{},roll:null,loop:null,solo:null,tricks:{roll:false,loop:false,cross:false}}:key==='bridge'?{act:1,hits:0,rel:[],rel1:[],said:{},won:false,winT:0,actT:0,dived:false,flakTime:0,zoneT:0}
+    :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:4,said:{},navy:[],bar:null,won:false,winT:0,started:false,search:null,markN:0,found:0,calls:0,cd:{navy:0,art:0},art:null};
   camSnap=true;showScreen(null);$('hud').classList.add('on');$('pauseBtn').style.display='block';$('fsHud').style.display='block';$('helpHud').style.display='block';
   if(touchUI)$('touch').classList.add('on');
-  $('bA').textContent=key==='bridge'?'투하':'로켓';$('bG').style.display=key==='bridge'?'none':'';
-  $('defbar').style.display=key==='hill'?'block':'none';
-  if(key==='bridge'){toast('1952년 1월 15일','강릉 기지를 떠난 F-51 편대, 목표는 승호리 철교',3000);
-    radio('강릉 기지','편대 이륙 확인. 목표 승호리 철교, 정북 방향이다.');radio('2번기','2번기, 편대 위치 잡았습니다.');}
+  $('bA').textContent=key==='bridge'?'투하':key==='show'?'연기':'로켓';$('bG').style.display=key==='hill'?'':'none';
+  $('defbar').style.display=key==='hill'?'block':'none';$('cards').classList.toggle('on',key==='hill');
+  if(key==='show'){MI.trails=[PL.mesh,...wing].map(o=>({o,tr:makeTrail(0xffffff)}));updRingColors();PL.thr=.8;
+    toast('블랙이글스 에어쇼','고리를 지나고 기술을 펼쳐 관중을 놀라게 해요',3000);radio('관제탑','블랙이글스, 쇼를 시작한다. 고리와 기술 문을 차례로 통과하라.');radio('2번기','편대 위치 좋습니다. 연기 켭니다!');}
+  else if(key==='bridge'&&G.br2){setTimeout(()=>startAct2(true),0);}
+  else if(key==='bridge'){PL.ord=2;updStores();toast('1막 · 1952년 1월 12일','첫 출격: 높은 고도에서 철교를 폭격해요',3400);
+    radio('강릉 기지','첫 출격이다. 2,500피트 위에서 폭탄을 떨어뜨려라.');radio('2번기','2번기, 편대 위치 잡았습니다.');}
   else{toast('1953년 3월','동해안 전선, 351고지 상공으로',3000);
-    radio('모스키토','여기는 모스키토. 351고지 상공에서 기다리고 있다.');radio('지상 통제반','주황색 천이 아군 진지다. 그 근처는 절대 쏘지 마라!',5.5);}
+    radio('모스키토','여기는 모스키토. 351고지 상공에서 기다리고 있다.');radio('지상 통제반','대공포가 위험하면 지원 카드로 해군이나 포병을 불러라!',5);radio('지상 통제반','주황색 천이 아군 진지다. 그 근처는 절대 쏘지 마라!',5.5);}
   updHUD();}
 function updStores(){const s=PL.mesh.userData.stores;if(G.mkey==='bridge')s.forEach((m,i)=>m.visible=i<Math.min(2,PL.ord));else s.forEach((m,i)=>m.visible=i<PL.ord);}
 
@@ -528,18 +586,19 @@ $('bTd').addEventListener('pointerdown',()=>PL.thr=Math.max(.2,PL.thr-.1));
 $('bV').addEventListener('pointerdown',()=>{PL.view=1-PL.view;camSnap=true;});
 window.addEventListener('touchstart',()=>{if(!touchUI){touchUI=true;if(G.mode==='play')$('touch').classList.add('on');}},{passive:true});
 window.addEventListener('keydown',e=>{G.keys[e.code]=true;if(G.mode!=='play')return;
-  if(e.code==='Space'){e.preventDefault();fireMain();}if(e.code==='KeyC')PL.view=1-PL.view,camSnap=true;if(e.code==='Escape'||e.code==='KeyP')pauseGame();if(e.code==='KeyH')openHelp();
+  if(e.code==='Space'){e.preventDefault();fireMain();}if(e.code==='KeyC')PL.view=1-PL.view,camSnap=true;if(e.code==='Escape'||e.code==='KeyP')pauseGame();if(e.code==='KeyH')openHelp();if(e.code==='Digit1')callSupport('navy');if(e.code==='Digit2')callSupport('art');
   if(e.code.startsWith('Arrow'))e.preventDefault();});
 window.addEventListener('keyup',e=>{G.keys[e.code]=false;});
 window.addEventListener('blur',()=>{G.keys={};G.gunHeld=false;});
 
 /* ---------- flight ---------- */
-function flight(dt){const k=G.keys;let p=0,r=0;
+function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,r=0;
   if(k.KeyW||k.ArrowUp)p+=1;if(k.KeyS||k.ArrowDown)p-=1;if(k.KeyA||k.ArrowLeft)r-=1;if(k.KeyD||k.ArrowRight)r+=1;
   p+=-Math.sign(stick.y)*Math.pow(Math.abs(stick.y),1.4);r+=Math.sign(stick.x)*Math.pow(Math.abs(stick.x),1.4);
   p=clamp(p,-1,1);r=clamp(r,-1,1);if(G.invert)p=-p;
   if(k.KeyE||k.Equal||k.NumpadAdd||k.ShiftLeft)PL.thr=Math.min(1,PL.thr+.45*dt);if(k.KeyQ||k.Minus||k.NumpadSubtract)PL.thr=Math.max(.2,PL.thr-.45*dt);
   G.inp.pitch=lerp(G.inp.pitch,p,1-Math.exp(-dt*8));G.inp.roll=lerp(G.inp.roll,r,1-Math.exp(-dt*8));
+  if(G.mkey==='show'&&MI.loop){loopFly(dt);return;}
   if(G.easy){easyFly(dt);}else{
   const auth=clamp((PL.v-40)/70,.3,1.15);
   qT.setFromAxisAngle(AX,G.inp.pitch*1.05*auth*dt);PL.q.multiply(qT);
@@ -558,22 +617,27 @@ function flight(dt){const k=G.keys;let p=0,r=0;
 const EZ={yaw:0,pit:0,bank:0},eul=new T.Euler(0,0,0,'YXZ');
 function syncEZ(){const f=fwdOf(PL.q),u=upOf(PL.q),r=rightOf(PL.q);EZ.pit=Math.asin(clamp(f.y,-1,1));EZ.yaw=Math.atan2(-f.x,-f.z);EZ.bank=Math.atan2(-r.y,u.y);}
 function easyFly(dt){const tb=G.inp.roll*.85;
-  EZ.pit=clamp(EZ.pit+G.inp.pitch*.8*dt,-1.15,.75);EZ.bank+=clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
+  EZ.pit=clamp(EZ.pit+G.inp.pitch*.8*dt,-1.15,.75);EZ.bank+=(G.mkey==='show'&&MI.roll)?G.inp.roll*3.2*dt:clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
   eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
   PL.v=lerp(PL.v,clamp(100+PL.thr*28-EZ.pit*70,70,200),1-Math.exp(-dt*.9));PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);}
 function crash(){if(G.mode!=='play')return;explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
 
 function spinProps(dt,list){list.forEach(m=>{if(!m)return;m.userData.prop.rotation.z+=dt*55;});}
 function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.normalize();yaw.setFromUnitVectors(V(0,0,-1),f);
-  wing.forEach((m,i)=>{const tgt=PL.pos.clone().add(m.userData.off.clone().applyQuaternion(yaw));
-    const floor=WD.hf(tgt.x,tgt.z)+140;if(G.mkey==='hill'&&PL.pos.y<700)tgt.y=Math.max(tgt.y,720+i*30);tgt.y=Math.max(tgt.y,floor);
+  if(G.mkey==='show'&&MI.finale)return;
+  const fq=(G.mkey==='show'&&(MI.loop||MI.roll))?PL.q:yaw;
+  wing.forEach((m,i)=>{const tgt=PL.pos.clone().add(m.userData.off.clone().applyQuaternion(fq));
+    const floor=WD.hf(tgt.x,tgt.z)+(G.mkey==='show'?25:140);if(G.mkey==='hill'&&PL.pos.y<700)tgt.y=Math.max(tgt.y,720+i*30);tgt.y=Math.max(tgt.y,floor);
     if(G.mode!=='play'&&G.result!=='win')tgt.y=Math.max(tgt.y,PL.pos.y+20);
-    m.position.lerp(tgt,1-Math.exp(-dt*1.6));m.quaternion.slerp(PL.q,1-Math.exp(-dt*2.5));});}
+    m.position.lerp(tgt,1-Math.exp(-dt*(G.mkey==='show'?4:1.6)));m.quaternion.slerp(PL.q,1-Math.exp(-dt*(G.mkey==='show'?5:2.5)));});}
 
 /* ---------- weapons ---------- */
-function fireMain(){if(G.mode!=='play'||G.cool>0||PL.ord<=0)return;G.cool=G.mkey==='bridge'?.7:.35;PL.ord--;updStores();
+function fireMain(){if(G.mkey==='show'){if(G.mode==='play'&&!MI.finale){MI.smoke=!MI.smoke;toast(MI.smoke?'연기 켜짐':'연기 꺼짐','',900);updHUD();}return;}if(G.mode!=='play'||G.cool>0||PL.ord<=0)return;G.cool=G.mkey==='bridge'?.7:.35;PL.ord--;updStores();
   const fwd=fwdOf(PL.q);
   if(G.mkey==='bridge'){const p=PL.pos.clone().add(V(0,-1.3,0).applyQuaternion(PL.q)),v=fwd.clone().multiplyScalar(PL.v),pr=predict(p,v,1);
+    if(MI.act===1){if(!pr||(p.y-pr.p.y)*FT<2500){PL.ord++;updStores();G.cool=.3;toast('1월 12일엔 높은 곳에서 폭격했어요','2,500ft 위로 올라가서 투하해요',2000);return;}
+      const T1=Math.max(.6,pr.t),sx=Math.random()<.5?-1:1;let ox=gauss()*40,oz=gauss()*60;if(Math.abs(pr.p.x+ox)<45&&Math.abs(pr.p.z+oz)<160)ox=sx*rnd(45,80)-pr.p.x;
+      v.x+=ox/T1;v.z+=oz/T1;MI.rel1.push(Math.round((p.y-pr.p.y)*FT));const m=makeBombMesh(bombMat);m.position.copy(p);world.add(m);projs.push({type:'bomb',m,pos:p,vel:v});sfx('thunk');updHUD();return;}
     if(pr){if(G.easy&&Math.abs(pr.p.x)<35&&Math.abs(pr.p.z)<95){const zc=(WD.spans[1].alive&&(!WD.spans[2].alive||pr.p.z<0))?-27.5:27.5,T2=Math.max(.6,pr.t);v.x+=-pr.p.x*.85/T2;v.z+=(zc-pr.p.z)*.9/T2;}
       const agl=p.y-pr.p.y,sg=clamp(agl*.028,3,60)*(G.easy?.45:1);v.x+=gauss()*sg/Math.max(.6,pr.t);v.z+=gauss()*sg/Math.max(.6,pr.t);MI.rel.push(Math.round(agl*FT));}
     const m=makeBombMesh(bombMat);m.position.copy(p);world.add(m);projs.push({type:'bomb',m,pos:p,vel:v});sfx('thunk');}
@@ -597,7 +661,7 @@ function updGuns(dt){G.gunCool-=dt;const want=G.gunHeld||G.keys.KeyF;
     if(dead){world.remove(b.m);trPool.push(b.m);bullets.splice(i,1);}}}
 function updProjs(dt){for(let i=projs.length-1;i>=0;i--){const p=projs[i];
   if(p.type==='smoke'){p.t+=dt;p.pos.addScaledVector(p.vel,dt);p.m.position.copy(p.pos);if(Math.random()<.8)puff(texPuff,p.pos.clone(),V(0,1,0),2.5,2,8,.8,0xffffff,false);
-    if(p.t>=p.dur){world.remove(p.m);projs.splice(i,1);const t=WD.targets[p.ti];if(t.alive){t.marked=true;MI.cur=p.ti;}else if(MI.cur===p.ti){MI.cur=-1;MI.markT=1;}}continue;}
+    if(p.t>=p.dur){world.remove(p.m);projs.splice(i,1);const t=WD.targets[p.ti];if(t.alive){t.marked=true;MI.cur=p.ti;if(MI.search&&MI.search.ti===p.ti){MI.search=null;setTask(null);}}else if(MI.cur===p.ti){MI.cur=-1;MI.markT=1;}}continue;}
   p.vel.y-=9.8*(p.type==='bomb'?1:.35)*dt;p.pos.addScaledVector(p.vel,dt);p.m.position.copy(p.pos);p.m.quaternion.setFromUnitVectors(V(0,0,-1),vT.copy(p.vel).normalize());
   if(p.type==='rocket'){p.t+=dt;puff(texPuff,p.pos.clone(),null,1.2,1.2,5,.7,0xdedad2,false);puff(texSoft,p.pos.clone(),null,.08,1.5,2.5,1,0xffb050,true);}
   let hit=null,span=-1;
@@ -613,9 +677,9 @@ function bombImpact(pos,span){const d=pos.distanceTo(PL.pos);sfx('boom',d);G.sha
       radio('2번기',MI.hits>=2?'철교 절단 확인! 해냈습니다!':'명중! 경간이 내려앉았습니다!');}
     else{toast('바깥 경간 명중','목표는 가운데 경간 2개예요');}}
   else{const off=Math.abs(pos.x)<5.5?0:Math.round(Math.max(0,Math.hypot(Math.max(0,Math.abs(pos.x)-3.5),Math.max(0,Math.abs(pos.z)-110))));
-    toast('빗나감',`다리에서 약 ${Math.max(4,off)}m 벗어났어요`);radio('3번기',MI.said.miss?'좀 더 낮게 들어가 보십시오!':'빗나갔습니다. 다시 들어가십시오!');MI.said.miss=1;}
+    toast('빗나감',`다리에서 약 ${Math.max(4,off)}m 벗어났어요`);if(MI.act===1)radio('3번기',MI.said.m1?'또 빗나갔습니다. 너무 높습니다!':'높아서 바람에 흘러갔습니다!');else radio('3번기',MI.said.miss?'좀 더 낮게 들어가 보십시오!':'빗나갔습니다. 다시 들어가십시오!');if(MI.act===1)MI.said.m1=1;else MI.said.miss=1;}
   if(MI.hits>=2&&!MI.won){MI.won=true;MI.winT=.3;radio('편대장','철교 절단 확인. 전 편대 귀환한다.');}
-  else if(PL.ord<=0&&!MI.won&&!projs.some(q=>q.type==='bomb'))endMission('ammo');}
+  else if(PL.ord<=0&&!MI.won&&!projs.some(q=>q.type==='bomb')){if(MI.act===1){if(!MI.actT)MI.actT=2.6;}else endMission('ammo');}}
 function rocketImpact(pos){const d=pos.distanceTo(PL.pos);sfx('boom',d);explosion(pos,1.1);G.shake=Math.max(G.shake,clamp(1-d/1500,0,.4));
   WD.targets.forEach(t=>{if(!t.alive)return;const dd=t.pos.distanceTo(pos);if(dd<(G.easy?20:13))hitTarget(t,100);else if(dd<(G.easy?40:28))hitTarget(t,55);});
   WD.aa.forEach(a=>{if(a.active&&a.pos.distanceTo(pos)<20)killAA(a);});
@@ -626,11 +690,11 @@ function friendlyCheck(pos,r,pen){if(!WD.friends)return;if(!WD.friends.some(f=>f
 function hitTarget(t,n){if(!t.alive)return;t.hp-=n;if(t.hp<=0){t.alive=false;t.marked=false;t.burn=14;
   explosion(t.pos.clone(),1.8,true);t.g.children.forEach(c=>{c.material=logM;});t.g.scale.y=.45;MI.killed++;MI.def=Math.min(100,MI.def+8);
   if(MI.killed>=WD.targets.length){if(!MI.won){MI.won=true;MI.winT=.3;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
-  else{toast('적 진지 파괴',`${MI.killed} / ${WD.targets.length}`);radio('모스키토','명중이다! 다음 목표에 연막을 표시하겠다.');if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;MI.markT=3.5;}}}}
+  else{toast('적 진지 파괴',`${MI.killed} / ${WD.targets.length}`);radio('모스키토','명중이다! 다음 목표를 알려 주겠다.');if(MI.search&&!WD.targets[MI.search.ti].alive){MI.search=null;setTask(null);}if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;if(!MI.search)MI.markT=3.5;}}}}
 function killAA(a){a.active=false;explosion(a.pos.clone(),1.2,true);a.g.scale.y=.4;}
 function damage(n){if(G.mode!=='play'||MI.won)return;if(G.easy)n*=.4;PL.hp=Math.max(0,PL.hp-n);G.flash=.55;G.shake=Math.max(G.shake,.35);sfx('flak');
   if(PL.hp<=0){explosion(PL.pos.clone(),1.4,true);endMission('shot');}}
-function aaFire(a,dt,range,accuracy){a.cd-=dt;if(!a.active||a.cd>0)return;a.cd=rnd(1.2,2.2);const d=a.pos.distanceTo(PL.pos);if(d>range)return;
+function aaFire(a,dt,range,accuracy){a.cd-=dt;if(!a.active||a.cd>0||a.supT>0)return;a.cd=rnd(1.2,2.2);const d=a.pos.distanceTo(PL.pos);if(d>range)return;
   const tf=d/650,aim=PL.pos.clone().addScaledVector(fwdOf(PL.q),PL.v*tf);
   const err=accuracy*(.5+d/1200);
   for(let k=0;k<5;k++)setTimeout(()=>{if(G.mode!=='play')return;const tgt=aim.clone().add(V(gauss()*err,gauss()*err,gauss()*err));shoot(a.pos.clone().add(V(0,3,0)),tgt.sub(a.pos).normalize(),650,true);},k*90);
@@ -638,44 +702,297 @@ function aaFire(a,dt,range,accuracy){a.cd-=dt;if(!a.active||a.cd>0)return;a.cd=r
 
 /* ---------- mission logic ---------- */
 function updMission(dt){
-  if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z),agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);
+  if(G.mkey==='show'){updShow(dt);}
+  else if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z),agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z),inV=false;
+    if(MI.actT>0&&G.mode==='play'){MI.actT-=dt;if(MI.actT<=0){MI.actT=-1;showAct();}}
+    if(G.mode==='play')bridgeAct(dt,agl,inV);
     if(d<3800&&!MI.said.near){MI.said.near=1;radio('3번기','전방에 대공포 연기! 철교가 보입니다.');}
     if(d<2600&&!MI.said.dive){MI.said.dive=1;toast('급강하 준비','철교를 따라 내려가며 노란 원을 다리에 맞추세요',3200);}
-    if(G.mode==='play'&&!MI.won&&d<3800){G.flakT-=dt;if(G.flakT<=0){G.flakT=rnd(.35,.8)*(d<1500?.75:1);
+    if(G.mode==='play'&&!MI.won&&d<3800&&!inV){G.flakT-=dt;if(G.flakT<=0){G.flakT=rnd(.35,.8)*(d<1500?.75:1);
       const fwd=fwdOf(PL.q),pAim=(agl<700?.11:.06)*(d<1500?1.2:1)*(G.easy?.45:1);
       if(Math.random()<pAim){const p=PL.pos.clone().add(V(rnd(-22,22),rnd(-15,15),rnd(-22,22)));flakBurst(p);damage(rnd(6,12));}
       else{const p=PL.pos.clone().addScaledVector(fwd,rnd(60,500)).add(V(gauss()*130,gauss()*70,gauss()*130));flakBurst(p);sfx('flak',p.distanceTo(PL.pos));}}}
-    if(agl<1000)WD.aa.forEach(a=>aaFire(a,dt,G.easy?1000:1500,G.easy?30:16));
+    if(agl<1000&&!inV)WD.aa.forEach(a=>aaFire(a,dt,G.easy?1000:1500,G.easy?30:16));
     WD.spans.forEach(s=>{if(s.fall>0&&s.fall<1){s.fall=Math.min(1,s.fall+dt*.7);s.g.position.y=lerp(DECK,WD.water-4,s.fall*s.fall);s.g.rotation.x=s.rot*s.fall;s.g.rotation.z=s.rot*.6*s.fall;
       if(Math.random()<.3)puff(texPuff,s.g.position.clone(),V(0,8,0),3,8,30,.7,0x55524e,false,2);}});}
   else{
     // T-6 Mosquito orbit
     WD.mosA+=dt*.1;const a=WD.mosA,mp=V(Math.cos(a)*620,640+Math.sin(a*2)*20,Math.sin(a)*620),nx=V(Math.cos(a+.05)*620,mp.y,Math.sin(a+.05)*620);
     const mm=new T.Matrix4().lookAt(mp,nx,AY);WD.mos.position.copy(mp);WD.mos.quaternion.setFromRotationMatrix(mm);qT.setFromAxisAngle(AZ,-.42);WD.mos.quaternion.multiply(qT);
-    if(MI.cur<0&&!MI.won){MI.markT-=dt;if(MI.markT<=0){const i=WD.targets.findIndex(t=>t.alive);if(i>=0){MI.cur=i;MI.markT=99;
+    updSearch(dt);updSupport(dt);
+    if(MI.cur<0&&!MI.search&&!MI.won){MI.markT-=dt;if(MI.markT<=0){const i=WD.targets.findIndex(t=>t.alive&&!t.marked);const way=MARKWAY[Math.min(MI.markN,2)];
+      if(i>=0&&way==='radio'){MI.markN++;MI.markT=99;MI.started=true;MI.search={ti:i,t:0,focus:0,fti:-1,cool:0,helped:false};
+        radio('지상 통제반',DESC[i].replace(/<[^>]+>/g,''),7);toast('📻 무전으로 목표 찾기','무전이 말하는 곳을 찾아 조준경을 맞춰요',2600);}
+      else if(i>=0){MI.markN++;MI.cur=i;MI.markT=99;
       const t=WD.targets[i],m=new T.Mesh(new T.CylinderGeometry(.1,.1,1.4,6),rocketMat);world.add(m);
       projs.push({type:'smoke',m,pos:mp.clone(),vel:t.pos.clone().sub(mp).divideScalar(1.8),t:0,dur:1.8,ti:i});MI.started=true;
-      radio('모스키토',MI.said.m1?'새 연막이다. 흰 연기 옆 적 진지를 공격하라!':'흰 연막을 쏜다. 연기 바로 옆이 적 포진지다. 공격하라!');MI.said.m1=1;}}}
+      radio('모스키토',MI.said.m1?'새 연막이다. 흰 연기 옆 적 진지를 공격하라!':'이번엔 내가 흰 연막을 쏜다. 연기 바로 옆이 적 포진지다!');MI.said.m1=1;}}}
     WD.targets.forEach(t=>{t.smoke-=dt;if(t.alive&&t.marked&&t.smoke<=0){t.smoke=.14;puff(texPuff,t.pos.clone().add(V(rnd(-3,3),2,rnd(-3,3))),V(3,rnd(5,9),1),6,6,34,.85,0xffffff,false);}
       if(!t.alive&&t.burn>0){t.burn-=dt;if(Math.random()<.35)puff(texPuff,t.pos.clone().add(V(0,3,0)),V(2,8,0),5,6,28,.75,0x2e2c2a,false);}});
     MI.navy.forEach(n=>{if(!n.done&&G.t>=n.t){n.done=1;MI.bar={i:n.i,k:0,tm:0};radio('미 해군 구축함',n.i===0?'적 대공포 진지에 함포 사격을 시작한다.':'다음 대공포 진지를 사격한다.');}});
     if(MI.bar){MI.bar.tm-=dt;if(MI.bar.tm<=0){MI.bar.tm=.55;const a=WD.aa[MI.bar.i];
       puff(texSoft,WD.ship.position.clone().add(V(0,8,-38)),null,.25,10,24,1,0xffc070,true);
       const p=a.pos.clone().add(V(rnd(-30,30),0,rnd(-30,30)));p.y=WD.hf(p.x,p.z);explosion(p,1.3,true);sfx('far',p.distanceTo(PL.pos));
-      if(++MI.bar.k>=5){if(a.active)killAA(a);if(MI.bar.i===2)radio('모스키토','대공포가 조용해졌다. 해군, 고맙다!');MI.bar=null;}}}
+      if(++MI.bar.k>=5){if(a.active)killAA(a);radio('모스키토',WD.aa.some(q=>q.active)?'대공포 하나 제압! 해군, 고맙다!':'대공포가 모두 조용해졌다. 고맙다!');MI.bar=null;updCards();}}}
     WD.aa.forEach(a=>aaFire(a,dt,G.easy?1200:2000,G.easy?32:14));
     if(MI.started&&!MI.won&&G.mode==='play'){MI.def-=(G.easy?.12:.3)*dt;if(MI.def<=0){MI.def=0;endMission('lost');}}}
   if(MI.won&&G.mode==='play'){MI.winT-=dt;if(MI.winT<=0)endMission('win');}
   if(PL.hp<45&&G.mode==='play'&&Math.random()<.5)puff(texPuff,PL.pos.clone().addScaledVector(fwdOf(PL.q),-6),null,2.5,2,10,.6,0x333333,false);}
 
+
+/* ---------- air show (Black Eagles) ---------- */
+function hShow(x,z){const d=Math.hypot(x*.8,z*.6);let h=(fbm(x/2400+21,z/2400+4)*.55+ridge(x/1500+2,z/1500+9)*.6)*1000-280;
+  h=lerp(70+fbm(x/700,z/700,3)*28,h,smooth(1800,3900,d));
+  const rw=(1-smooth(70,180,Math.abs(x-60)))*(1-smooth(1300,1700,Math.abs(z)));return lerp(h,72,rw);}
+function makeJet(){const g=new T.Group();
+  const blk=new T.MeshPhongMaterial({color:0x17181b,specular:0x777777,shininess:90,side:T.DoubleSide});
+  const wht=new T.MeshPhongMaterial({color:0xf2f2ee,specular:0x888888,shininess:60,side:T.DoubleSide});
+  const yel=new T.MeshPhongMaterial({color:0xf2b705,specular:0x666666,shininess:60,side:T.DoubleSide});
+  const prof=[[.02,-6.7],[.38,-6.3],[.66,-5.0],[.8,-3.0],[.84,-1.0],[.82,1.5],[.76,3.5],[.56,5.2],[.3,6.4],[.05,7.3]].map(p=>new T.Vector2(p[0],p[1]));
+  const fg=new T.LatheGeometry(prof,18);fg.rotateX(-Math.PI/2);fg.scale(1,1.08,1);g.add(new T.Mesh(fg,blk));
+  const band=new T.Mesh(new T.CylinderGeometry(.81,.84,.7,18,1,true),yel);band.rotation.x=Math.PI/2;band.position.z=-1.6;g.add(band);
+  const nb=new T.Mesh(new T.CylinderGeometry(.5,.62,.5,18,1,true),wht);nb.rotation.x=Math.PI/2;nb.position.z=-5.2;g.add(nb);
+  function half(pts,y,dih,mat,decal,depth){const s=new T.Shape();pts.forEach((p,i)=>i?s.lineTo(p[0],p[1]):s.moveTo(p[0],p[1]));
+    const geo=new T.ExtrudeGeometry(s,{depth:depth||.16,bevelEnabled:false});geo.rotateX(Math.PI/2);const m=new T.Mesh(geo,mat);m.position.y=y;m.rotation.z=dih;
+    if(decal){const d=new T.Mesh(new T.PlaneGeometry(1,1),new T.MeshLambertMaterial({map:TEX_ROK,transparent:true,polygonOffset:true,polygonOffsetFactor:-2}));d.rotation.x=-Math.PI/2;d.position.set(decal,.014,1.5);m.add(d);}
+    g.add(m);return m;}
+  [1,-1].forEach(sd=>{half([[0,-1.8],[sd*4.7,1.2],[sd*4.7,2.2],[0,2.7]],-.2,0,wht,sd*3.1);
+    half([[sd*.9,-1.45],[sd*4.4,.95],[sd*4.4,1.35],[sd*.9,-.85]],-.18,0,yel,0,.02);
+    half([[0,4.5],[sd*2.3,5.9],[sd*2.3,6.5],[0,6.5]],.05,0,blk,0,.1);
+    half([[sd*.6,-4.6],[sd*1.0,-1.2],[sd*.6,-1.0]],-.12,0,blk,0,.05);});
+  const fs=new T.Shape();[[-3.9,.6],[-6.6,.6],[-6.75,3.7],[-6.0,3.8],[-4.7,1.3]].forEach((p,i)=>i?fs.lineTo(p[0],p[1]):fs.moveTo(p[0],p[1]));
+  const fgeo=new T.ExtrudeGeometry(fs,{depth:.14,bevelEnabled:false});fgeo.rotateY(Math.PI/2);const fin=new T.Mesh(fgeo,blk);fin.position.x=-.07;g.add(fin);
+  const tip=new T.Mesh(new T.BoxGeometry(.16,.5,1),yel);tip.position.set(0,3.55,6.35);g.add(tip);
+  const can=new T.Mesh(new T.SphereGeometry(1,18,12),new T.MeshPhongMaterial({color:0x4a5f6d,specular:0xffffff,shininess:120,transparent:true,opacity:.85}));
+  can.scale.set(.5,.52,1.7);can.position.set(0,.72,-3.3);g.add(can);
+  [-1,1].forEach(sd=>{const it=new T.Mesh(new T.BoxGeometry(.5,.75,2.2),blk);it.position.set(sd*.86,-.18,-.9);g.add(it);});
+  const noz=new T.Mesh(new T.CylinderGeometry(.42,.48,.8,14,1,true),new T.MeshPhongMaterial({color:0x3a3a3a,side:T.DoubleSide}));noz.rotation.x=Math.PI/2;noz.position.z=6.9;g.add(noz);
+  g.userData={prop:new T.Object3D(),disc:null,stores:[]};return g;}
+
+function makeTrail(color){const N=260;const mk=()=>{const geo=new T.BufferGeometry();geo.setAttribute('position',new T.BufferAttribute(new Float32Array(N*6),3));
+    const idx=[];for(let i=0;i<N-1;i++){const a=i*2;idx.push(a,a+1,a+2,a+1,a+3,a+2);}geo.setIndex(idx);geo.setDrawRange(0,0);return geo;};
+  const mat=new T.MeshBasicMaterial({color,transparent:true,opacity:.62,side:T.DoubleSide,depthWrite:false});
+  const m1=new T.Mesh(mk(),mat),m2=new T.Mesh(mk(),mat);m1.frustumCulled=m2.frustumCulled=false;world.add(m1);world.add(m2);
+  return{pts:[],ups:[],rts:[],m1,m2,mat,N};}
+function trailReset(tr){tr.pts.length=tr.ups.length=tr.rts.length=0;tr.m1.geometry.setDrawRange(0,0);tr.m2.geometry.setDrawRange(0,0);}
+function trailStep(tr,obj,on){
+  if(on&&obj.visible){const q=obj.quaternion;tr.pts.unshift(V(0,.2,7.4).applyQuaternion(q).add(obj.position));tr.ups.unshift(upOf(q));tr.rts.unshift(rightOf(q));
+    if(tr.pts.length>tr.N){tr.pts.pop();tr.ups.pop();tr.rts.pop();}}
+  else if(tr.pts.length){tr.pts.pop();tr.ups.pop();tr.rts.pop();}
+  const n=tr.pts.length;[[tr.m1,tr.ups],[tr.m2,tr.rts]].forEach(([m,dirs])=>{const a=m.geometry.attributes.position.array;
+    const wk=MI.finale?3.2:1;for(let i=0;i<n;i++){const w=(.7+i*.045)*wk,p=tr.pts[i],d=dirs[i];a[i*6]=p.x+d.x*w;a[i*6+1]=p.y+d.y*w;a[i*6+2]=p.z+d.z*w;a[i*6+3]=p.x-d.x*w;a[i*6+4]=p.y-d.y*w;a[i*6+5]=p.z-d.z*w;}
+    m.geometry.attributes.position.needsUpdate=true;m.geometry.setDrawRange(0,Math.max(0,(n-1)*6));});}
+
+function taegukgiTex(){return canvasTex(128,(g,s)=>{g.fillStyle='#fff';g.fillRect(0,0,s,s);const c=64,r=22;
+  g.fillStyle='#1f4fa0';g.beginPath();g.arc(c,c,r,0,7);g.fill();g.fillStyle='#c8372d';g.beginPath();g.arc(c,c,r,Math.PI,0);g.fill();
+  g.beginPath();g.arc(c-r/2,c,r/2,0,7);g.fill();g.fillStyle='#1f4fa0';g.beginPath();g.arc(c+r/2,c,r/2,0,7);g.fill();
+  g.fillStyle='#111';[[22,26,-.6],[106,26,.6],[22,102,.6],[106,102,-.6]].forEach(([x,y,a])=>{g.save();g.translate(x,y);g.rotate(a);for(let k=0;k<3;k++)g.fillRect(-12,-9+k*7,24,4);g.restore();});});}
+const COURSE=[['ring',0,300,1900],['ring',0,260,1300],['ring',0,205,700],['ring',0,190,100],['roll',0,220,-300],['rollEnd',0,235,-1000],
+  ['ring',-380,300,-1420],['ring',-850,350,-1560],['loop',-1300,330,-1520],['ring',-1800,350,-1150],['ring',-1980,330,-450],['cross',-1900,300,250],['ring',-1600,280,850],['ring',-1000,260,1200]];
+function buildShowObjs(){const asph=new T.MeshLambertMaterial({color:0x4c4e50}),line=new T.MeshBasicMaterial({color:0xe8e8e0});
+  const add=(geo,mat,x,y,z)=>{const m=new T.Mesh(geo,mat);m.position.set(x,y,z);world.add(m);return m;};
+  add(new T.BoxGeometry(46,.6,2600),asph,0,72.3,0);for(let z=-1250;z<1250;z+=60)add(new T.BoxGeometry(1.2,.1,26),line,0,72.65,z);
+  add(new T.BoxGeometry(18,.5,2000),asph,90,72.25,0);add(new T.BoxGeometry(110,.5,420),asph,170,72.25,-450);
+  const hm=new T.MeshLambertMaterial({color:0x8a9196}),rg=new T.CylinderGeometry(20,20,46,16);rg.rotateX(Math.PI/2);
+  [-620,-560,-500].forEach((z,i)=>{const x=200+i*0,hz=z*1;add(new T.BoxGeometry(40,12,46),hm,250,hShow(250,z*1.4)+6,z*1.4);const r=add(rg,hm,250,hShow(250,z*1.4)+11,z*1.4);r.scale.y=.42;});
+  const gy=hShow(268,0),con=new T.MeshLambertMaterial({color:0xa9a59c});
+  for(let t=0;t<4;t++)add(new T.BoxGeometry(8,2+t*2.2,300),con,256+t*8,gy+1+t*1.1,0);
+  add(new T.BoxGeometry(38,1,312),new T.MeshLambertMaterial({color:0x3d6ea8}),270,gy+17,0);
+  for(let z=-150;z<=150;z+=50)add(new T.CylinderGeometry(.5,.5,16,6),con,286,gy+8,z);
+  const N=1300,im=new T.InstancedMesh(new T.BoxGeometry(.7,1.7,.7),new T.MeshLambertMaterial({color:0xffffff}),N),dm=new T.Object3D(),col=new T.Color();
+  const pal=[0xd84a3a,0x2f6fd0,0xf2c230,0xffffff,0x3aa35a,0xe87ab0,0x222222,0xf28a2e];
+  for(let i=0;i<N;i++){let x,y,z;if(i<700){const t=i%4;x=256+t*8+rnd(-3,3);z=rnd(-145,145);y=gy+2+t*2.2+.85;}
+    else{x=Math.random()<.5?rnd(222,246):rnd(296,330);z=rnd(-420,420);y=hShow(x,z)+.85;}
+    dm.position.set(x,y,z);dm.scale.setScalar(rnd(.85,1.1));dm.updateMatrix();im.setMatrixAt(i,dm.matrix);im.setColorAt(i,col.set(pal[i%pal.length]));}
+  world.add(im);
+  add(new T.BoxGeometry(10,26,10),con,200,hShow(200,520)+13,520);add(new T.BoxGeometry(14,5,14),new T.MeshPhongMaterial({color:0x6fa3c0,shininess:90}),200,hShow(200,520)+28,520);
+  const ft=new T.MeshLambertMaterial({map:taegukgiTex(),side:T.DoubleSide});
+  for(let z=-200;z<=200;z+=50){const y=hShow(236,z);add(new T.CylinderGeometry(.15,.15,12,6),con,236,y+6,z);const f=add(new T.PlaneGeometry(4.5,3),ft,236,y+10.5,z+2.3);f.rotation.y=Math.PI/2;}
+  [-30,30].forEach(dz=>{const j=makeJet();j.position.set(170,73.8,-450+dz);j.rotation.y=Math.PI/2;world.add(j);});
+  const LOOPR=150,ld=COURSE.find(c=>c[0]==='loop');
+  WD.rings=COURSE.map((it,i)=>{const [kind,x,y,z]=it,c=V(x,y,z),a=V(...COURSE[Math.max(0,i-1)].slice(1)),b=V(...COURSE[Math.min(COURSE.length-1,i+1)].slice(1));
+    const n=b.sub(a);if(kind==='loop')n.y=0;n.normalize();const K=KINDS[kind];
+    const m=new T.Mesh(K.geo,new T.MeshBasicMaterial({color:K.col,transparent:true,opacity:.4,fog:false}));m.position.copy(c);m.lookAt(c.clone().sub(n));world.add(m);
+    return{kind,c,n,m};});
+  WD.loopDeco=[1,2,3,4,5].map(()=>{const m=new T.Mesh(KINDS.ring.geo,new T.MeshBasicMaterial({color:0xc06bff,transparent:true,opacity:.35,fog:false}));world.add(m);return m;});
+  const L=WD.rings.find(r=>r.kind==='loop');placeLoopDeco(L.c,L.n);}
+const KINDS={ring:{geo:new T.TorusGeometry(22,1.5,8,48),col:0xffffff,hi:0xffd84a,name:'고리',r:22},
+  roll:{geo:new T.TorusGeometry(40,2,8,56),col:0x3fa9ff,hi:0x7fd0ff,name:'배럴 롤 문',r:60},
+  rollEnd:{geo:new T.TorusGeometry(40,2,8,56),col:0x3fa9ff,hi:0x7fd0ff,name:'배럴 롤 끝',r:200},
+  loop:{geo:new T.TorusGeometry(30,2,8,56),col:0xc06bff,hi:0xdc9cff,name:'루프 문',r:50},
+  cross:{geo:new T.TorusGeometry(26,2,8,56),col:0xff8a3a,hi:0xffb070,name:'크로스 문',r:26}};
+function placeLoopDeco(E,d){const up=V(0,1,0),C=E.clone().addScaledVector(up,150);
+  WD.loopDeco.forEach((m,k)=>{const a=(k+1)*Math.PI/3,p=C.clone().addScaledVector(up,-Math.cos(a)*150).addScaledVector(d,Math.sin(a)*150),t=d.clone().multiplyScalar(Math.cos(a)).addScaledVector(up,Math.sin(a));
+    m.position.copy(p);m.lookAt(p.clone().add(t));m.visible=true;});}
+function updRingColors(){WD.rings.forEach((r,i)=>{if(i<MI.ring){r.m.visible=false;return;}r.m.visible=true;const K=KINDS[r.kind];
+  r.m.material.color.set(i===MI.ring?K.hi:K.col);r.m.material.opacity=i===MI.ring?.95:i===MI.ring+1?.5:.22;});}
+const HX=-380,HY=470,HS=17;
+function heart(t,side){const s=Math.sin(t);return V(HX,HY+(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*HS,side*16*s*s*s*HS);}
+const wrapA=a=>Math.atan2(Math.sin(a),Math.cos(a));
+function bankNow(){const r=rightOf(PL.q),u=upOf(PL.q);return Math.atan2(-r.y,u.y);}
+function cheer(st,title,sub){MI.stars+=st;MI.cheer=Math.min(100,MI.cheer+st*12);toast(title,sub,1800);if(st>=2)sfx('thunk');
+  for(let i=0;i<14;i++)puff(texSoft,PL.pos.clone().add(V(rnd(-25,25),rnd(-15,25),rnd(-25,25))),V(rnd(-8,8),rnd(-4,10),rnd(-8,8)),.9,4,16,1,st>=2?0xffd84a:0xffffff,true);}
+function setTask(t,sub,prog,col){const el=$('mtask');if(!t){el.classList.remove('on');return;}el.classList.add('on');$('mtT').textContent=t;$('mtS').innerHTML=sub||'';
+  $('mtB').parentElement.style.display=prog==null?'none':'';if(prog!=null){$('mtB').style.width=clamp(prog,0,1)*100+'%';$('mtB').style.background=col||'';}}
+function updShow(dt){MI.trT+=dt;if(MI.trT>=.05){MI.trT=0;MI.trails.forEach(({o,tr})=>trailStep(tr,o,MI.finale?true:MI.smoke));}
+  if(MI.solo){const S=MI.solo;S.m.position.addScaledVector(S.v,dt);S.left-=dt;if(S.left<=0){S.m.visible=false;}}
+  if(MI.finale){setTask(null);finaleUpd(dt);return;}
+  if(MI.pre>0){MI.pre-=dt;setTask(null);if(MI.pre<=0)finaleStart();return;}
+  if(G.mode!=='play')return;
+  const pull=G.invert?'↓':'↑';
+  // active maneuvers
+  if(MI.roll){const R=MI.roll,b=bankNow();R.acc+=wrapA(b-R.prev);R.prev=b;R.t+=dt;const pr=Math.abs(R.acc)/(2*Math.PI);
+    setTask('🔄 배럴 롤!','조종간을 <b>옆으로 끝까지</b> 밀어 한 바퀴 돌아요',pr,'#7fd0ff');
+    if(pr>=.95){MI.roll=null;MI.tricks.roll=true;EZ.bank=wrapA(EZ.bank);cheer(3,'배럴 롤 성공!','★★★ 관중석이 술렁여요');radio('해설','방금 보신 기술은 배럴 롤! 비행기가 통째로 한 바퀴 돌았습니다!');}
+    else if(R.t>9){endRoll();}}
+  else if(MI.loop){const L=MI.loop;setTask('➰ 루프!',L.grace>0?`<b style="color:#ff9c8c">조종간을 계속 당겨요! (${pull})</b>`:`조종간을 계속 당기고 있어요 (${pull})`,L.ang/(2*Math.PI),'#dc9cff');}
+  else{const R=WD.rings;if(MI.ring<R.length){const r=R[MI.ring],dist=PL.pos.distanceTo(r.c);
+      if(r.kind==='roll'&&dist<900)setTask('다음 기술: 🔄 배럴 롤','<b style="color:#3fa9ff">파란 문</b>을 지나면 조종간을 옆으로 끝까지 밀어요');
+      else if(r.kind==='loop'&&dist<1000)setTask('다음 기술: ➰ 루프',`<b style="color:#a64ee0">보라 문</b>을 지나면 조종간을 계속 당겨요 (${pull})`);
+      else if(r.kind==='cross')crossTask(r);
+      else setTask(null);}}
+  const R=WD.rings;if(MI.ring>=R.length||MI.loop)return;
+  const r=R[MI.ring],rel=PL.pos.clone().sub(r.c),d=rel.dot(r.n);
+  if(MI.lastD!==null&&MI.lastD<0&&d>=0){const off=rel.addScaledVector(r.n,-d).length();itemResult(r,off);MI.lastD=null;return;}
+  MI.lastD=d;}
+function crossTask(r){const along=r.c.clone().sub(PL.pos).dot(r.n);
+  if(!MI.solo&&along<1700&&along>200){const side=V(0,1,0).cross(r.n).normalize(),Ds=along,m=makeJet();world.add(m);
+    m.position.copy(r.c).addScaledVector(r.n,Ds).addScaledVector(side,45);const mm=new T.Matrix4().lookAt(m.position,m.position.clone().sub(r.n),AY);m.quaternion.setFromRotationMatrix(mm);
+    MI.solo={m,v:r.n.clone().multiplyScalar(-120),Tarr:G.t+Ds/120,left:Ds/120+14};MI.trails.push({o:m,tr:makeTrail(0xffffff)});radio('솔로기','솔로기, 정면에서 들어간다. 문에서 엇갈리자!');}
+  if(!MI.solo){setTask('다음 기술: ↔️ 크로스','<b style="color:#e07020">주황 문</b>에서 솔로기와 엇갈려 지나가요');return;}
+  const eta=Math.max(0,along)/Math.max(60,PL.v),rem=MI.solo.Tarr-G.t,diff=eta-rem;
+  const msg=Math.abs(diff)<.7?'<b style="color:#2f8a46">좋아요! 이 속도 그대로</b>':diff>0?'조금 늦어요 → <b>추력 ▲ (E)</b>':'조금 빨라요 → <b>추력 ▼ (Q)</b>';
+  setTask('↔️ 크로스: 솔로기와 동시에!',msg,clamp(.5-diff/6,0,1),Math.abs(diff)<.7?'#7fbf8a':'#ffb070');}
+function endRoll(){const R=MI.roll;if(!R)return;MI.roll=null;EZ.bank=wrapA(EZ.bank);const pr=Math.abs(R.acc)/(2*Math.PI);
+  if(pr>=.5)cheer(1,'배럴 롤 반 바퀴','★ 다음엔 끝까지 밀어 한 바퀴!');else toast('배럴 롤 실패','파란 문을 지나면 바로 조종간을 옆으로!',1800);}
+function itemResult(r,off){const K=KINDS[r.kind];r.m.visible=false;MI.ring++;updRingColors();
+  if(r.kind==='ring'){if(off<22){const st=off<7?3:off<14?2:1;MI.passed++;cheer(st,st===3?'완벽!':st===2?'좋아요!':'통과',`${'★'.repeat(st)}${'☆'.repeat(3-st)}  고리 가운데에서 ${Math.round(off)}m`);}
+    else{MI.missed++;toast('고리를 놓쳤어요','다음 목표로 가요',1500);}}
+  else if(r.kind==='roll'){MI.roll={acc:0,prev:bankNow(),t:0};}
+  else if(r.kind==='rollEnd'){endRoll();}
+  else if(r.kind==='loop'){if(off<K.r){const d=r.n.clone();d.y=0;d.normalize();MI.loop={E:PL.pos.clone(),d,ang:0,grace:0};placeLoopDeco(MI.loop.E,d);radio('해설','루프에 들어갑니다! 하늘이 땅이 되는 순간!');}
+    else toast('루프 문을 놓쳤어요','다음 목표로 가요',1500);}
+  else if(r.kind==='cross'){const S=MI.solo,dtc=S?Math.abs(G.t-S.Tarr):9;
+    if(off<K.r+6&&S){const st=dtc<.8?3:dtc<1.8?2:1;if(st===3)MI.tricks.cross=true;cheer(st,st===3?'완벽한 크로스!':'크로스 성공',`솔로기와 ${dtc.toFixed(1)}초 차이`);if(st===3)radio('해설','두 비행기가 눈앞에서 스쳐 지나갑니다! 완벽한 크로스!');}
+    else toast('크로스 문을 놓쳤어요','다음 목표로 가요',1500);}
+  if(MI.ring===4&&!MI.said.crowd){MI.said.crowd=1;radio('해설','블랙이글스가 관중석 앞을 낮게 지나갑니다! 박수 부탁드립니다!');}
+  if(MI.ring>=WD.rings.length){MI.pre=1.5;radio('편대장','전 편대, 브레이크 준비! 그다음 1번기와 2번기는 하트!');}}
+function loopFly(dt){const L=MI.loop,up=V(0,1,0),C=L.E.clone().addScaledVector(up,150);
+  if(G.inp.pitch>.25)L.grace=0;else{L.grace+=dt;if(L.grace>1){endLoop(false);return;}}
+  L.ang+=Math.min(PL.v,125)/150*dt;const a=Math.min(L.ang,2*Math.PI);
+  const p=C.clone().addScaledVector(up,-Math.cos(a)*150).addScaledVector(L.d,Math.sin(a)*150),t=L.d.clone().multiplyScalar(Math.cos(a)).addScaledVector(up,Math.sin(a));
+  const mm=new T.Matrix4().lookAt(p,p.clone().add(t),C.clone().sub(p).normalize());PL.q.setFromRotationMatrix(mm);PL.pos.copy(p);
+  PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);
+  WD.loopDeco.forEach((m,k)=>{if(a>(k+1)*Math.PI/3+.05)m.visible=false;});
+  if(L.ang>=2*Math.PI)endLoop(true);}
+function endLoop(ok){const L=MI.loop;MI.loop=null;WD.loopDeco.forEach(m=>m.visible=false);
+  if(ok){const mm=new T.Matrix4().lookAt(PL.pos,PL.pos.clone().add(L.d),AY);PL.q.setFromRotationMatrix(mm);MI.tricks.loop=true;
+    cheer(3,'루프 성공!','★★★ 하늘에 커다란 원을 그렸어요');radio('해설','완벽한 루프! 6대가 한 몸처럼 원을 그렸습니다!');}
+  else{const fr=L.ang/(2*Math.PI);if(fr>.5)cheer(1,'루프를 다 못 돌았어요','★ 끝까지 당기고 있어야 해요');else toast('루프 실패','문을 지나면 조종간을 계속 당겨요',1800);}
+  syncEZ();EZ.pit=clamp(EZ.pit,-.3,.6);}
+function finaleStart(){MI.finale=true;MI.finT=0;$('touch').classList.remove('on');setTask(null);
+  toast('피날레: 브레이크','6대가 한 점에서 사방으로 흩어져요',2600);
+  [PL.mesh,...wing].forEach(m=>m.visible=true);if(MI.solo)MI.solo.m.visible=false;finaleUpd(0);
+  MI.trails.forEach(({tr})=>{trailReset(tr);tr.mat.color.set(0xffffff);});}
+const BRK=5.5,HRT=11;
+function finaleUpd(dt){MI.finT+=dt;const T0=MI.finT,all=[PL.mesh,...wing];
+  if(T0<BRK){const B0=V(HX,300,0);all.forEach((m,i)=>{const th=(-70+i*28)*Math.PI/180,d=V(0,Math.cos(th),Math.sin(th)),p=B0.clone().addScaledVector(d,(T0-1.6)*130);
+      const mm=new T.Matrix4().lookAt(p,p.clone().add(d),V(1,0,0));m.position.copy(p);m.quaternion.setFromRotationMatrix(mm);});
+    if(T0>1.5&&!MI.said.brk){MI.said.brk=1;radio('편대장','브레이크, 지금!');sfx('far');}}
+  else{if(!MI.said.hs){MI.said.hs=1;wing.forEach((m,i)=>{if(i>0)m.visible=false;});MI.trails.forEach(({tr},i)=>{trailReset(tr);if(i===0)tr.mat.color.set(0xe0393e);else if(i===1)tr.mat.color.set(0x2b5fd9);});
+      toast('피날레: 하트','1번기와 2번기가 하늘에 하트를 그려요',2600);radio('편대장','1번기, 2번기 하트 기동!');}
+    const tt=T0-BRK;[[PL.mesh,1],[wing[0],-1]].forEach(([m,side])=>{let p,nx;
+      if(tt<=HRT){const t=.04+(Math.PI-.06)*clamp(tt/HRT,0,1);p=heart(t,side);nx=heart(Math.min(Math.PI-.005,t+.02),side);if(nx.distanceTo(p)<.01)nx=p.clone().add(V(0,-1,0));}
+      else{if(!m.userData.out){m.userData.out=1;m.userData.fdir=V(0,.85,side*.55).normalize();}p=m.position.clone().addScaledVector(m.userData.fdir,130*dt);nx=p.clone().add(m.userData.fdir);}
+      const upv=V(HX,HY,0).sub(p);if(upv.lengthSq()<1)upv.set(0,1,0);const mm=new T.Matrix4().lookAt(p,nx,upv.normalize());m.position.copy(p);m.quaternion.setFromRotationMatrix(mm);});
+    if(tt>HRT&&!MI.said.done){MI.said.done=1;toast('하트 완성!','관중석에서 박수가 쏟아져요',3000);radio('해설','하늘에 커다란 하트가 그려졌습니다! 블랙이글스에게 큰 박수를!');}
+    if(tt>HRT+3.5&&!MI.won){MI.won=true;MI.winT=.1;}}
+  PL.pos.copy(PL.mesh.position);PL.q.copy(PL.mesh.quaternion);}
+
+
+/* ---------- 승호리 2막 구성 ---------- */
+function bridgeAct(dt,agl,inV){const ft=Math.round(agl*FT),d=Math.hypot(PL.pos.x,PL.pos.z);
+  if(MI.act===1){setTask('1막 · 1월 12일 첫 출격',`높은 고도(땅에서 2,500ft 위)에서 투하해요 · 지금 <b>${ft.toLocaleString('ko-KR')}ft</b>`,clamp(ft/2500,0,1),ft>=2500?'#7fbf8a':'#ffb070');return;}
+  if(MI.won){setTask(null);return;}
+  if(d>2500&&!MI.dived){setTask('2막 · 높이 접근','철교까지는 높이 날아가요 · 붉은 빛기둥 쪽으로',clamp(1-(d-2500)/2100,0,1),'#7fd0ff');return;}
+  if(!MI.said.dive2){MI.said.dive2=1;radio('편대장','대공포가 거세다! 그래도 내려간다. 급강하!',4);toast('지금 급강하!','대공포 탄막을 뚫고 1,500ft까지 내려가요',2600);}
+  const inZone=agl>460&&agl<1500&&d<2600;
+  if(inZone){MI.dived=true;MI.flakTime+=dt;MI.zoneT-=dt;
+    if(MI.zoneT<=0){MI.zoneT=.12;const f=fwdOf(PL.q);
+      for(let k=0;k<2;k++){const p=PL.pos.clone().addScaledVector(f,rnd(40,320)).add(V(gauss()*90,gauss()*60,gauss()*90));flakBurst(p);}
+      const q=PL.pos.clone().lerp(V(0,DECK,0),rnd(.15,.6)).add(V(gauss()*120,gauss()*50,gauss()*120));flakBurst(q);
+      if(Math.random()<.35)sfx('flak',rnd(80,500));G.shake=Math.max(G.shake,.12);
+      if(Math.random()<.06){flakBurst(PL.pos.clone().add(V(rnd(-18,18),rnd(-10,10),rnd(-18,18))));damage(6);}}
+    setTask('💥 대공포 탄막 돌파!',`기수를 숙여 빠르게 내려가요 · 지금 <b>${ft.toLocaleString('ko-KR')}ft</b> → 목표 1,500ft`,clamp((4000-ft)/2500,0,1),'#ff9c6a');}
+  else if(MI.dived&&agl<=460){if(!MI.said.thru){MI.said.thru=1;toast('탄막 돌파!',`${MI.flakTime.toFixed(1)}초 만에 뚫고 내려왔어요`,2000);radio('2번기','탄막을 뚫었습니다! 지금입니다!');}
+    setTask('🎯 투하 준비',G.ringGo?'<b style="color:#7dff95">지금 투하!</b>':'노란 원이 다리 위에서 초록색이 되면 투하해요',null);}
+  else if(MI.dived){setTask('다시 올라가서 급강하',`철교에서 ${(d/1000).toFixed(1)}km · 높이 올라갔다가 다시 탄막을 뚫어요`,null);MI.said.thru=0;}
+  else setTask('💥 급강하 시작','기수를 숙여 철교로 내려가요',null);}
+function showAct(){G.mode='pause';engineSet(false);G.keys={};$('touch').classList.remove('on');setTask(null);
+  const a1=MI.rel1.length?Math.round(MI.rel1.reduce((a,b)=>a+b,0)/MI.rel1.length):0;
+  $('actBody').innerHTML=`<div class="stamp">실패</div><h2>1월 12일 · 폭격 실패</h2><p class="date">1막 결과 보고</p>
+  <p>${a1?`평균 <b>${a1.toLocaleString('ko-KR')}ft</b> 높이에서`:'높은 곳에서'} 떨어뜨린 폭탄은 바람과 대공포 때문에 다리를 비켜 갔어요. 실제로도 1월 12일 두 번의 출격은 모두 실패했어요.</p>
+  <div class="hcard2 goal"><b>🧭 전술 변경 — 1월 15일 재출격</b><ol class="steps" style="margin-top:8px">
+  ${step(1,'높이 접근','철교 가까이까지는 높은 고도로 날아가요.')}
+  ${step(2,'대공포 속으로 급강하','철교 근처에서 거센 대공포 탄막을 뚫고 약 <b>1,500ft</b>까지 내려가 투하해요. 오래 머물수록 위험하니 빠르게!')}</ol></div>
+  <p class="note">1월 15일에도 대공포화는 매우 거셌어요. 조종사들은 그 속으로 급강하해 낮은 고도에서 철교를 공격했어요.</p>
+  <div class="row"><span></span><button class="btn" id="act2Btn">2막: 1월 15일 재출격 ▶</button></div>`;
+  showScreen('act');$('act').scrollTop=0;$('act2Btn').onclick=()=>startAct2(false);}
+function startAct2(retry){showScreen(null);MI.act=2;G.br2=true;MI.actT=-1;MI.dived=false;MI.flakTime=0;MI.zoneT=0;MI.said.dive2=0;MI.said.thru=0;
+  PL.pos.set(0,1300,4600);PL.q.identity();syncEZ();PL.v=118;
+  PL.ord=4+(G.easy?2:0);updStores();PL.mesh.visible=true;wing.forEach(m=>{m.position.copy(PL.pos).add(m.userData.off.clone().applyQuaternion(PL.q));m.quaternion.copy(PL.q);});
+  G.mode='play';if(touchUI)$('touch').classList.add('on');camSnap=true;
+  toast(retry?'2막부터 다시 출격':'2막 · 1952년 1월 15일','전술 변경! 철교 가까이에서 대공포 속으로 급강하해요',3400);
+  radio('편대장','이번엔 끝까지 내려간다. 1,500피트까지!');radio('2번기','2번기, 따라가겠습니다!');updHUD();}
+
+
+
+/* ---------- 351고지: 무전 목표 찾기 + 합동 지원 카드 ---------- */
+const DESC=['고지 꼭대기에서 <b>북서쪽</b> 비탈, <b>큰 회색 바위</b> 바로 옆에 적 진지가 있다.','고지 꼭대기에서 <b>정북쪽</b> 비탈, <b>키 큰 소나무</b> 한 그루 옆이다.','고지 꼭대기에서 <b>북동쪽</b>, <b>검게 탄 오두막</b> 바로 앞이다.'];
+const MARKWAY=['radio','smoke','radio'];
+function buildLandmarks(){const rockM=new T.MeshLambertMaterial({color:0x8d8b86,flatShading:true}),treeM=new T.MeshLambertMaterial({color:0x22382a}),trunkM=new T.MeshLambertMaterial({color:0x4a3626}),hutM=new T.MeshLambertMaterial({color:0x1d1b1a}),roofM=new T.MeshLambertMaterial({color:0x2c2420});
+  const rock=(x,z)=>{const m=new T.Mesh(new T.DodecahedronGeometry(13,0),rockM);m.scale.set(1.5,1,1.2);m.position.set(x,hHill(x,z)+6,z);m.rotation.set(rnd(0,1),rnd(0,3),0);world.add(m);};
+  const tree=(x,z)=>{const y=hHill(x,z),t=new T.Mesh(new T.CylinderGeometry(1.4,2,12,8),trunkM);t.position.set(x,y+6,z);world.add(t);
+    for(let k=0;k<3;k++){const c=new T.Mesh(new T.ConeGeometry(11-k*2.5,16,9),treeM);c.position.set(x,y+18+k*9,z);world.add(c);}};
+  const hut=(x,z)=>{const y=hHill(x,z),b=new T.Mesh(new T.BoxGeometry(16,7,11),hutM);b.position.set(x,y+3.5,z);b.rotation.y=.4;world.add(b);
+    const r=new T.Mesh(new T.ConeGeometry(11,6,4),roofM);r.position.set(x,y+10,z);r.rotation.y=.4+Math.PI/4;r.scale.set(1,1,.7);world.add(r);};
+  rock(-228,-286);tree(88,-392);hut(276,-212);rock(250,-120);hut(-250,-110);tree(-60,-200);}
+function updSearch(dt){const S=MI.search;if(!S)return;const tg=WD.targets[S.ti];
+  if(!tg.alive||tg.marked){MI.search=null;setTask(null);return;}
+  S.t+=dt;if(S.cool>0)S.cool-=dt;const f=fwdOf(PL.q);let best=-1,ba=.13;
+  WD.targets.forEach((t,i)=>{if(!t.alive)return;const v=t.pos.clone().sub(PL.pos),d=v.length();if(d>1300)return;const a=v.normalize().angleTo(f);if(a<ba){ba=a;best=i;}});
+  if(best>=0&&S.cool<=0){if(best!==S.fti){S.fti=best;S.focus=0;}S.focus+=dt;}else{S.focus=Math.max(0,S.focus-dt*2);}
+  setTask('📻 무전: 목표를 찾아요',DESC[S.ti]+(S.focus>0?' <b style="color:#ffd84a">· 확인 중…</b>':' <span style="opacity:.8">(조준경을 진지에 맞추고 잠시 기다려요)</span>'),S.focus/1.1,'#ffd84a');
+  if(S.focus>=1.1){if(S.fti===S.ti){tg.marked=true;MI.cur=S.ti;MI.found++;MI.search=null;setTask(null);toast('찾았다!','무전이 말한 바로 그 진지예요',1800);
+      radio('지상 통제반','맞다, 거기다! 공격하라!');sfx('thunk');}
+    else{S.focus=0;S.cool=2;toast('그곳이 아니에요','무전을 다시 읽어 봐요',1600);radio('지상 통제반','아니다! 거기는 다른 진지다. 무전을 다시 들어 봐라.');}}
+  if(S.t>45&&!S.helped){S.helped=true;const mp=WD.mos.position.clone(),m=new T.Mesh(new T.CylinderGeometry(.1,.1,1.4,6),rocketMat);world.add(m);
+    projs.push({type:'smoke',m,pos:mp,vel:tg.pos.clone().sub(mp).divideScalar(1.8),t:0,dur:1.8,ti:S.ti});radio('모스키토','잘 안 보이나? 연막으로 표시해 주겠다!');}}
+function callSupport(kind){if(G.mkey!=='hill'||G.mode!=='play'||MI.won)return;const cd=MI.cd;if(cd[kind]>0){toast('아직 준비 중이에요',`${Math.ceil(cd[kind])}초 뒤에 다시 부를 수 있어요`,1200);return;}
+  const live=WD.aa.filter(a=>a.active);if(!live.length){toast('남은 대공포가 없어요','지원이 필요 없어요',1400);return;}
+  MI.calls++;
+  if(kind==='navy'){if(MI.bar){toast('함포 사격 중이에요','',900);return;}let bi=-1,bd=1e9;WD.aa.forEach((a,i)=>{if(!a.active)return;const d=a.pos.distanceTo(PL.pos);if(d<bd){bd=d;bi=i;}});
+    MI.bar={i:bi,k:0,tm:1.2};cd.navy=25;radio('미 해군 구축함','좌표 확인! 가장 가까운 대공포 진지에 함포 사격!');toast('🚢 해군 함포 요청','가장 가까운 대공포를 부숴요',1600);}
+  else{cd.art=30;MI.art={k:0,tm:.6};live.forEach(a=>a.supT=15);radio('국군 포병','대공포 진지 일대에 포격! 15초 동안 고개를 못 들 거다!');toast('💥 국군 포병 요청','15초 동안 모든 대공포가 쏘지 못해요',1800);}
+  updCards();}
+function updSupport(dt){const cd=MI.cd;cd.navy=Math.max(0,cd.navy-dt);cd.art=Math.max(0,cd.art-dt);
+  if(MI.art){MI.art.tm-=dt;if(MI.art.tm<=0){MI.art.tm=.35;const live=WD.aa.filter(a=>a.supT>0);if(live.length){const a=live[MI.art.k%live.length],p=a.pos.clone().add(V(rnd(-45,45),0,rnd(-45,45)));p.y=WD.hf(p.x,p.z);explosion(p,1,true);sfx('far',p.distanceTo(PL.pos));}
+    if(++MI.art.k>=9)MI.art=null;}}
+  WD.aa.forEach(a=>{if(a.supT>0)a.supT-=dt;});}
+function updCards(){if(G.mkey!=='hill')return;const cd=MI.cd;[['navy','cNavy','🚢 해군 함포','가장 가까운 대공포 부수기'],['art','cArt','💥 국군 포병','15초 동안 대공포 멈추기']].forEach(([k,id,t,sub])=>{const b=$(id);
+    b.disabled=cd[k]>0;b.innerHTML=`<b>${t}</b><small>${cd[k]>0?`준비 중 ${Math.ceil(cd[k])}초`:sub}</small><i style="width:${cd[k]>0?(1-cd[k]/(k==='navy'?25:30))*100:100}%"></i>`;});
+  $('aaLeft').textContent=`적 대공포 ${WD.aa.filter(a=>a.active).length}곳`;}
+$('cNavy').onclick=()=>callSupport('navy');$('cArt').onclick=()=>callSupport('art');
+
 /* ---------- camera ---------- */
 const camPos=V(0,0,0),camUp=V(0,1,0);let camSnap=true;
 function updCam(dt){const fwd=fwdOf(PL.q),up=upOf(PL.q);
+  if(G.mkey==='show'&&MI.finale){PL.mesh.visible=true;cam.position.set(330,hShow(330,40)+30,40);cam.up.set(0,1,0);cam.fov=60;cam.lookAt(HX,420,0);cam.updateProjectionMatrix();sky.position.copy(cam.position);camSnap=true;return;}
   if(G.mode==='play'&&PL.view===1){PL.mesh.visible=false;cam.position.copy(PL.pos).add(V(0,1.15,.15).applyQuaternion(PL.q));cam.quaternion.copy(PL.q);cam.fov=70;}
   else{if(G.mode==='play')PL.mesh.visible=true;cam.fov=62;
-    const want=G.mode==='play'?PL.pos.clone().add(V(0,4.2,17).applyQuaternion(PL.q)):PL.pos.clone().add(V(Math.cos(G.t*.3)*40,18,Math.sin(G.t*.3)*40));
+    const want=G.mode==='play'?PL.pos.clone().add((G.mkey==='show'?V(0,15,72):V(0,4.2,17)).applyQuaternion(PL.q)):PL.pos.clone().add(V(Math.cos(G.t*.3)*40,18,Math.sin(G.t*.3)*40));
     camPos.lerp(want,camSnap?1:1-Math.exp(-dt*6));cam.position.copy(camPos);
-    const tu=V(0,1,0).lerp(up,G.mode==='play'?(G.easy?.25:.5):0).normalize();camUp.lerp(tu,camSnap?1:1-Math.exp(-dt*4)).normalize();cam.up.copy(camUp);
+    const tu=V(0,1,0).lerp(up,G.mode==='play'?((G.mkey==='show'&&MI.loop)?1:(G.easy?.25:.5)):0).normalize();if(tu.lengthSq()<.01)tu.copy(up);camUp.lerp(tu,camSnap?1:1-Math.exp(-dt*4)).normalize();cam.up.copy(camUp);
     cam.lookAt(G.mode==='play'?PL.pos.clone().addScaledVector(fwd,30):PL.pos);
     const gy=Math.max(WD.hf(cam.position.x,cam.position.z),WD.water)+3;if(cam.position.y<gy)cam.position.y=gy;}
   camSnap=false;
@@ -693,13 +1010,16 @@ function attract(dt){G.at+=dt;if(!att.length||att[0].parent!==world){att=[0,1,2]
 
 /* ---------- HUD ---------- */
 function hdg(){const f=fwdOf(PL.q);return (Math.atan2(f.x,-f.z)*180/Math.PI+360)%360;}
-function updHUD(){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');
+function updHUD(){if(G.mkey==='hill')updCards();$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');
   $('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
   $('dmg').firstElementChild.style.width=PL.hp+'%';$('dmg').firstElementChild.style.background=PL.hp<40?'#e0604f':'';
-  if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z);$('objT').textContent='승호리 철교 차단';
-    $('objS').textContent=d>2600?`① 붉은 빛기둥(철교) 쪽으로 날아가요 · ${(d/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 투하! · 경간 ${MI.hits}/2`;$('ammo').innerHTML=`폭탄 <b>${PL.ord}</b>발`;}
+  if(G.mkey==='show'){const R=WD.rings,n=R.length;$('objT').textContent='블랙이글스 에어쇼';
+    const cur=R[Math.min(MI.ring,n-1)];$('objS').textContent=MI.finale||MI.pre>0?'피날레: 브레이크와 하트':MI.loop?'루프 중!':`다음: ${KINDS[cur.kind].name} (${Math.min(MI.ring+1,n)}/${n}) · ${(PL.pos.distanceTo(cur.c)/1000).toFixed(1)}km`;
+    $('ammo').innerHTML=`연기 <b>${MI.smoke?'켜짐':'꺼짐'}</b> · ★ <b>${MI.stars}</b><div class="cheer"><i style="width:${MI.cheer}%"></i></div><small>관중 환호</small>`;MI.cheer=Math.max(0,MI.cheer-.08);}
+  else if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z);$('objT').textContent=MI.act===1?'1막 · 1월 12일 첫 출격':'2막 · 1월 15일 재출격';
+    $('objS').textContent=MI.act===1?`높은 고도에서 투하 · 철교 ${(d/1000).toFixed(1)}km`:d>2600?`① 붉은 빛기둥(철교) 쪽으로 날아가요 · ${(d/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 투하! · 경간 ${MI.hits}/2`;$('ammo').innerHTML=`폭탄 <b>${PL.ord}</b>발`;}
   else{const al=WD.targets.filter(t=>!t.alive).length;$('objT').textContent='351고지 근접항공지원';
-    const n=WD.targets.length,ct=MI.cur>=0?WD.targets[MI.cur]:null,cd=ct?PL.pos.distanceTo(ct.pos):0;$('objS').textContent=!ct?`모스키토가 흰 연막을 쏠 때까지 기다려요 · ${al}/${n}`:cd>1300?`① 흰 빛기둥 쪽으로 날아가요 · ${(cd/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 로켓! · ${al}/${n}`;
+    const n=WD.targets.length,ct=MI.cur>=0?WD.targets[MI.cur]:null,cd=ct?PL.pos.distanceTo(ct.pos):0;$('objS').textContent=MI.search?`📻 무전을 듣고 목표를 찾아요 · ${al}/${n}`:!ct?`다음 목표 안내를 기다려요 · ${al}/${n}`:cd>1300?`① 흰 빛기둥 쪽으로 날아가요 · ${(cd/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 로켓! · ${al}/${n}`;
     $('defbar').firstElementChild.style.width=MI.def+'%';$('defbar').firstElementChild.style.background=MI.def<30?'#e0604f':'';
     $('ammo').innerHTML=`로켓 <b>${PL.ord}</b> · 기총 <b>${PL.gun}</b>`;}}
 function proj(p){const v=p.clone().project(cam);return{x:(v.x+1)/2*W,y:(1-v.y)/2*H,behind:v.z>1};}
@@ -714,9 +1034,10 @@ function draw2D(dt){hx.clearRect(0,0,W,H);if(G.mode!=='play'&&G.mode!=='ending')
   if(PL.view===1&&G.mode==='play'){hx.fillStyle='rgba(30,32,30,.92)';hx.beginPath();hx.ellipse(W/2,H*1.08,W*.36,H*.22,0,0,7);hx.fill();
     hx.strokeStyle='rgba(28,30,30,.95)';hx.lineWidth=10;hx.beginPath();hx.moveTo(W*.18,H);hx.lineTo(W*.3,0);hx.moveTo(W*.82,H);hx.lineTo(W*.7,0);hx.stroke();
     hx.lineWidth=6;hx.beginPath();hx.moveTo(0,H*.08);hx.quadraticCurveTo(W/2,-H*.06,W,H*.08);hx.stroke();}
-  const rp=proj(PL.pos.clone().addScaledVector(fwd,420));if(!rp.behind){hx.strokeStyle='rgba(255,196,80,.95)';hx.lineWidth=2;hx.beginPath();hx.arc(rp.x,rp.y,22,0,7);hx.stroke();
+  const rp=proj(PL.pos.clone().addScaledVector(fwd,420));if(!rp.behind&&!(G.mkey==='show'&&MI.finale)){hx.strokeStyle='rgba(255,196,80,.95)';hx.lineWidth=2;hx.beginPath();hx.arc(rp.x,rp.y,22,0,7);hx.stroke();
     hx.beginPath();hx.arc(rp.x,rp.y,2,0,7);hx.stroke();[[0,-1],[0,1],[-1,0],[1,0]].forEach(([a,b])=>{hx.beginPath();hx.moveTo(rp.x+a*28,rp.y+b*28);hx.lineTo(rp.x+a*38,rp.y+b*38);hx.stroke();});}
-  if(G.mkey==='bridge'){const alive=WD.spans[1].alive||WD.spans[2].alive;if(alive)marker(V(0,DECK,0),`승호리 철교 ${(PL.pos.distanceTo(V(0,DECK,0))/1000).toFixed(1)}km`,'#ff6a5a');}
+  if(G.mkey==='show'){if(!MI.finale&&!MI.loop&&MI.ring<WD.rings.length){const r=WD.rings[MI.ring],K=KINDS[r.kind];marker(r.c,`${K.name} ${(PL.pos.distanceTo(r.c)/1000).toFixed(1)}km`,'#'+K.hi.toString(16).padStart(6,'0'));}}
+  else if(G.mkey==='bridge'){const alive=WD.spans[1].alive||WD.spans[2].alive;if(alive)marker(V(0,DECK,0),`승호리 철교 ${(PL.pos.distanceTo(V(0,DECK,0))/1000).toFixed(1)}km`,'#ff6a5a');}
   else{if(MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];marker(t.pos,`연막 표시 목표 ${(PL.pos.distanceTo(t.pos)/1000).toFixed(1)}km`,'#ffffff');}
     else marker(V(0,360,0),`351고지 ${(Math.hypot(PL.pos.x,PL.pos.z)/1000).toFixed(1)}km`,'#ffd27a');}
   if(G.ringGo&&ring.visible){const q=proj(ring.position);if(!q.behind){hx.font='22px "Black Han Sans",sans-serif';hx.textAlign='center';hx.lineWidth=4;hx.strokeStyle='rgba(0,0,0,.6)';const tx=G.mkey==='bridge'?'지금 투하!':'지금 발사!';hx.strokeText(tx,q.x,q.y-30);hx.fillStyle='#7dff95';hx.fillText(tx,q.x,q.y-30);}}
@@ -732,7 +1053,8 @@ function drawMini(){const c=$('mini').getContext('2d'),S=240,R0=112,range=G.mkey
   const pt=(x,z)=>{let dx=(x-PL.pos.x)*sc,dy=(z-PL.pos.z)*sc;const cs=Math.cos(-h),sn=Math.sin(-h);let mx=dx*cs-dy*sn,my=dx*sn+dy*cs;const m=Math.hypot(mx,my);if(m>R0-6){mx*=(R0-6)/m;my*=(R0-6)/m;}return[mx,my];};
   const dot=(x,z,r,col)=>{const[a,b]=pt(x,z);c.fillStyle=col;c.beginPath();c.arc(a,b,r,0,7);c.fill();};
   const n=pt(PL.pos.x,PL.pos.z-range*.85);c.fillStyle='#e9eef1';c.font='bold 18px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('N',n[0],n[1]);
-  if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>range*.9)dot(0,0,6,'#ff6a5a');const a=pt(0,-110),b=pt(0,110);c.strokeStyle='#ff6a5a';c.lineWidth=5;c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();}
+  if(G.mkey==='show'){WD.rings.forEach((r,i)=>{if(i>=MI.ring)dot(r.c.x,r.c.z,i===MI.ring?7:3,i===MI.ring?'#'+KINDS[r.kind].hi.toString(16).padStart(6,'0'):'rgba(255,255,255,.6)');});dot(268,0,5,'#7fbf8a');}
+  else if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>range*.9)dot(0,0,6,'#ff6a5a');const a=pt(0,-110),b=pt(0,110);c.strokeStyle='#ff6a5a';c.lineWidth=5;c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();}
   else{WD.friends.forEach(f=>dot(f.x,f.z,4,'#ff9a3a'));WD.targets.forEach((t,i)=>{if(t.alive)dot(t.pos.x,t.pos.z,i===MI.cur?7:5,i===MI.cur?'#ffffff':'#ff6a5a');});dot(WD.mos.position.x,WD.mos.position.z,4,'#ffd27a');}
   c.fillStyle='#ffc04a';c.beginPath();c.moveTo(0,-12);c.lineTo(8,9);c.lineTo(0,5);c.lineTo(-8,9);c.closePath();c.fill();c.restore();}
 function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
@@ -742,45 +1064,101 @@ function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
     beacon.material.opacity=op;}
   if(G.mode!=='play'||PL.ord<=0)return;const fwd=fwdOf(PL.q);let go=false;
   if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>3200)return;const p=PL.pos.clone().add(V(0,-1.3,0)),pr=predict(p,fwd.clone().multiplyScalar(PL.v),1);if(!pr)return;
-    const sg=clamp((p.y-pr.p.y)*.028,3,60)*(G.easy?.45:1);ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(sg*2);ring.visible=true;
-    const k=Math.floor((pr.p.z+110)/55);go=Math.abs(pr.p.x)<(G.easy?20:6)&&Math.abs(pr.p.z)<(G.easy?70:48)&&(G.easy?(WD.spans[1].alive||WD.spans[2].alive):WD.spans[pr.p.z<0?1:2].alive);}
+    const sg=clamp((p.y-pr.p.y)*.028,3,60)*(G.easy&&MI.act!==1?.45:1);ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(sg*2);ring.visible=true;
+    const k=Math.floor((pr.p.z+110)/55);go=MI.act!==1&&Math.abs(pr.p.x)<(G.easy?20:6)&&Math.abs(pr.p.z)<(G.easy?70:48)&&(G.easy?(WD.spans[1].alive||WD.spans[2].alive):WD.spans[pr.p.z<0?1:2].alive);}
   else{if(fwd.y>-.05)return;const pr=predict(PL.pos.clone(),fwd.clone().multiplyScalar(PL.v+300),.35);if(!pr||pr.t>6)return;ring.position.copy(pr.p);ring.position.y+=1;ring.scale.setScalar(14);ring.visible=true;
     if(MI.cur>=0){const t=WD.targets[MI.cur];go=t.alive&&Math.hypot(pr.p.x-t.pos.x,pr.p.z-t.pos.z)<(G.easy?30:16);}}
   G.ringGo=go;ring.material.color.set(go?0x5cff7a:0xffc04a);}
 
 /* ---------- end / screens ---------- */
 function endMission(r){if(G.mode!=='play')return;G.mode='ending';G.result=r;G.endT=r==='win'?3.5:3.2;G.endAt=performance.now();G.gunHeld=false;
-  const m={crash:['지면 충돌','기체를 잃었어요'],shot:['기체 손상','더 날 수 없어 비상 탈출했어요'],ammo:['무장 소진','철교를 끊지 못하고 귀환해요'],lost:['방어선 후퇴','고지 방어선이 밀렸어요'],win:['임무 완료','기지로 귀환해요']}[r];
-  toast(m[0],m[1],3000);$('touch').classList.remove('on');engineSet(r==='win');}
+  const m={crash:['지면 충돌','기체를 잃었어요'],shot:['기체 손상','더 날 수 없어 비상 탈출했어요'],ammo:['무장 소진','철교를 끊지 못하고 귀환해요'],lost:['방어선 후퇴','고지 방어선이 밀렸어요'],win:G.mkey==='show'?['에어쇼 완료','관중석에서 박수가 쏟아져요']:['임무 완료','기지로 귀환해요']}[r];
+  toast(m[0],m[1],3000);$('touch').classList.remove('on');$('mtask').classList.remove('on');$('cards').classList.remove('on');engineSet(r==='win');}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));}
 function cleared(){try{return JSON.parse(localStorage.getItem('f51-cleared')||'{}');}catch(e){return{};}}
-function markCleared(k){try{const c=cleared();c[k]=1;localStorage.setItem('f51-cleared',JSON.stringify(c));}catch(e){}}
-function toSelect(){G.mode='select';$('hud').classList.remove('on');$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
-  if(!WD||WD.key!=='bridge'){buildWorld('bridge');}const c=cleared();document.querySelectorAll('.mcard').forEach(m=>m.classList.toggle('cleared',!!c[m.dataset.m]));showScreen('select');}
-function pauseGame(){if(G.mode!=='play')return;G.mode='pause';engineSet(false);G.keys={};showScreen('pause');}
+function markCleared(k,v){try{const c=cleared();c[k]=Math.max(c[k]||0,v||1);localStorage.setItem('f51-cleared',JSON.stringify(c));}catch(e){}}
+
+/* ---------- 배경음악 (bgm 폴더의 mp3) ---------- */
+const BGM_FILES={menu:'bgm/menu.mp3',bridge:'bgm/bridge.mp3',hill:'bgm/hill.mp3',show:'bgm/show.mp3',win:'bgm/win.mp3'};
+const BGM_VOL=.45;let bgmOn=true,bgmKey=null,bgmEl=null,bgmFadeT=null;
+function bgmFade(el,to,ms,done){if(!el)return;const from=el.volume,t0=performance.now();clearInterval(el._f);
+  el._f=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/ms);el.volume=from+(to-from)*k;if(k>=1){clearInterval(el._f);done&&done();}},40);}
+function bgm(key){if(key===bgmKey)return;bgmKey=key;const old=bgmEl;bgmEl=null;
+  if(old)bgmFade(old,0,700,()=>{old.pause();old.src='';});
+  if(!key||!bgmOn||muted||!BGM_FILES[key])return;
+  const a=new Audio(BGM_FILES[key]);a.loop=key!=='win';a.volume=0;a.preload='auto';a.onerror=()=>{};
+  if(key==='win')a.onended=()=>{if(bgmKey==='win'){bgmKey=null;bgm('menu');}};
+  const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{});bgmEl=a;bgmFade(a,BGM_VOL,900);}
+function bgmDuck(on){if(bgmEl)bgmFade(bgmEl,on?BGM_VOL*.35:BGM_VOL,400);}
+function toSelect(){G.mode='select';if(bgmKey!=='win')bgm('menu');$('hud').classList.remove('on');$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
+  if(!WD||WD.key!=='bridge'){buildWorld('bridge');}const c=cleared();const q=quizDone();document.querySelectorAll('.mcard').forEach(m=>m.classList.toggle('cleared',!!(c[m.dataset.m]&&q[m.dataset.m])));updSelectCert();showScreen('select');}
+function pauseGame(){if(G.mode!=='play')return;G.mode='pause';bgmDuck(true);engineSet(false);G.keys={};showScreen('pause');}
 $('pauseBtn').onclick=pauseGame;
-let helpFrom='play';
-function helpHTML(){const inv=G.invert,br=G.mkey==='bridge';
-  const kUp=inv?'<kbd>↓</kbd> 또는 <kbd>S</kbd>':'<kbd>↑</kbd> 또는 <kbd>W</kbd>',kDn=inv?'<kbd>↑</kbd> 또는 <kbd>W</kbd>':'<kbd>↓</kbd> 또는 <kbd>S</kbd>';
-  const tUp=inv?'조종간 아래로 당기기':'조종간 위로 밀기',tDn=inv?'조종간 위로 밀기':'조종간 아래로 당기기';
-  const plane=(rot,arrowUp)=>`<svg viewBox="0 0 160 70" aria-hidden="true"><g transform="rotate(${rot} 80 40)"><ellipse cx="80" cy="40" rx="46" ry="7" fill="#9aa1a6"/><path d="M114 40 l14 -3 l0 6z" fill="#2a2620"/><path d="M40 40 l-8 -14 l8 0 l10 14z" fill="#9aa1a6"/><ellipse cx="88" cy="34" rx="10" ry="4" fill="#6f8fa3"/></g>
-    <path d="M140 ${arrowUp?52:18} L140 ${arrowUp?18:52}" stroke="#C8372D" stroke-width="4"/><path d="M132 ${arrowUp?26:44} L140 ${arrowUp?14:56} L148 ${arrowUp?26:44}" fill="none" stroke="#C8372D" stroke-width="4"/></svg>`;
-  return `<h2>조종법</h2><p class="date">${inv?'실제 조종간 방식':'쉬운 방식'} · 일시정지 메뉴에서 바꿀 수 있어요</p>
-  <div class="pitchfig"><figure>${plane(-14,true)}<b>상승</b><br>${kUp}<br>${tUp}</figure><figure>${plane(14,false)}<b>하강</b><br>${kDn}<br>${tDn}</figure></div>
-  <div class="hgrid"><div class="h">하고 싶은 것</div><div class="h">키보드</div><div class="h">태블릿</div>
-  <div class="a">왼쪽·오른쪽으로 돌기</div><div><kbd>←</kbd><kbd>→</kbd> 또는 <kbd>A</kbd><kbd>D</kbd></div><div>조종간 왼쪽·오른쪽</div>
-  <div class="a">빨리·천천히</div><div><kbd>E</kbd> 추력 올림, <kbd>Q</kbd> 내림</div><div>추력▲ 추력▼</div>
-  ${br?`<div class="a">폭탄 투하</div><div><kbd>Space</kbd></div><div>빨간 투하 버튼</div>`
-      :`<div class="a">로켓 발사</div><div><kbd>Space</kbd></div><div>빨간 로켓 버튼</div><div class="a">기총 쏘기</div><div><kbd>F</kbd> 누르고 있기</div><div>기총 버튼 누르고 있기</div>`}
-  <div class="a">시점 바꾸기</div><div><kbd>C</kbd></div><div>시점 버튼</div>
-  <div class="a">일시정지</div><div><kbd>Esc</kbd></div><div>II 버튼</div></div>
-  <ul>${br?'<li>땅에 보이는 <mark>노란 원</mark>이 폭탄이 떨어질 곳이에요. 원이 철교 위에서 초록색이 되면 투하하세요.</li><li>낮게 내려갈수록 원이 작아져서 잘 맞지만, 땅에 부딪히지 않게 바로 상승하세요.</li>'
-     :'<li><b>흰 연막</b> 옆이 적 진지예요. 하얀 빛기둥을 따라가서 노란 원이 초록색이 되면 로켓을 쏘세요.</li><li><b>주황색 천</b>이 있는 꼭대기는 아군이에요. 절대 쏘면 안 돼요.</li>'}
-  <li>조종간에서 손을 떼면 날개가 저절로 수평으로 돌아와요.</li></ul>`;}
-function openHelp(){if(G.mode==='play'){G.mode='pause';engineSet(false);G.keys={};G.gunHeld=false;helpFrom='play';}else if(G.mode==='pause')helpFrom='pause';else return;
-  $('helpBody').innerHTML=helpHTML();showScreen('help');$('help').scrollTop=0;}
-$('helpHud').onclick=openHelp;$('pHelp').onclick=openHelp;
-$('helpClose').onclick=()=>{if(helpFrom==='pause')showScreen('pause');else{showScreen(null);G.mode='play';}};
+let helpFrom='play',helpTab='brief';
+const MNAME={bridge:'승호리 철교 차단작전',hill:'351고지 근접항공지원',show:'블랙이글스 에어쇼'};
+const HB={
+bridge:`<div class="hcard2"><b>언제·어디서</b><p>1952년 1월 15일, 평양 동쪽 약 10km의 승호리 철교. 강릉 기지에서 F-51 편대가 출격해요.</p></div>
+<div class="hcard2"><b>왜 이 다리일까</b><p>북한군이 전선으로 군수물자를 나르던 길목이에요. 유엔 공군이 500번 넘게 공격했지만 끊지 못했어요.</p></div>
+<div class="hcard2 goal"><b>🎯 이번 목표 (2막 구성)</b><p><b>1막 · 1월 12일</b>: 높은 고도에서 폭탄 2발 투하 → 실패를 겪어요.<br><b>2막 · 1월 15일</b>: 높이 접근해 대공포 탄막 속으로 급강하, 철교 <mark>가운데 경간 2개</mark>를 끊어요. 폭탄 4발(쉬운 조종은 6발).</p></div>`,
+hill:`<div class="hcard2"><b>언제·어디서</b><p>1953년 3월, 동해 바다 가까운 351고지. 높이가 351m인 산이에요.</p></div>
+<div class="hcard2"><b>무슨 일이 있었나</b><p>적군이 산을 빼앗으려 공격했고, 국군이 꼭대기를 지키고 있었어요. 우리 공군 F-51이 하늘에서 국군을 도왔어요.</p></div>
+<div class="hcard2"><b>하늘과 땅의 협력</b><p>땅의 통제반은 <b>무전</b>으로, 모스키토는 <b>흰 연기</b>로 목표를 알려 줬어요. 해군과 포병은 적 대공포를 눌러 줬어요.</p></div>
+<div class="hcard2 goal"><b>🎯 이번 목표</b><p><mark>적 진지 3곳</mark>을 찾아 부숴요. 2곳은 무전 설명만 듣고 직접 찾아야 해요. 주황색 천(아군)은 절대 쏘면 안 돼요.</p></div>`,
+show:`<div class="hcard2"><b>블랙이글스는?</b><p>하늘에서 멋진 비행을 보여 주는 공군 특수비행팀이에요. 1953년 F-51 무스탕 4대의 편대비행이 시작이에요.</p></div>
+<div class="hcard2"><b>오늘의 비행기</b><p>우리나라에서 만든 초음속 항공기 T-50B. 내가 1번기 편대장, 5대가 뒤따라요.</p></div>
+<div class="hcard2"><b>에어쇼 기술</b><p>블랙이글스는 여러 '기동'을 순서대로 보여 줘요. 오늘은 🔄 배럴 롤, ➰ 루프, ↔️ 크로스, 💥 브레이크, ❤️ 하트를 펼쳐요.</p></div>
+<div class="hcard2 goal"><b>🎯 이번 목표</b><p><mark>노란 고리 10개</mark>를 통과하고 <mark>기술 3가지</mark>(배럴 롤·루프·크로스)를 성공해요. 마지막 브레이크와 하트는 저절로 펼쳐져요.</p></div>`};
+const step=(n,t,d)=>`<li><span class="sn">${n}</span><div><b>${t}</b><p>${d}</p></div></li>`;
+const HH={
+bridge:`<p class="date" style="margin:0 0 6px"><b>1막 · 1월 12일</b></p><ol class="steps">${step(1,'높이 날아 철교로','붉은 빛기둥(철교) 쪽으로 날아가요. 땅에서 <b>2,500ft 위</b>를 지켜요.')}
+${step(2,'높은 곳에서 투하','철교 위에서 투하해요. 높은 곳에서는 바람에 흘러 잘 맞지 않아요. 실제로도 그랬어요!')}</ol>
+<p class="date" style="margin:6px 0"><b>2막 · 1월 15일 (전술 변경)</b></p><ol class="steps">${step(3,'높이 접근','붉은 빛기둥(철교) 쪽으로 높은 고도를 지키며 날아가요.')}
+${step(4,'탄막 속으로 급강하','철교에 가까워지면 "지금 급강하!"가 떠요. 기수를 숙여 <b>대공포 탄막</b>을 빠르게 뚫고 1,500ft까지 내려가요. 탄막 속에 오래 있을수록 위험해요.')}
+${step(5,'초록이면 투하','노란 원이 다리 위에서 <b style="color:#2f8a46">초록색</b>이 되면 투하하고, 바로 기수를 올려요.')}</ol>
+<div class="tip">💡 2막에서 실패해도 '다시 출격'을 누르면 2막부터 다시 시작해요.</div>
+<div class="tip warn">⚠️ 실패하는 경우: 땅에 부딪힐 때, 기체 상태가 0이 될 때, 2막에서 폭탄을 다 썼을 때</div>`,
+hill:`<ol class="steps">${step(1,'📻 무전 듣고 찾기','통제반이 "꼭대기 북서쪽, 큰 회색 바위 옆"처럼 말해 줘요. 오른쪽 위 지도의 <b>N(북쪽)</b>과 고지 꼭대기를 기준으로 그곳을 찾아요.')}
+${step(2,'조준경으로 확인','찾은 진지에 <b>조준경(노란 동그라미)</b>을 맞추고 잠시 기다리면 "찾았다!"가 떠요. 틀리면 다시 찾아요.')}
+${step(3,'노란 원이 초록이면 로켓','기수를 숙여 노란 원을 진지에 맞춰요. <b style="color:#2f8a46">초록색</b>이 되면 로켓 발사! 쏜 뒤 바로 올라가요.')}
+${step(4,'🚢💥 지원 카드 쓰기','대공포가 위험하면 왼쪽 카드를 눌러요. <b>해군 함포</b>: 가장 가까운 대공포를 부숴요. <b>국군 포병</b>: 15초 동안 모든 대공포가 쏘지 못해요. 한 번 쓰면 잠시 기다려야 해요.')}</ol>
+<div class="tip">💡 두 번째 목표는 모스키토가 흰 연기로 표시해 줘요. 45초가 지나도 못 찾으면 모스키토가 도와줘요.</div>
+<div class="tip warn">⚠️ 실패하는 경우: 초록 막대(고지 방어)가 0이 될 때, 땅에 부딪힐 때. 주황색 천 근처를 쏘면 막대가 줄어요.</div>`,
+show:`<ol class="steps">${step(1,'노란 고리 통과','빛나는 <b style="color:#b8860b">노란 고리</b>의 가운데를 지날수록 별을 많이 받아요(최대 ★3).')}
+${step(2,'🔄 배럴 롤','<b style="color:#3fa9ff">파란 문</b>을 지나면 조종간을 <b>옆으로 끝까지</b> 밀어 비행기를 한 바퀴 돌려요. 다음 파란 문 전까지 성공해야 해요.')}
+${step(3,'➰ 루프','<b style="color:#a64ee0">보라 문</b>을 지나면 조종간을 <b>계속 당기고</b> 있어요. 보라 고리를 따라 하늘에 큰 원을 그려요. 손을 떼면 실패!')}
+${step(4,'↔️ 크로스','<b style="color:#e07020">주황 문</b>으로 갈 때 정면에서 솔로기가 와요. 화면 안내를 보고 추력을 올리거나 내려서 문에서 동시에 엇갈려요.')}
+${step(5,'💥 브레이크 · ❤️ 하트','마지막 고리를 지나면 6대가 사방으로 흩어지고, 1번기와 2번기가 하트를 그려요. 저절로 펼쳐져요!')}</ol>
+<div class="tip">💡 기술을 성공할 때마다 오른쪽 위 <b>관중 환호</b> 막대가 차올라요. 연기는 <kbd>Space</kbd> 또는 연기 버튼으로 켜고 꺼요.</div>
+<div class="tip warn">⚠️ 고리나 문을 놓쳐도 괜찮아요. 다음 목표로 가면 돼요. 낮게 날 때 땅에 부딪히지 않게 조심해요.</div>`};
+function ctrlHTML(){const inv=G.invert,k=G.mkey;
+  const kUp=inv?'<kbd>↓</kbd> <kbd>S</kbd>':'<kbd>↑</kbd> <kbd>W</kbd>',kDn=inv?'<kbd>↑</kbd> <kbd>W</kbd>':'<kbd>↓</kbd> <kbd>S</kbd>';
+  const tUp=inv?'아래로 당기기':'위로 밀기',tDn=inv?'위로 밀기':'아래로 당기기';
+  const plane=(rot,up)=>`<svg viewBox="0 0 160 70" aria-hidden="true"><g transform="rotate(${rot} 80 40)"><ellipse cx="80" cy="40" rx="46" ry="7" fill="#9aa1a6"/><path d="M114 40 l14 -3 l0 6z" fill="#2a2620"/><path d="M40 40 l-8 -14 l8 0 l10 14z" fill="#9aa1a6"/><ellipse cx="88" cy="34" rx="10" ry="4" fill="#6f8fa3"/></g>
+    <path d="M140 ${up?52:18} L140 ${up?18:52}" stroke="#C8372D" stroke-width="4"/><path d="M132 ${up?26:44} L140 ${up?14:56} L148 ${up?26:44}" fill="none" stroke="#C8372D" stroke-width="4"/></svg>`;
+  const wpn=k==='bridge'?[['폭탄 투하','<kbd>Space</kbd>','빨간 투하 버튼']]:k==='hill'?[['로켓 발사','<kbd>Space</kbd>','빨간 로켓 버튼'],['기총','<kbd>F</kbd> 누르고 있기','기총 버튼 누르고 있기'],['해군 함포 요청','<kbd>1</kbd>','왼쪽 🚢 카드'],['국군 포병 요청','<kbd>2</kbd>','왼쪽 💥 카드']]:[['연기 켜기·끄기','<kbd>Space</kbd>','연기 버튼']];
+  const rows=[['오르기',kUp,'조종간 '+tUp],['내리기',kDn,'조종간 '+tDn],['왼쪽·오른쪽 돌기','<kbd>←</kbd><kbd>→</kbd> <kbd>A</kbd><kbd>D</kbd>','조종간 왼쪽·오른쪽'],['빠르게·느리게','<kbd>E</kbd> / <kbd>Q</kbd>','추력▲ / 추력▼'],...wpn,['시점 바꾸기','<kbd>C</kbd>','시점 버튼'],['일시정지','<kbd>Esc</kbd>','II 버튼']];
+  const sub=helpSub==='key'?1:0;
+  return `<p class="date" style="margin-top:4px">${inv?'실제 조종간 방식':'쉬운 방식'}이에요. 일시정지 메뉴에서 바꿀 수 있어요.</p>
+  <div class="pitchfig"><figure>${plane(-14,true)}<b>상승</b><br>${sub?kUp:'조종간 '+tUp}</figure><figure>${plane(14,false)}<b>하강</b><br>${sub?kDn:'조종간 '+tDn}</figure></div>
+  <div class="subtabs"><button class="sub" data-s="tab" aria-pressed="${!sub}">📱 태블릿</button><button class="sub" data-s="key" aria-pressed="${!!sub}">⌨️ 키보드</button></div>
+  <div class="ctrls">${rows.map(r=>`<div class="crow"><span>${r[0]}</span><span>${sub?r[1]:r[2]}</span></div>`).join('')}</div>
+  <div class="tip">💡 손을 떼면 날개는 수평으로 돌아오고, 기수 각도는 그대로예요. 내려가다 손을 떼도 계속 내려가니 꼭 다시 올려요.</div>`;}
+let helpSub=touchUI?'tab':'key';
+function helpHTML(){const tabs=[['brief','📜 작전 설명'],['how','🎯 미션 해결 방법'],['ctrl','🕹 조종법']];
+  const body=helpTab==='brief'?HB[G.mkey]:helpTab==='how'?HH[G.mkey]:ctrlHTML();
+  return `<h2>${MNAME[G.mkey]}</h2><div class="tabs" role="tablist">${tabs.map(([id,l])=>`<button role="tab" class="tab" data-t="${id}" aria-selected="${helpTab===id}">${l}</button>`).join('')}</div><div class="tabbody">${body}</div>`;}
+const HORD=['brief','how','ctrl'];let helpMax=0;
+function renderHelp(){$('helpBody').innerHTML=helpHTML();const st=helpFrom==='start',idx=HORD.indexOf(helpTab);
+  if(st)helpMax=Math.max(helpMax,idx);
+  $('helpClose').textContent=st?(idx<2?`다음 ▶ (${idx+1}/3)`:'출격!'):'계속 비행하기';
+  document.querySelectorAll('#helpBody .tab').forEach(b=>{const ti=HORD.indexOf(b.dataset.t);if(st&&ti>helpMax){b.disabled=true;b.style.opacity=.45;b.style.cursor='not-allowed';}
+    b.onclick=()=>{if(st&&ti>helpMax)return;helpTab=b.dataset.t;renderHelp();};});
+  document.querySelectorAll('#helpBody .sub').forEach(b=>b.onclick=()=>{helpSub=b.dataset.s;renderHelp();});}
+function openHelp(tab){if(G.mode==='play'){G.mode='pause';engineSet(false);G.keys={};G.gunHeld=false;if(helpFrom!=='start')helpFrom='play';}else if(G.mode==='pause')helpFrom='pause';else return;
+  if(typeof tab==='string')helpTab=tab;renderHelp();showScreen('help');$('help').scrollTop=0;}
+$('helpHud').onclick=()=>openHelp();$('pHelp').onclick=()=>openHelp();
+$('helpClose').onclick=()=>{if(helpFrom==='start'){const idx=HORD.indexOf(helpTab);if(idx<2){helpTab=HORD[idx+1];renderHelp();$('help').scrollTop=0;return;}}
+  if(helpFrom==='pause')showScreen('pause');else{showScreen(null);G.mode='play';}helpFrom='play';};
 const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
 function toggleFS(){const el=document.documentElement;
   if(fsEl()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return;}
@@ -790,11 +1168,12 @@ function toggleFS(){const el=document.documentElement;
 document.querySelectorAll('.fsBtn').forEach(b=>b.addEventListener('click',toggleFS));
 ['fullscreenchange','webkitfullscreenchange'].forEach(n=>document.addEventListener(n,()=>{setTimeout(resize,120);
   document.querySelectorAll('#pause .fsBtn').forEach(b=>{b.textContent=fsEl()?'끄기':'켜기';b.setAttribute('aria-pressed',!!fsEl());});}));
-$('pResume').onclick=()=>{showScreen(null);G.mode='play';};
+$('pResume').onclick=()=>{showScreen(null);G.mode='play';bgmDuck(false);};
 $('pRestart').onclick=()=>startMission(G.mkey);
 $('pQuit').onclick=toSelect;
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
-tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);tgl('tSound',()=>!muted,v=>{muted=!v;});
+tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);const bgmNow=()=>(G.mode==='play'||G.mode==='pause')?G.mkey:'menu';
+tgl('tSound',()=>!muted,v=>{muted=!v;bgm(null);if(!muted)bgm(bgmNow());});tgl('tMusic',()=>bgmOn,v=>{bgmOn=v;bgm(null);if(v)bgm(bgmNow());});
 
 const CTRL=`<li><b>조종</b> — 실제 비행기 조종간처럼 <kbd>↓</kbd>(<kbd>S</kbd>)를 누르면 기수가 올라가 <mark>상승</mark>하고, <kbd>↑</kbd>(<kbd>W</kbd>)를 누르면 기수가 내려가 <mark>하강</mark>해요. <kbd>A</kbd><kbd>D</kbd>(또는 <kbd>←</kbd><kbd>→</kbd>) 날개를 기울여 돌기. <kbd>E</kbd><kbd>Q</kbd> 추력, <kbd>C</kbd> 조종석 시점, <kbd>Esc</kbd> 일시정지</li>
 <li><b>태블릿</b> — 왼쪽 조종간을 아래로 당기면 상승, 위로 밀면 하강해요. 반대가 편하면 일시정지 메뉴에서 바꿀 수 있어요. 오른쪽 버튼으로 무장을 쏴요. 손을 떼면 날개는 수평으로 돌아오고, 기수 각도는 그대로 유지돼요. 내려가다가 손을 떼도 계속 내려가니 꼭 다시 올려 주세요.</li>
@@ -811,12 +1190,31 @@ const BRIEF={
 <p>유엔 공군이 <mark>500번 넘게</mark> 출격했지만, 위장하고 숨긴 탓에 다리를 끊지 못했어요.</p>`,
 `<h2>임무가 우리에게</h2><p class="date">대한민국 공군 F-51 전폭기 부대</p>
 <p>이 임무는 대한민국 공군에게 맡겨졌어요. 1952년 1월 12일 두 차례 출격해 폭탄을 떨어뜨렸지만 <mark>모두 실패</mark>했어요.</p>
-<p>그래서 방법을 바꿨어요. 대공포화가 아무리 거세도 더 낮게 내려가 정확히 떨어뜨리기로요. 실제 조종사들은 약 4,000피트에서 급강하했어요.</p>`,
+<p>그래서 방법을 바꿨어요. 대공포화가 아무리 거세도 더 낮게 내려가 정확히 떨어뜨리기로요. 실제 조종사들은 약 4,000피트에서 급강하했어요.</p>
+<p>게임에서는 먼저 <mark>1막: 1월 12일</mark>의 높은 고도 폭격을 해 보고, 바뀐 전술로 <mark>2막: 1월 15일</mark>에 다시 출격해요.</p>`,
 `<h2>작전 방법</h2><p class="date">1952년 1월 15일 출격</p><ul>
 <li>북쪽에 보이는 <b>붉은 빛기둥</b>이 철교예요. 그쪽으로 날아가요.</li>
 <li>철교에 가까워지면 땅에 <mark>노란 원</mark>이 보여요. 폭탄이 떨어질 곳이에요. 높을수록 원이 크고(흩어짐), 낮을수록 작아져요.</li>
 <li>노란 원이 다리 위에서 <b style="color:#2f8a46">초록색</b>으로 바뀌면 <kbd>Space</kbd> 또는 <b>투하</b>. 다리 방향을 따라 내려가면 맞히기 쉬워요.</li>
 <li>목표: 폭탄 4발로 <mark>가운데 경간 2개</mark> 끊기. 너무 낮게 내려가면 땅에 부딪혀요!</li>${CTRL}</ul>`],
+ show:[`<h2>블랙이글스는 누구일까요</h2><p class="date">대한민국 공군 특수비행팀</p>
+<p>블랙이글스는 싸우는 부대가 아니라, 하늘에서 멋진 비행을 보여 주는 공군의 <mark>특수비행팀</mark>이에요.</p>
+<p>시작은 6·25 전쟁이 멈춘 직후였어요. <mark>1953년 10월</mark>, 경남 사천 비행장에서 <b>F-51 무스탕 4대</b>가 편대비행과 지상공격 시범을 보인 것이 우리 공군 특수비행의 첫걸음이에요.</p>
+<p>승호리 철교와 351고지에서 싸우던 바로 그 비행기가, 전쟁이 멈춘 하늘에서 처음 에어쇼를 한 거예요.</p>`,
+`<h2>오늘의 블랙이글스</h2><p class="date">국산 초음속 항공기 T-50B</p>
+<p>그 뒤 여러 비행기와 이름을 거쳐, 지금의 블랙이글스는 우리나라에서 만든 초음속 항공기 <mark>T-50B</mark>로 하늘을 날아요. 검정·흰색·노랑으로 칠한 비행기가 상징이에요.</p>
+<p>2012년 영국 리아트 에어쇼를 시작으로 해외 에어쇼에서 여러 번 상을 받았고, 2023년 호주 아발론 에어쇼에서는 <mark>종합 최우수상</mark>을 받았어요.</p>
+<p>여러 대가 한 몸처럼 움직이려면 서로를 믿는 팀워크가 가장 중요해요.</p>`,
+`<h2>비행 방법</h2><p class="date">오늘은 내가 블랙이글스 1번기 편대장</p>
+<div class="hgrid" style="grid-template-columns:auto 1fr"><div class="h">①</div><div class="h">노란 고리 따라가기</div>
+<div class="a">비행</div><div>하늘에 뜬 <b style="color:#b8860b">노란 고리</b>를 순서대로 통과해요. 다음 고리가 노랗게 빛나요.</div>
+<div class="h">②</div><div class="h">가운데로 통과하기</div>
+<div class="a">별점</div><div>고리 가운데에 가까울수록 별을 많이 받아요. (★ 최대 3개)</div>
+<div class="h">③</div><div class="h">연기 켜고 끄기</div>
+<div class="a">연기</div><div><kbd>Space</kbd> 또는 <b>연기</b> 버튼. 뒤따르는 편대도 함께 연기를 뿜어요.</div>
+<div class="h">④</div><div class="h">하트 피날레</div>
+<div class="a">마무리</div><div>마지막 고리를 지나면 1번기와 2번기가 관중석 앞에 하트를 그려요.</div></div>
+<p>낮게 날 때는 땅에 부딪히지 않게 조심해요!</p><ul>${CTRL}</ul>`],
  hill:[`<h2>351고지 이야기</h2><p class="date">1953년 3월, 동해 바다 가까운 산</p>
 <svg class="mapsvg" viewBox="0 0 320 150" aria-label="351고지 위치 약도"><path d="M40 0 C70 40 50 80 90 150 L0 150 L0 0Z" fill="#d3ccb7"/><path d="M40 0 C70 40 50 80 90 150 L320 150 L320 0Z" fill="#c7d3d8"/>
 <path d="M0 64 C40 60 52 70 66 66" stroke="#6d6556" stroke-width="2" fill="none" stroke-dasharray="5 4"/><text x="4" y="58" font-size="11" fill="#6d6556">전선</text>
@@ -838,30 +1236,40 @@ const BRIEF={
 <div class="a">아군</div><div>산꼭대기 <b style="color:#d4600f">주황색 천</b>은 우리 편이에요. 쏘면 안 돼요.</div></div>
 <p>적 진지 <mark>3곳</mark>을 부수면 성공이에요.</p><ul>${CTRL}</ul>`]};
 let bk='bridge',bp=0;
-function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
+function renderBrief(){const P=BRIEF[bk].slice(0,2);$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
   $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'출격':'다음';$('brief').scrollTop=0;}
 $('goSelect').onclick=()=>{audioInit();toSelect();};
 $('backTitle').onclick=()=>{G.mode='title';showScreen('title');};
 document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{audioInit();bk=m.dataset.m;bp=0;renderBrief();G.mode='brief';showScreen('brief');});
 $('prevBtn').onclick=()=>{if(bp>0){bp--;renderBrief();}};
-$('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else startMission(bk);};
+$('nextBtn').onclick=()=>{if(bp<1){bp++;renderBrief();}else{G.br2=false;startMission(bk);helpFrom='start';helpMax=0;openHelp('brief');}};
 
-function debrief(){G.mode='debrief';$('hud').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);const r=G.result,win=r==='win';if(win)markCleared(G.mkey);
+function debrief(){G.mode='debrief';bgm(G.result==='win'?'win':'menu');$('hud').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);const r=G.result,win=r==='win';if(win)markCleared(G.mkey);
   const head={win:'임무 성공',crash:'지면 충돌',shot:'기체 손상, 비상 탈출',ammo:'무장 소진, 귀환',lost:'방어선 후퇴'}[r];let html='';
   if(G.mkey==='bridge'){const avg=MI.rel.length?Math.round(MI.rel.reduce((a,b)=>a+b,0)/MI.rel.length):0;
-    const lead=win?'가운데 경간 2개를 끊었어요. 1952년 1월 15일, 실제 조종사들도 같은 결과를 냈어요.':r==='crash'?'너무 낮게 내려가 땅에 부딪혔어요. 실제 조종사들은 낮게 내려가면서도 제때 기수를 올렸어요.':r==='shot'?'대공포에 기체가 크게 상했어요. 실제 조종사들도 이 위험을 무릅쓰고 내려갔어요.':'다리를 끊지 못했어요. 1월 12일의 첫 출격도 이렇게 실패했어요. 더 낮게 내려가 보세요.';
+    const a1=MI.rel1.length?Math.round(MI.rel1.reduce((a,b)=>a+b,0)/MI.rel1.length):0;
+    const lead=win?`1막에서는 ${a1?a1.toLocaleString('ko-KR')+'ft 높이에서 ':''}실패했지만, 전술을 바꾼 2막에서 ${avg?avg.toLocaleString('ko-KR')+'ft까지 내려가 ':''}가운데 경간 2개를 끊었어요. 1952년 1월 15일, 실제 조종사들도 이렇게 해냈어요.${MI.flakTime?` (탄막 돌파 ${MI.flakTime.toFixed(1)}초)`:''}`:r==='crash'?'너무 낮게 내려가 땅에 부딪혔어요. 실제 조종사들은 낮게 내려가면서도 제때 기수를 올렸어요.':r==='shot'?'대공포에 기체가 크게 상했어요. 실제 조종사들도 이 위험을 무릅쓰고 내려갔어요.':'다리를 끊지 못했어요. 1월 12일의 첫 출격도 이렇게 실패했어요. 더 낮게 내려가 보세요.';
     html=`<div class="stamp">${win?'완료':'재출격'}</div><h2>${head}</h2><p class="date">승호리 철교 작전 결과</p><p>${lead}</p>
     <div class="stat"><div><small>가운데 경간</small><b>${MI.hits} / 2</b></div><div><small>평균 투하 높이</small><b>${avg?avg.toLocaleString('ko-KR')+'ft':'-'}</b></div><div><small>기체 상태</small><b>${Math.round(PL.hp)}%</b></div></div>
     <p>실제 작전에서 조종사들은 약 <mark>4,000피트에서 급강하해 1,500피트</mark>까지 내려가 폭탄을 떨어뜨렸어요. 2개 편대 6대가 출격해 철교 가운데 경간 2개를 끊었고, 한국 공군이 스스로 작전을 해낼 수 있다는 것을 보여 주었어요.</p>
     <p style="margin-bottom:4px"><b>1952년 1월 15일 출격 조종사</b></p>
     <div class="crew"><span>1편대장 옥만호 대위</span><span>2편대장 윤응렬 대위</span><span>2번기 유치곤 대위</span><span>2번기 정주량 대위</span><span>3번기 박재호 대위</span><span>3번기 장성태 대위</span></div>
     <p>유치곤 장군은 전쟁 동안 203회 출격했고, 영화 「빨간 마후라」의 실제 주인공이기도 해요.</p>`;}
+  else if(G.mkey==='show'){const n=WD.rings.filter(r=>r.kind==='ring').length,mx=n*3+9,st=MI.stars,tk=MI.tricks,tn=(tk.roll?1:0)+(tk.loop?1:0)+(tk.cross?1:0),gr=win?(st>=mx*.8?3:st>=mx*.55?2:1):0;
+    html=`<div class="stamp">${win?'완료':'재비행'}</div>${win?(markCleared('show',gr),''):''}<h2>${win?'에어쇼 성공':head}</h2><p class="date">블랙이글스 에어쇼 결과</p>
+    <p>${win?`<b style="font-size:1.6em;color:#b8860b">${'★'.repeat(gr)}${'☆'.repeat(3-gr)}</b><br>관중석에서 박수가 쏟아졌어요!`:'땅에 부딪혀 에어쇼가 중단됐어요. 고리를 지난 뒤에는 바로 고도를 올려요.'}</p>
+    <div class="stat"><div><small>통과한 고리</small><b>${MI.passed} / ${n}</b></div><div><small>받은 별</small><b>${st} / ${mx}</b></div><div><small>성공한 기술</small><b>${tn} / 3</b></div></div>
+    <div class="tricks"><span class="${tk.roll?'ok':''}">🔄 배럴 롤</span><span class="${tk.loop?'ok':''}">➰ 루프</span><span class="${tk.cross?'ok':''}">↔️ 크로스</span><span class="${MI.finale?'ok':''}">💥 브레이크 · ❤️ 하트</span></div>
+    <p>우리 공군의 특수비행은 <mark>1953년 10월</mark> 사천 비행장에서 <b>F-51 무스탕 4대</b>가 편대비행 시범을 보이며 시작됐어요. 6·25 전쟁에서 싸우던 비행기가 전쟁이 멈춘 하늘에서 첫 에어쇼를 한 거예요.</p>
+    <p>오늘의 블랙이글스는 우리나라에서 만든 초음속 항공기 <mark>T-50B</mark>로 나라 안팎에서 비행하며, 2023년 호주 아발론 에어쇼에서 종합 최우수상을 받았어요.</p>`;}
   else{const lead=win?'흰 연막이 가리킨 적 진지를 모두 부수고 351고지를 지켜 냈어요.':r==='lost'?'적 진지를 제때 부수지 못해 방어선이 밀렸어요. 연막 표시를 빨리 찾아가 보세요.':r==='crash'?'고지 근처에서 땅에 부딪혔어요. 공격 뒤에는 바로 기수를 올려야 해요.':'기체가 크게 상했어요. 대공포 진지가 제압될 때까지 높이 머무는 것도 방법이에요.';
     html=`<div class="stamp">${win?'완료':'재출격'}</div><h2>${head}</h2><p class="date">351고지 작전 결과</p><p>${lead}</p>
     <div class="stat"><div><small>부순 적 진지</small><b>${MI.killed} / ${WD.targets.length}</b></div><div><small>고지 방어</small><b>${Math.round(MI.def)}%</b></div><div><small>아군 근처 사격</small><b>${MI.ff}회</b></div></div>
+    <div class="tricks"><span class="${MI.found?'ok':''}">📻 무전으로 찾은 목표 ${MI.found}곳</span><span class="${MI.calls?'ok':''}">🤝 지원 요청 ${MI.calls}회</span></div>
     <p>1953년 3월, <mark>윤응렬 소령</mark>이 이끈 한국 공군 F-51 16대가 351고지를 공격하던 적을 공격했어요. 미 공군 T-6 모스키토 정찰기(한국 공군 조종사도 함께 탔어요)와 지상 통제반이 목표를 알려 주었고, 미 해군 함포와 국군 포병이 적 대공포를 눌러 주었어요.</p>
     <p>그 덕분에 <mark>국군 제15사단</mark>이 351고지를 지켜 냈어요. 공군·해군·육군, 그리고 한국과 미국이 힘을 합친 합동작전이었어요.</p>`;}
   html+=`<p class="note">게임 속 무전 대화와 지형은 이해를 돕기 위해 새로 꾸민 장면이에요.</p>
+    ${win?'<div class="tip">📝 확인 문제까지 모두 풀면 이 작전이 <b>수료</b>돼요. 세 작전을 모두 수료하면 명예 공군증을 받아요!</div>':''}
     <div class="row"><button class="btn ghost" id="againBtn">다시 출격</button><button class="btn" id="quizBtn">확인 문제 풀기</button></div>`;
   $('debriefBody').innerHTML=html;showScreen('debrief');$('debrief').scrollTop=0;
   $('againBtn').onclick=()=>startMission(G.mkey);$('quizBtn').onclick=()=>{qi=0;score=0;renderQuiz();showScreen('quiz');};}
@@ -871,6 +1279,11 @@ const QZ={bridge:[
  {q:'유엔 공군이 500번 넘게 공격해도 다리가 남아 있었던 까닭은?',o:['위장하고 숨겨서 찾고 맞히기 어려워서','다리가 강철보다 단단해서','날씨 때문에 한 번도 출격하지 못해서'],a:0,e:'북한군은 다리를 위장하고 숨겼어요. 높은 곳에서는 정확히 맞히기 어려웠어요.'},
  {q:'1월 15일 작전이 성공한 가장 큰 까닭은 무엇일까요?',o:['더 많은 폭격기가 출격해서','밤에 몰래 공격해서','대공포화를 무릅쓰고 낮게 내려가 정확히 떨어뜨려서'],a:2,e:'게임의 노란 원처럼, 낮을수록 폭탄이 덜 흩어져요. 조종사들은 위험을 알면서도 낮게 내려갔어요.'},
  {q:'생각해 보기: 이 작전 이야기에서 가장 마음에 남는 것은 무엇인가요?',o:['포기하지 않고 방법을 바꾼 점','목숨을 걸고 임무를 해낸 조종사들의 용기','전쟁이 다시는 없어야 한다는 생각'],a:-1,e:'정답이 없는 질문이에요. 친구와 이유를 나누어 보세요. 승리 뒤에는 늘 많은 사람의 희생과 아픔이 함께 있었다는 것도 기억해요.'}],
+ show:[
+ {q:'우리 공군의 첫 특수비행은 언제, 어떤 비행기로 했나요?',o:['1945년, 헬리콥터 2대','1953년, F-51 무스탕 4대','2010년, T-50B 8대'],a:1,e:'6·25 전쟁이 멈춘 1953년 10월, 사천 비행장에서 F-51 무스탕 4대가 편대비행 시범을 보였어요.'},
+ {q:'지금 블랙이글스가 타는 T-50B는 어떤 비행기인가요?',o:['우리나라에서 만든 초음속 항공기','프로펠러로 나는 옛 전투기','사람이 타지 않는 드론'],a:0,e:'T-50B는 우리나라에서 만든 초음속 항공기예요. 블랙이글스를 위해 특별히 칠했어요.'},
+ {q:'여러 대가 한 몸처럼 나는 특수비행에서 가장 중요한 것은?',o:['혼자 가장 빨리 날기','가장 큰 소리 내기','서로 믿고 맞추는 팀워크'],a:2,e:'몇 대의 비행기가 아주 가까이 붙어 날기 때문에, 서로를 믿고 정확히 맞추는 팀워크가 가장 중요해요.'},
+ {q:'생각해 보기: 전쟁에서 싸우던 무스탕이 휴전 뒤 에어쇼를 시작했어요. 어떤 생각이 드나요?',o:['평화로운 하늘이 소중해요','그 시절 조종사들이 자랑스러워요','나도 하늘을 나는 꿈을 꾸고 싶어요'],a:-1,e:'정답이 없는 질문이에요. 전쟁의 하늘과 평화의 하늘이 어떻게 다른지 친구와 이야기해 보세요.'}],
  hill:[
  {q:'351고지 작전에서 비행기는 누구를 도왔나요?',o:['산 위에서 고지를 지키던 국군','바다에서 고기를 잡던 어부','길을 잃은 다른 비행기'],a:0,e:'비행기가 땅에서 싸우는 국군을 가까이에서 도왔어요. 이것을 근접항공지원이라고 해요.'},
  {q:'작은 비행기 모스키토는 적이 있는 곳을 어떻게 알려 주었나요?',o:['큰 소리로 외쳐서','흰 연기를 쏘아서','깃발을 흔들어서'],a:1,e:'모스키토가 흰 연기를 쏘면, 전투기 조종사들은 그 연기를 보고 공격할 곳을 찾았어요.'},
@@ -884,10 +1297,63 @@ function renderQuiz(){const Q=QZ[G.mkey],it=Q[qi];
   document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if($('qNext').style.visibility==='visible')return;const i=+b.dataset.i;
     if(it.a<0)b.classList.add('ok');else if(i===it.a){b.classList.add('ok');score++;}else{b.classList.add('no');document.querySelector(`.opt[data-i="${it.a}"]`).classList.add('ok');}
     $('fb').textContent=it.e;$('qNext').style.visibility='visible';});
-  $('qNext').onclick=()=>{if(qi<Q.length-1){qi++;renderQuiz();}else{$('quizBody').innerHTML=`<div class="stamp">완료</div><h2>작전 기록 완료</h2><p class="date">확인 문제 ${score} / 3 정답</p>
-    <p>${G.mkey==='bridge'?'승호리 철교 차단작전은 한국 공군이 스스로의 힘으로 큰 작전을 해낸 사례로 기억돼요.':'351고지 작전은 하늘과 땅, 여러 나라가 함께 고지를 지켜 낸 합동작전으로 기억돼요.'}</p>
-    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><button class="btn" id="toSel">다른 작전 고르기</button></div>`;
+  $('qNext').onclick=()=>{if(qi<Q.length-1){qi++;renderQuiz();}else{markQuiz(G.mkey);const won=!!cleared()[G.mkey];$('quizBody').innerHTML=`<div class="stamp">완료</div><h2>작전 기록 완료</h2><p class="date">확인 문제 ${score} / 3 정답</p>
+    ${allCleared()?'<div class="tip" style="background:#f3e8c4;border:3px solid #c9a227"><b>🎖 세 작전과 확인 문제를 모두 마쳤어요!</b><br>이제 명예 공군증을 받을 수 있어요.</div>':won?`<div class="tip">✅ 이 작전을 수료했어요. 작전 수료 <b>${doneCount()} / 3</b></div>`:'<div class="tip warn">이 작전은 아직 성공하지 못했어요. 작전을 성공하면 수료돼요.</div>'}
+    <p>${G.mkey==='show'?'블랙이글스의 시작은 1953년 F-51 무스탕 4대였어요. 전쟁의 하늘이 평화의 하늘로 이어진 셈이에요.':G.mkey==='bridge'?'승호리 철교 차단작전은 한국 공군이 스스로의 힘으로 큰 작전을 해낸 사례로 기억돼요.':'351고지 작전은 하늘과 땅, 여러 나라가 함께 고지를 지켜 낸 합동작전으로 기억돼요.'}</p>
+    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><div style="display:flex;gap:10px;flex-wrap:wrap">${allCleared()?'<button class="btn" id="certBtn3">🎖 명예 공군증 받기</button>':''}<button class="btn" id="toSel">다른 작전 고르기</button></div></div>`;if($('certBtn3'))$('certBtn3').onclick=openCert;
     $('again2').onclick=()=>startMission(G.mkey);$('toSel').onclick=toSelect;}};}
+
+
+/* ---------- 명예 공군증 ---------- */
+const MKEYS=['bridge','hill','show'];
+function quizDone(){try{return JSON.parse(localStorage.getItem('f51-quiz')||'{}');}catch(e){return{};}}
+function markQuiz(k){try{const q=quizDone();q[k]=1;localStorage.setItem('f51-quiz',JSON.stringify(q));}catch(e){}}
+function doneCount(){const c=cleared(),q=quizDone();return MKEYS.filter(k=>c[k]&&q[k]).length;}
+function allCleared(){return doneCount()>=3;}
+function updSelectCert(){const c=cleared(),q=quizDone(),n=doneCount();
+  $('progTxt').innerHTML=n>=3?'<b>모든 작전 수료!</b> 명예 공군증을 받을 수 있어요.':`작전 수료 <b>${n} / 3</b> · 작전 성공과 확인 문제까지 마치면 수료예요`;
+  $('progBar').style.width=(n/3*100)+'%';$('certBtn').style.display=n>=3?'':'none';}
+function certNo(){try{let v=localStorage.getItem('f51-certno');if(!v){v=String(Math.floor(1000+Math.random()*9000));localStorage.setItem('f51-certno',v);}return v;}catch(e){return '0001';}}
+function wingsPath(g,cx,cy,sc,col){g.save();g.translate(cx,cy);g.scale(sc,sc);g.fillStyle=col;
+  for(const sd of [-1,1]){g.save();g.scale(sd,1);g.beginPath();g.moveTo(30,-8);
+    for(let k=0;k<6;k++){const x=40+k*30,y=-14-k*5;g.lineTo(x,y);g.lineTo(x+22,y+6);}
+    g.lineTo(225,-34);g.quadraticCurveTo(180,10,30,14);g.closePath();g.fill();
+    g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=2;for(let k=0;k<6;k++){g.beginPath();g.moveTo(44+k*30,-8-k*3);g.lineTo(62+k*30,8-k*4);g.stroke();}g.restore();}
+  g.restore();}
+async function drawCert(name){const cv=document.createElement('canvas'),Wc=1600,Hc=1130;cv.width=Wc;cv.height=Hc;const g=cv.getContext('2d');
+  try{await Promise.all([document.fonts.load('60px "Black Han Sans"'),document.fonts.load('30px "Gowun Dodum"')]);}catch(e){}
+  const HF='"Black Han Sans","Apple SD Gothic Neo","Malgun Gothic",sans-serif',BF='"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+  const bg=g.createLinearGradient(0,0,Wc,Hc);bg.addColorStop(0,'#f5efdd');bg.addColorStop(1,'#e8dfc6');g.fillStyle=bg;g.fillRect(0,0,Wc,Hc);
+  for(let i=0;i<2600;i++){g.fillStyle=`rgba(120,100,60,${Math.random()*.05})`;g.fillRect(Math.random()*Wc,Math.random()*Hc,2,2);}
+  g.strokeStyle='#1d3b6e';g.lineWidth=14;g.strokeRect(36,36,Wc-72,Hc-72);g.strokeStyle='#c9a227';g.lineWidth=4;g.strokeRect(62,62,Wc-124,Hc-124);
+  g.strokeStyle='#1d3b6e';g.lineWidth=1.5;g.strokeRect(74,74,Wc-148,Hc-148);
+  [[62,62],[Wc-62,62],[62,Hc-62],[Wc-62,Hc-62]].forEach(([x,y])=>{g.fillStyle='#c9a227';g.beginPath();g.arc(x,y,14,0,7);g.fill();g.fillStyle='#1d3b6e';g.beginPath();g.arc(x,y,7,0,7);g.fill();});
+  wingsPath(g,Wc/2,190,1.25,'#c9a227');
+  const r=46,cx=Wc/2,cy=188;g.fillStyle='#fff';g.beginPath();g.arc(cx,cy,r+8,0,7);g.fill();g.strokeStyle='#c9a227';g.lineWidth=5;g.stroke();
+  g.fillStyle='#1f4fa0';g.beginPath();g.arc(cx,cy,r,0,7);g.fill();g.fillStyle='#c8372d';g.beginPath();g.arc(cx,cy,r,Math.PI,0);g.fill();
+  g.beginPath();g.arc(cx-r/2,cy,r/2,0,7);g.fill();g.fillStyle='#1f4fa0';g.beginPath();g.arc(cx+r/2,cy,r/2,0,7);g.fill();
+  g.textAlign='center';g.fillStyle='#6b5a3a';g.font=`26px ${BF}`;g.fillText(`제 ${new Date().getFullYear()}-${certNo()} 호`,Wc/2,300);
+  g.fillStyle='#1d3b6e';g.font=`96px ${HF}`;g.fillText('명예 공군증',Wc/2,405);
+  g.fillStyle='#2a2620';g.font=`40px ${BF}`;g.fillText('성명',Wc/2-210,505);
+  g.font=`64px ${HF}`;g.fillText(name||'　　　　',Wc/2+40,510);g.strokeStyle='#2a2620';g.lineWidth=2;g.beginPath();g.moveTo(Wc/2-130,525);g.lineTo(Wc/2+220,525);g.stroke();
+  g.font=`34px ${BF}`;g.fillStyle='#2a2620';
+  ['위 사람은 6·25 전쟁 하늘의 작전 비행 훈련에서','승호리 철교 차단작전, 351고지 근접항공지원, 블랙이글스 에어쇼를','모두 훌륭히 마쳤기에 명예 공군으로 임명합니다.'].forEach((t,i)=>g.fillText(t,Wc/2,610+i*56));
+  const c=cleared(),badges=[['승호리 철교','1952',0x00],['351고지','1953',0],['블랙이글스','에어쇼',0]];
+  badges.forEach(([t,s2],i)=>{const bx=Wc/2+(i-1)*270,by=830;g.fillStyle='#1d3b6e';g.beginPath();g.arc(bx,by,74,0,7);g.fill();
+    g.strokeStyle='#c9a227';g.lineWidth=6;g.beginPath();g.arc(bx,by,65,0,7);g.stroke();
+    g.fillStyle='#fff';g.font=`22px ${HF}`;g.fillText(t,bx,by-4);g.font=`20px ${BF}`;g.fillStyle='#e8d48a';g.fillText(s2,bx,by+24);
+    const st=MKEYS[i]==='show'?(c.show||1):3;g.fillStyle='#c9a227';g.font=`26px ${BF}`;g.fillText('★'.repeat(st)+'☆'.repeat(3-st),bx,by+108);});
+  const d=new Date();g.fillStyle='#2a2620';g.font=`32px ${BF}`;g.fillText(`${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일`,Wc/2,975);
+  g.font=`40px ${HF}`;g.fillStyle='#1d3b6e';g.fillText('하늘의 작전 비행학교장',Wc/2-20,1030);
+  g.save();g.translate(Wc/2+235,1016);g.rotate(-.12);g.strokeStyle='#c8372d';g.lineWidth=5;g.strokeRect(-48,-40,96,80);g.fillStyle='#c8372d';g.font=`30px ${HF}`;g.fillText('비행',0,-6);g.fillText('학교',0,28);g.restore();
+  g.textAlign='left';g.fillStyle='#8a7d62';g.font=`20px ${BF}`;g.fillText('* 수업용 비행 시뮬레이션 수료증입니다.',96,Hc-92);
+  return cv.toDataURL('image/png');}
+function openCert(){let nm='';try{nm=localStorage.getItem('f51-name')||'';}catch(e){}
+  $('certName').value=nm;showScreen('cert');G.mode='cert';makeCert();}
+async function makeCert(){const nm=$('certName').value.trim().slice(0,10);try{localStorage.setItem('f51-name',nm);}catch(e){}
+  const url=await drawCert(nm);$('certImg').src=url;$('certDl').href=url;$('certDl').download=`명예공군증_${nm||'조종사'}.png`;}
+$('certBtn').onclick=openCert;$('certMake').onclick=makeCert;$('certName').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')makeCert();});
+$('certPrint').onclick=()=>{try{window.print();}catch(e){}};$('certBack').onclick=toSelect;
 
 /* ---------- loop ---------- */
 let last=performance.now(),hudT=0;
@@ -898,7 +1364,7 @@ function loop(now){requestAnimationFrame(loop);try{frame(now);}catch(e){console.
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   if(G.mode==='play'||G.mode==='ending'){G.t+=dt;
     if(G.mode==='play'){flight(dt);}
-    if(G.mode==='ending'&&G.result==='win'){if(!G.easy)syncEZ();winCruise(dt);}
+    if(G.mode==='ending'&&G.result==='win'&&G.mkey!=='show'){if(!G.easy)syncEZ();winCruise(dt);}
     if(G.mode!=='pause'){updWing(dt);updMission(dt);updGuns(dt);updProjs(dt);updParts(dt);updRadio(dt);G.cool-=dt;
       spinProps(dt,[PL.mesh,...wing,WD.mos]);updCam(dt);updRing();hudT-=dt;if(hudT<=0){hudT=.1;updHUD();}engineSet(G.mode==='play'||G.result==='win');}
     if(G.mode==='ending'){G.endT-=dt;if(G.endT<=0||performance.now()-G.endAt>7000)debrief();}
