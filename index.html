@@ -303,7 +303,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     <div class="ctop"><span class="cbadge">미션 영상</span><b id="cineName"></b><button id="cineSkip">건너뛰기</button></div>
     <div id="cineRet"><i></i><span>확인 중</span></div>
     <div id="cineCap"><span id="cineNo"></span><b id="cineT"></b><p id="cineS"></p><div id="cineSeg"></div></div>
-    <div id="cineEnd"><b>미션 영상 끝</b><p>설명과 조종법을 확인하고 출격해요</p><div><button class="btn ghost" id="cineReplay">다시 보기</button><button class="btn" id="cineGo">다음</button></div></div>
+    <div id="cineEnd"><b>미션 영상 끝</b><p>간단 조종법을 확인하고 출격해요</p><div><button class="btn ghost" id="cineReplay">다시 보기</button><button class="btn" id="cineGo">다음</button></div></div>
   </div>
   <button id="pauseBtn" aria-label="일시정지">II</button>
   <button id="fsHud" class="fsBtn" aria-label="전체화면">⛶</button>
@@ -313,7 +313,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     <div class="wrap">
       <h1><small>6·25 전쟁 대한민국 공군</small>하늘의 작전</h1>
       <p>F-51 무스탕 조종석에 앉아 6·25 전쟁 때 한국 공군이 해낸 작전을 직접 날아 봐요. 해인사를 지킨 판단, 끊기지 않던 철교, 351고지의 하늘, 그리고 블랙이글스 에어쇼까지.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSelect">작전 고르기</button><button class="btn ghost fsBtn">전체화면</button></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSelect">작전 고르기</button><button class="btn ghost" id="menuMusicBtn" style="display:none">♫ 음악 켜기</button><button class="btn ghost fsBtn">전체화면</button></div>
     </div>
   </section>
 
@@ -711,9 +711,9 @@ function audioInit(){if(AC){if(AC.state==='suspended')AC.resume();return;}try{AC
 function engineSet(on){if(!AC)return;const t=AC.currentTime;
   if(!on||muted){engG.gain.setTargetAtTime(0,t,.2);windG.gain.setTargetAtTime(0,t,.2);return;}
   engO.frequency.setTargetAtTime(38+PL.thr*34+PL.v*.06,t,.15);engO2.frequency.setTargetAtTime(19+PL.thr*17,t,.15);
-  engG.gain.setTargetAtTime(.05+PL.thr*.03,t,.2);windG.gain.setTargetAtTime(clamp((PL.v-80)/250,0,.12),t,.2);}
+  engG.gain.setTargetAtTime(.012+PL.thr*.008,t,.2);windG.gain.setTargetAtTime(clamp((PL.v-80)/900,0,.035),t,.2);}
 function sfx(kind,dist){if(!AC||muted)return;try{const vol=dist?clamp(1-dist/3000,.05,1):1;
-  const cfg={radio:[.14,2600,.06],boom:[1.4,500,.9],flak:[.45,700,.35],gun:[.06,2400,.12],thunk:[.15,300,.3],far:[1,350,.25]}[kind];
+  const cfg={radio:[.14,2600,.06],boom:[1.4,500,.55],flak:[.45,700,.35],gun:[.06,2400,.12],thunk:[.15,300,.3],far:[1,350,.25]}[kind];
   const s=AC.createBufferSource();s.buffer=noiseBuf(cfg[0]);const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=cfg[1];
   const g=AC.createGain();g.gain.setValueAtTime(cfg[2]*vol,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+cfg[0]);
   s.connect(f);f.connect(g);g.connect(AC.destination);s.start();}catch(e){}}
@@ -1428,15 +1428,15 @@ function markCleared(k,v){try{const c=cleared();c[k]=Math.max(c[k]||0,v||1);loca
 
 /* ---------- SUNO 배경음악 (audio 폴더의 MP3) ---------- */
 const BGM_FILES={temple:'audio/bgm_temple.mp3',menu:'audio/bgm_menu.mp3',bridge:'audio/bgm_bridge.mp3',hill:'audio/bgm_hill.mp3',show:'audio/bgm_show.mp3',win:'audio/bgm_success.mp3',fail:'audio/bgm_failure.mp3'};
-const BGM_VOL=.24;let bgmOn=true,bgmKey=null,bgmEl=null,bgmDucked=false;
+const BGM_VOL=.35;let bgmOn=true,bgmKey=null,bgmEl=null,bgmDucked=false;
 function bgmFade(el,to,ms,done){if(!el)return;const from=el.volume,t0=performance.now();clearInterval(el._f);
   el._f=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/ms);el.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k>=1){clearInterval(el._f);done&&done();}},40);}
-function bgm(key){if(key===bgmKey&&bgmEl)return;bgmKey=key;const old=bgmEl;bgmEl=null;
+function bgm(key){if(key===bgmKey&&bgmEl){if(bgmEl.paused&&bgmOn&&!muted)bgmEl.play().catch(()=>{});return;}bgmKey=key;const old=bgmEl;bgmEl=null;
   if(old)bgmFade(old,0,700,()=>{old.pause();old.removeAttribute('src');old.load();});
   if(!key||!bgmOn||muted||!BGM_FILES[key])return;
   const a=new Audio(BGM_FILES[key]);a.loop=key!=='win'&&key!=='fail';a.volume=0;a.preload='auto';a.onerror=()=>console.warn('배경음악 파일을 불러오지 못했습니다:',BGM_FILES[key]);
   if(key==='win'||key==='fail')a.onended=()=>{if(bgmKey===key){bgmKey=null;bgm('menu');}};
-  const pr=a.play();if(pr&&pr.catch)pr.catch(()=>{});bgmEl=a;bgmFade(a,bgmDucked?BGM_VOL*.28:BGM_VOL,900);}
+  const pr=a.play();if(pr&&pr.then)pr.then(()=>{if(key==='menu')$('menuMusicBtn').style.display='none';}).catch(()=>{if(key==='menu'&&G.mode==='title')$('menuMusicBtn').style.display='inline-block';});bgmEl=a;bgmFade(a,bgmDucked?BGM_VOL*.28:BGM_VOL,900);}
 function bgmDuck(on){bgmDucked=!!on;if(bgmEl)bgmFade(bgmEl,bgmDucked?BGM_VOL*.28:BGM_VOL,450);}
 function toSelect(){G.mode='select';bgmDucked=false;bgm('menu');$('hud').classList.remove('on');$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
   if(!WD||WD.key!=='bridge'){buildWorld('bridge');}const c=cleared();const q=quizDone();document.querySelectorAll('.mcard').forEach(m=>m.classList.toggle('cleared',!!(c[m.dataset.m]&&q[m.dataset.m])));updSelectCert();showScreen('select');}
@@ -1524,8 +1524,16 @@ function helpHTML(){const M=MINFO[G.mkey]||MINFO.bridge,tabs=[['brief','📜','�
   return `<div class="hhead" style="--mc:${M.col}"><span class="hicon">${M.icon}</span><div><small>${M.date}</small><h2>${MNAME[G.mkey]}</h2></div></div>
   <div class="htabs" role="tablist">${tabs.map(([id,ic,l],i)=>`<button role="tab" class="tab" data-t="${id}" aria-selected="${helpTab===id}"><span class="tn">${i+1}</span>${ic} ${l}</button>`).join('')}</div>
   <div class="tabbody t-${helpTab}" style="--mc:${M.col}">${body}</div>`;}
+const QUICK_START={
+ temple:[['🛫','조종간으로 비행기를 움직여요.'],['🛡️','해인사는 공격하지 않고 보호해요.'],['🎯','능선에 있는 적 은신처만 조준해요.'],['🚀','조준 표시가 초록색이면 로켓을 발사해요.']],
+ bridge:[['🛫','붉은 빛기둥을 따라 철교로 가요.'],['⬇️','2막에서는 철교에 가까워져 기수를 숙여요.'],['🎯','노란 조준 원이 초록색이면 폭탄을 투하해요.'],['⬆️','투하하자마자 기수를 올려요.']],
+ hill:[['📻','무전을 듣고 흰 연기와 목표 진지를 찾아요.'],['🎯','조준 표시를 목표에 맞춰요.'],['🚀','초록색이면 로켓 또는 기총을 발사해요.'],['🛡️','주황색 천이 있는 아군은 공격하지 않아요.']],
+ show:[['🟡','노란 고리의 가운데로 날아가요.'],['↔️','조종간을 움직여 비행 방향을 바꿔요.'],['✨','안내에 따라 배럴 롤·루프에 도전해요.'],['🛩️','속도가 너무 낮아지지 않게 조절해요.']]
+};
+function quickStartHTML(){const touch=touchUI;const keys=touch?'화면 왼쪽 조종간':'방향키 또는 WASD';const fire=touch?'오른쪽 투하·기총 버튼':'Space(투하) / F(기총)';
+ return `<div class="hhead" style="--mc:#2e4a62"><span class="hicon">🕹️</span><div><small>미션 영상 다음 단계</small><h2>${MNAME[G.mkey]} · 간단 조종법</h2></div></div><div class="tabbody" style="min-height:0"><div class="tip"><b>방향 조종:</b> ${keys}<br><b>무기 사용:</b> ${G.mkey==='show'?'Space(연기)':fire}<br><b>속도:</b> ${touch?'오른쪽 추력 ▲ / ▼':'W/S 또는 추력 조절 키 (자세한 조종법 참고)'}</div><ol class="steps">${QUICK_START[G.mkey].map(([e,t],i)=>step(i+1,e,t)).join('')}</ol><p class="note">자세한 설명은 비행 중 <b>?</b> 버튼에서 다시 확인할 수 있어요.</p></div>`;}
 const HORD=['brief','how','ctrl'];let helpMax=0;
-function renderHelp(){$('helpBody').innerHTML=helpHTML();const st=helpFrom==='start',idx=HORD.indexOf(helpTab);
+function renderHelp(){if(helpFrom==='start'){$('helpBody').innerHTML=quickStartHTML();$('helpClose').textContent='출격하기 ▶';return;}$('helpBody').innerHTML=helpHTML();const st=helpFrom==='start',idx=HORD.indexOf(helpTab);
   if(st)helpMax=Math.max(helpMax,idx);
   $('helpClose').textContent=st?(idx<2?`다음 ▶ (${idx+1}/3)`:'출격!'):'계속 비행하기';
   document.querySelectorAll('#helpBody .tab').forEach(b=>{const ti=HORD.indexOf(b.dataset.t);if(st&&ti>helpMax){b.disabled=true;b.style.opacity=.45;b.style.cursor='not-allowed';}
@@ -1535,7 +1543,7 @@ function openHelp(tab){if(G.mode==='play'){G.mode='pause';engineSet(false);G.key
   if(typeof tab==='string')helpTab=tab;renderHelp();showScreen('help');$('help').scrollTop=0;}
 $('helpVideo').onclick=()=>{const tab=helpTab,from=helpFrom;showScreen(null);G.mode='play';playCine(G.mkey,()=>{helpFrom=from;openHelp(tab);});};
 $('helpHud').onclick=()=>openHelp();$('pHelp').onclick=()=>openHelp();
-$('helpClose').onclick=()=>{if(helpFrom==='start'){const idx=HORD.indexOf(helpTab);if(idx<2){helpTab=HORD[idx+1];renderHelp();$('help').scrollTop=0;return;}}
+$('helpClose').onclick=()=>{
   if(helpFrom==='pause')showScreen('pause');else{showScreen(null);G.mode='play';bgmDuck(false);}helpFrom='play';};
 const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
 function toggleFS(){const el=document.documentElement;
@@ -1622,13 +1630,14 @@ const BRIEF={
 <div class="a">아군</div><div>산꼭대기 <b style="color:#d4600f">주황색 천</b>은 우리 편이에요. 쏘면 안 돼요.</div></div>
 <p>적 진지 <mark>3곳</mark>을 부수면 성공이에요.</p><ul>${CTRL}</ul>`]};
 let bk='bridge',bp=0;
-function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
-  $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'출격':'다음';$('brief').scrollTop=0;}
-$('goSelect').onclick=()=>{audioInit();toSelect();};
+function renderBrief(){const P=BRIEF[bk].slice(0,2);$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
+  $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'미션 영상 보기':'다음';$('brief').scrollTop=0;}
+$('menuMusicBtn').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'){bgmEl.play().then(()=>$('menuMusicBtn').style.display='none').catch(()=>{});}else{bgmKey=null;bgm('menu');}};
+$('goSelect').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'&&bgmEl.paused)bgmEl.play().catch(()=>{});toSelect();};
 $('backTitle').onclick=()=>{G.mode='title';bgm('menu');showScreen('title');};
 document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{audioInit();bk=m.dataset.m;bp=0;renderBrief();G.mode='brief';showScreen('brief');});
 $('prevBtn').onclick=()=>{if(bp>0){bp--;renderBrief();}};
-$('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else{G.br2=false;startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=(bk==='bridge'||bk==='hill')?2:0;openHelp((bk==='bridge'||bk==='hill')?'ctrl':'brief');});}};
+$('nextBtn').onclick=()=>{if(bp<Math.min(2,BRIEF[bk].length)-1){bp++;renderBrief();}else{G.br2=false;startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=2;openHelp('ctrl');});}};
 
 function debrief(){G.mode='debrief';bgmDucked=false;bgm(G.result==='win'?'win':'fail');$('hud').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);const r=G.result,win=r==='win';if(win)markCleared(G.mkey);
   const head={temple:'문화유산 피해',win:'임무 성공',crash:'지면 충돌',shot:'기체 손상, 비상 탈출',ammo:'무장 소진, 귀환',lost:'방어선 후퇴'}[r];let html='';
@@ -1873,7 +1882,7 @@ function updCine(dt){const C=cine;if(!C)return;
 function endCine(){if(!cine)return;const C=cine;if(C.i>=0&&C.i<C.shots.length&&C.shots[C.i].exit)C.shots[C.i].exit(C);cineClear();C.hidden.forEach(m=>m.visible=true);
   $('cine').classList.remove('on');cine=null;G.mode='play';camSnap=true;$('hud').classList.add('on');if(touchUI)$('touch').classList.add('on');$('pauseBtn').style.display='block';$('fsHud').style.display='block';$('helpHud').style.display='block';
   if(C.then)C.then();}
-$('cineSkip').onclick=()=>{if(cine&&!cine.end){cine.i=cine.shots.length-1;cine.t=1e9;}};
+$('cineSkip').onclick=()=>{if(cine)endCine();};
 $('cineReplay').onclick=()=>{if(!cine)return;const then=cine.then,k=cine.key;cineClear();cine.hidden.forEach(m=>m.visible=true);cine=null;playCine(k,then);};
 $('cineGo').onclick=endCine;
 
@@ -1895,7 +1904,7 @@ function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
   else if(G.mode==='pause'){}
   else{attract(dt);updParts(dt);hx.clearRect(0,0,W,H);}
   R.render(scene,cam);}
-resize();buildWorld('bridge');$('loading').style.display='none';requestAnimationFrame(loop);
+resize();buildWorld('bridge');$('loading').style.display='none';bgm('menu');requestAnimationFrame(loop);
 window.__G=G;window.__PL=PL;window.__start=startMission;
 })();
 </script></body></html>
