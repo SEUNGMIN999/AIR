@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>6·25 하늘의 작전 — F-51 비행 시뮬레이션</title>
+<title>6·25 하늘의 작전 — 교육 체험 개선판</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Dodum&display=swap" rel="stylesheet">
@@ -116,6 +116,11 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #toast.on{opacity:1}
 #warn{position:absolute;left:50%;top:64%;transform:translateX(-50%);font-family:"Black Han Sans";font-size:22px;color:#ff9c8c;text-shadow:0 2px 6px #000;display:none}
 
+#studentHint{display:none;position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(14,30,40,.84);color:#fff;padding:9px 16px;border-radius:22px;font-size:15px;text-align:center;max-width:80vw;pointer-events:none;box-shadow:0 3px 12px #0005}
+#app.student-mode #studentHint{display:block}
+#app.student-mode #inst>div:nth-child(3),#app.student-mode #inst>div:nth-child(4){display:none}
+#app.student-mode #inst b{font-size:24px}
+@media(max-width:620px){#app.student-mode #studentHint{bottom:178px;max-width:58vw;font-size:12px;padding:7px 10px}}
 /* touch controls */
 #touch{position:absolute;inset:0;display:none;pointer-events:none}
 #touch.on{display:block}
@@ -281,6 +286,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     <div id="cards"><span id="aaLeft"></span><button class="card" id="cNavy"></button><button class="card" id="cArt"></button></div>
     <div class="panel" id="radio"><div class="rface" id="rFace"></div><div class="rtext"><div class="rname"><b id="rWho"></b><small id="rRole"></small></div><span id="rTxt"></span></div></div>
     <div id="toast"></div>
+    <div id="studentHint" aria-live="polite"></div>
     <div id="warn"></div>
     <div class="panel" id="mtask"><b id="mtT"></b><span id="mtS"></span><div class="mbar"><i id="mtB"></i></div></div>
   </div>
@@ -352,6 +358,7 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
   <section class="screen" id="pause">
     <div class="order"><h2>일시정지</h2><p class="date">조종 설정</p>
+      <div class="toggle"><span>초등학생 체험 모드 (추락 자동 구조·계기판 단순화)</span><button id="tStudent" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>쉬운 조종 (손을 떼면 날개 수평, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
@@ -713,7 +720,7 @@ function sfx(kind,dist){if(!AC||muted)return;try{const vol=dist?clamp(1-dist/300
 
 /* ---------- state ---------- */
 const PL={pos:V(0,0,0),q:new T.Quaternion(),v:115,thr:.75,hp:100,mesh:null,ord:0,gun:0,view:0};
-const G={mode:'title',mkey:null,t:0,at:0,keys:{},inp:{pitch:0,roll:0},gunHeld:false,assist:true,easy:true,saved:0,invert:true,cool:0,gunCool:0,gunSide:1,
+const G={student:true,rescues:0,checkpoint:null,mode:'title',mkey:null,t:0,at:0,keys:{},inp:{pitch:0,roll:0},gunHeld:false,assist:true,easy:true,saved:0,invert:true,cool:0,gunCool:0,gunSide:1,
   flash:0,shake:0,endT:0,result:null,flakT:0,warnT:0};
 let MI={};const projs=[],bullets=[],trPool=[];let wing=[],att=[];
 const bombMat=new T.MeshPhongMaterial({color:0x3f4637}),rocketMat=new T.MeshPhongMaterial({color:0x5a5f52});
@@ -784,9 +791,9 @@ const MDEF={
  temple:{start:[0,900,4300],load:'rockets',ord:6,obj:'해인사'},
  show:{start:[0,320,2700],load:'none',ord:0,obj:'에어쇼'},
  hill:{start:[200,800,-3000],load:'rockets',ord:6,obj:'351고지'}};
-function startMission(key){audioInit();bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
+function startMission(key){G.rescues=0;G.checkpoint=null;audioInit();bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
   PL.mesh=key==='show'?makeJet():makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
-  PL.v=118;PL.thr=.75;PL.hp=100;PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
+  PL.v=118;PL.thr=.75;PL.hp=100;G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:118};PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
   wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
   world.add(ring);world.add(beacon);ring.visible=false;
   Object.assign(G,{mode:'play',t:0,result:null,endT:0,cool:0,gunCool:0,flash:0,shake:0,flakT:2,inp:{pitch:0,roll:0}});
@@ -805,7 +812,7 @@ function startMission(key){audioInit();bgm(key);G.mkey=key;buildWorld(key);const
     radio('강릉 기지','첫 출격이다. 2,500피트 위에서 폭탄을 떨어뜨려라.');radio('2번기','2번기, 편대 위치 잡았습니다.');}
   else{toast('1953년 3월','동해안 전선, 351고지 상공으로',3000);
     radio('모스키토','여기는 모스키토. 351고지 상공에서 기다리고 있다.');radio('지상 통제반','대공포가 위험하면 지원 카드로 해군이나 포병을 불러라!',5);radio('지상 통제반','주황색 천이 아군 진지다. 그 근처는 절대 쏘지 마라!',5.5);}
-  updHUD();}
+  updHUD();document.getElementById('app').classList.toggle('student-mode',G.student);}
 function updStores(){const s=PL.mesh.userData.stores;if(G.mkey==='bridge')s.forEach((m,i)=>m.visible=i<Math.min(2,PL.ord));else s.forEach((m,i)=>m.visible=i<PL.ord);}
 
 /* ---------- input ---------- */
@@ -1285,13 +1292,15 @@ function updTemple(dt){const tp=V(WD.temple.x,WD.temple.y,WD.temple.z);
 function showDecide(){G.mode='pause';engineSet(false);G.keys={};$('touch').classList.remove('on');setTask(null);
   $('decBody').innerHTML=`<div class="stamp">판단</div><h2>연막이 가리킨 곳은 해인사</h2><p class="date">1951년, 가야산 상공</p>
   <p>정찰기가 <b>해인사 마당</b>에 흰 연막을 쏘아 폭격 지점을 표시했어요. 해인사에는 고려 사람들이 16년 동안 새긴 <mark>팔만대장경</mark>이 있어요.</p>
+  <p><b>판단하기 전, 가장 중요하게 생각할 점을 골라 보세요.</b></p>
+  <select id="decReason" style="width:100%;padding:12px;font:inherit;background:#fff;color:#222;border:1px solid #b9b09a;border-radius:6px"><option value="heritage">되돌릴 수 없는 문화유산의 피해</option><option value="orders">작전 명령을 따르는 책임</option><option value="others">다른 공격 방법을 찾을 가능성</option></select>
   <p><b>편대장이라면 어떻게 할까요?</b></p>
   <button class="opt" id="decBomb">💣 명령대로 연막 지점(해인사)을 폭격한다</button>
   <button class="opt" id="decSave">🛡️ 해인사는 공격하지 않고, 뒤쪽 능선의 적만 공격한다</button>
   <div class="fb" id="decFb"></div>`;
   showScreen('decide');$('decide').scrollTop=0;
-  $('decBomb').onclick=()=>{MI.choiceBomb++;$('decBomb').classList.add('no');$('decFb').innerHTML=`잠깐! 실제 편대장 <b>김영환 대령</b>은 다르게 판단했어요. 그는 "공격하지 말라"고 거듭 말하고, 해인사 뒤쪽 능선에만 폭탄과 로켓을 떨어뜨렸어요. 팔만대장경은 다시는 만들 수 없는 보물이었으니까요. 다시 골라 볼까요?`;};
-  $('decSave').onclick=()=>{$('decSave').classList.add('ok');$('decFb').innerHTML='김영환 대령도 바로 이렇게 판단했어요. 이제 해인사를 지키며 능선의 적만 정확히 노려요!';
+  $('decBomb').onclick=()=>{MI.choiceBomb++;try{localStorage.setItem('f51-reason-temple',$('decReason').value);}catch(e){}$('decBomb').classList.add('no');$('decFb').innerHTML=`잠깐! 실제 편대장 <b>김영환 대령</b>은 다르게 판단했어요. 그는 "공격하지 말라"고 거듭 말하고, 해인사 뒤쪽 능선에만 폭탄과 로켓을 떨어뜨렸어요. 팔만대장경은 다시는 만들 수 없는 보물이었으니까요. 다시 골라 볼까요?`;};
+  $('decSave').onclick=()=>{try{localStorage.setItem('f51-reason-temple',$('decReason').value);}catch(e){}$('decSave').classList.add('ok');$('decFb').innerHTML='김영환 대령도 바로 이렇게 판단했어요. 이제 해인사를 지키며 능선의 적만 정확히 노려요!';
     setTimeout(startTempleAttack,1400);};}
 function startTempleAttack(){showScreen(null);MI.phase='attack';MI.cur=0;G.mode='play';if(touchUI)$('touch').classList.add('on');
   radio('김영환 편대장','공격하지 마라! 해인사는 절대 쏘지 않는다. 뒤쪽 능선의 적만 노린다.',5);toast('해인사를 지켜요','능선의 적 은신처 3곳만 공격해요',2600);}
@@ -1396,7 +1405,21 @@ function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
   G.ringGo=go;ring.material.color.set(go?0x5cff7a:0xffc04a);}
 
 /* ---------- end / screens ---------- */
-function endMission(r){if(G.mode!=='play')return;G.mode='ending';G.result=r;G.endT=r==='win'?3.5:3.2;G.endAt=performance.now();G.gunHeld=false;
+function studentCheckpoint(dt){
+  if(!G.student||G.mode!=='play'||!PL.mesh)return;
+  G.saved=(G.saved||0)+dt;
+  if(G.saved>1.3){G.saved=0;const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);
+    if(agl>260&&PL.hp>40&&PL.v>85)G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:PL.v};}
+  const hint=$('studentHint');if(hint){const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);
+    hint.textContent=agl<170?'⚠️ 땅이 가까워요! 기수를 올리세요':G.mkey==='show'?'🟡 다음 고리를 따라가세요':G.mkey==='bridge'?'🎯 철교를 향해 이동하고 조준하세요':G.mkey==='temple'?'🛡️ 해인사는 지키고 적 은신처를 찾으세요':'📻 무전을 듣고 흰 연기를 찾으세요';}
+}
+function endMission(r){if(G.mode!=='play')return;
+  if(G.student&&(r==='crash'||r==='shot')&&G.rescues<2&&G.checkpoint){
+    const cp=G.checkpoint;G.rescues++;PL.pos.copy(cp.pos);PL.pos.y=Math.max(cp.pos.y,groundY(cp.pos.x,cp.pos.z)+180);
+    PL.q.copy(cp.q);PL.v=Math.max(125,cp.v);PL.thr=.8;PL.hp=75;G.inp={pitch:0,roll:0};G.keys={};G.gunHeld=false;G.flash=0;G.shake=0;
+    toast('안전 고도에서 다시 도전!',`자동 구조 ${G.rescues}/2회 · 진행 중인 작전은 유지됩니다`,2800);updHUD();return;
+  }
+  G.mode='ending';G.result=r;G.endT=r==='win'?3.5:3.2;G.endAt=performance.now();G.gunHeld=false;
   const m={temple:['문화유산 피해','해인사 근처에 로켓이 떨어졌어요'],crash:['지면 충돌','기체를 잃었어요'],shot:['기체 손상','더 날 수 없어 비상 탈출했어요'],ammo:['무장 소진','철교를 끊지 못하고 귀환해요'],lost:['방어선 후퇴','고지 방어선이 밀렸어요'],win:G.mkey==='show'?['에어쇼 완료','관중석에서 박수가 쏟아져요']:['임무 완료','기지로 귀환해요']}[r];
   toast(m[0],m[1],3000);$('touch').classList.remove('on');$('mtask').classList.remove('on');$('cards').classList.remove('on');engineSet(r==='win');}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id));}
@@ -1527,6 +1550,7 @@ $('pResume').onclick=()=>{showScreen(null);G.mode='play';bgmDuck(false);};
 $('pRestart').onclick=()=>startMission(G.mkey);
 $('pQuit').onclick=toSelect;
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
+tgl('tStudent',()=>G.student,v=>{G.student=v;if(v){G.easy=true;G.assist=true;syncEZ();$('tEasy').setAttribute('aria-pressed','true');$('tEasy').textContent='켜짐';}document.getElementById('app').classList.toggle('student-mode',v);});
 tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);const bgmNow=()=>(G.mode==='play'||G.mode==='pause')?G.mkey:'menu';
 tgl('tSound',()=>!muted,v=>{muted=!v;bgm(null);if(!muted)bgm(bgmNow());});tgl('tMusic',()=>bgmOn,v=>{bgmOn=v;bgm(null);if(v)bgm(bgmNow());});
 
@@ -1598,13 +1622,13 @@ const BRIEF={
 <div class="a">아군</div><div>산꼭대기 <b style="color:#d4600f">주황색 천</b>은 우리 편이에요. 쏘면 안 돼요.</div></div>
 <p>적 진지 <mark>3곳</mark>을 부수면 성공이에요.</p><ul>${CTRL}</ul>`]};
 let bk='bridge',bp=0;
-function renderBrief(){const P=BRIEF[bk].slice(0,2);$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
+function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
   $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'출격':'다음';$('brief').scrollTop=0;}
 $('goSelect').onclick=()=>{audioInit();toSelect();};
 $('backTitle').onclick=()=>{G.mode='title';showScreen('title');};
 document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{audioInit();bk=m.dataset.m;bp=0;renderBrief();G.mode='brief';showScreen('brief');});
 $('prevBtn').onclick=()=>{if(bp>0){bp--;renderBrief();}};
-$('nextBtn').onclick=()=>{if(bp<1){bp++;renderBrief();}else{G.br2=false;startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=0;openHelp('brief');});}};
+$('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else{G.br2=false;startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=(bk==='bridge'||bk==='hill')?2:0;openHelp((bk==='bridge'||bk==='hill')?'ctrl':'brief');});}};
 
 function debrief(){G.mode='debrief';bgm(G.result==='win'?'win':'menu');$('hud').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);const r=G.result,win=r==='win';if(win)markCleared(G.mkey);
   const head={temple:'문화유산 피해',win:'임무 성공',crash:'지면 충돌',shot:'기체 손상, 비상 탈출',ammo:'무장 소진, 귀환',lost:'방어선 후퇴'}[r];let html='';
@@ -1641,7 +1665,7 @@ function debrief(){G.mode='debrief';bgm(G.result==='win'?'win':'menu');$('hud').
     ${win?'<div class="tip">📝 확인 문제까지 모두 풀면 이 작전이 <b>수료</b>돼요. 네 작전을 모두 수료하면 명예 공군증을 받아요!</div>':''}
     <div class="row"><button class="btn ghost" id="againBtn">다시 출격</button><button class="btn" id="quizBtn">확인 문제 풀기</button></div>`;
   $('debriefBody').innerHTML=html;showScreen('debrief');$('debrief').scrollTop=0;
-  $('againBtn').onclick=()=>startMission(G.mkey);$('quizBtn').onclick=()=>{qi=0;score=0;renderQuiz();showScreen('quiz');};}
+  $('againBtn').onclick=()=>startMission(G.mkey);$('quizBtn').onclick=()=>{qi=0;score=0;quizWrong=[];renderQuiz();showScreen('quiz');};}
 
 const QZ={bridge:[
  {q:'승호리 철교가 중요한 목표였던 까닭은 무엇일까요?',o:['평양 시민이 출퇴근하던 다리라서','북한군이 전선으로 군수물자를 나르던 길목이라서','공군 기지와 가장 가까워서'],a:1,e:'북한군은 이 철교로 중동부전선까지 보급품을 실어 날랐어요. 다리를 끊으면 전선의 보급이 막혀요.'},
@@ -1663,18 +1687,19 @@ const QZ={bridge:[
  {q:'작은 비행기 모스키토는 적이 있는 곳을 어떻게 알려 주었나요?',o:['큰 소리로 외쳐서','흰 연기를 쏘아서','깃발을 흔들어서'],a:1,e:'모스키토가 흰 연기를 쏘면, 전투기 조종사들은 그 연기를 보고 공격할 곳을 찾았어요.'},
  {q:'조종사가 공격하기 전에 꼭 확인해야 했던 것은?',o:['구름의 모양','비행기의 색깔','우리 편이 있는 곳'],a:2,e:'우리 편과 적이 아주 가까이 있었어요. 그래서 주황색 천 같은 표시로 우리 편 위치를 꼭 확인했어요.'},
  {q:'생각해 보기: 공군, 해군, 육군이 함께한 이 작전에서 배울 점은?',o:['서로 믿고 역할을 나누는 협력','정확하게 알려 주는 소통','혼자보다 함께하는 힘'],a:-1,e:'정답이 없는 질문이에요. 우리 반에서 협력이 필요했던 경험과도 이어서 이야기해 보세요.'}]};
-let qi=0,score=0;
+let qi=0,score=0,quizWrong=[];
 function renderQuiz(){const Q=QZ[G.mkey],it=Q[qi];
   $('quizBody').innerHTML=`<h2>확인 문제 ${qi+1} / ${Q.length}</h2><p class="date">${it.a<0?'정답 없는 질문':'알맞은 답을 고르세요'}</p><p>${it.q}</p>
    <div>${it.o.map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>
    <div class="row"><span></span><button class="btn" id="qNext" style="visibility:hidden">${qi===Q.length-1?'마치기':'다음 문제'}</button></div>`;
   document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if($('qNext').style.visibility==='visible')return;const i=+b.dataset.i;
-    if(it.a<0)b.classList.add('ok');else if(i===it.a){b.classList.add('ok');score++;}else{b.classList.add('no');document.querySelector(`.opt[data-i="${it.a}"]`).classList.add('ok');}
+    if(it.a<0)b.classList.add('ok');else if(i===it.a){b.classList.add('ok');score++;}else{b.classList.add('no');quizWrong.push(qi);document.querySelector(`.opt[data-i="${it.a}"]`).classList.add('ok');}
     $('fb').textContent=it.e;$('qNext').style.visibility='visible';});
-  $('qNext').onclick=()=>{if(qi<Q.length-1){qi++;renderQuiz();}else{markQuiz(G.mkey);const won=!!cleared()[G.mkey];$('quizBody').innerHTML=`<div class="stamp">완료</div><h2>작전 기록 완료</h2><p class="date">확인 문제 ${score} / 3 정답</p>
-    ${allCleared()?'<div class="tip" style="background:#f3e8c4;border:3px solid #c9a227"><b>🎖 네 작전과 확인 문제를 모두 마쳤어요!</b><br>이제 명예 공군증을 받을 수 있어요.</div>':won?`<div class="tip">✅ 이 작전을 수료했어요. 작전 수료 <b>${doneCount()} / 3</b></div>`:'<div class="tip warn">이 작전은 아직 성공하지 못했어요. 작전을 성공하면 수료돼요.</div>'}
+  $('qNext').onclick=()=>{if(qi<Q.length-1){qi++;renderQuiz();}else{if(quizWrong.length){const wrong=[...new Set(quizWrong)];quizWrong=[];qi=wrong[0];$('quizBody').innerHTML=`<h2>한 번 더 생각해 봐요</h2><p>틀린 문제를 다시 풀고 배운 내용을 확인해요.</p><button class="btn" id="reviewQuiz">다시 풀기</button>`;$('reviewQuiz').onclick=()=>{qi=0;score=0;quizWrong=[];renderQuiz();};return;}markQuiz(G.mkey);const won=!!cleared()[G.mkey];$('quizBody').innerHTML=`<div class="stamp">완료</div><h2>작전 기록 완료</h2><p class="date">확인 문제 ${score} / ${Q.filter(x=>x.a>=0).length} 정답</p>
+    ${allCleared()?'<div class="tip" style="background:#f3e8c4;border:3px solid #c9a227"><b>🎖 네 작전과 확인 문제를 모두 마쳤어요!</b><br>이제 명예 공군증을 받을 수 있어요.</div>':won?`<div class="tip">✅ 이 작전을 수료했어요. 작전 수료 <b>${doneCount()} / ${MKEYS.length}</b></div>`:'<div class="tip warn">이 작전은 아직 성공하지 못했어요. 작전을 성공하면 수료돼요.</div>'}
     <p>${G.mkey==='temple'?'김영환 대령의 판단 덕분에 팔만대장경은 지금도 해인사 장경판전에 그대로 남아 있어요.':G.mkey==='show'?'블랙이글스의 시작은 1953년 F-51 무스탕 4대였어요. 전쟁의 하늘이 평화의 하늘로 이어진 셈이에요.':G.mkey==='bridge'?'승호리 철교 차단작전은 한국 공군이 스스로의 힘으로 큰 작전을 해낸 사례로 기억돼요.':'351고지 작전은 하늘과 땅, 여러 나라가 함께 고지를 지켜 낸 합동작전으로 기억돼요.'}</p>
-    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><div style="display:flex;gap:10px;flex-wrap:wrap">${allCleared()?'<button class="btn" id="certBtn3">🎖 명예 공군증 받기</button>':''}<button class="btn" id="toSel">다른 작전 고르기</button></div></div>`;if($('certBtn3'))$('certBtn3').onclick=openCert;
+    <div class="hcard2"><b>✏️ 나의 작전 기록</b><p>${{temple:'그 상황에서 내가 가장 중요하게 생각한 가치는?',bridge:'실패한 뒤 어떤 방법을 바꾸어야 한다고 생각하나요?',hill:'아군과 협력할 때 중요한 점은?',show:'함께 비행하기 위해 필요한 태도는?'}[G.mkey]}</p><textarea id="reflectText" aria-label="작전 소감" placeholder="한 문장으로 써 보세요" style="width:100%;min-height:65px;padding:9px;margin-top:8px;border:1px solid #b9b09a;border-radius:6px;font:inherit"></textarea><button class="btn" style="margin-top:8px;font-size:15px" id="reflectSave">내 생각 저장</button><p class="note" id="reflectStatus">이 기기의 브라우저에만 저장됩니다.</p></div>
+    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><div style="display:flex;gap:10px;flex-wrap:wrap">${allCleared()?'<button class="btn" id="certBtn3">🎖 명예 공군증 받기</button>':''}<button class="btn" id="toSel">다른 작전 고르기</button></div></div>`;if($('reflectText')){try{$('reflectText').value=localStorage.getItem('f51-reflect-'+G.mkey)||'';}catch(e){}$('reflectSave').onclick=()=>{try{localStorage.setItem('f51-reflect-'+G.mkey,$('reflectText').value.slice(0,500));$('reflectStatus').textContent='저장했어요!';}catch(e){$('reflectStatus').textContent='이 브라우저에서는 저장할 수 없어요.';}};}if($('certBtn3'))$('certBtn3').onclick=openCert;
     $('again2').onclick=()=>startMission(G.mkey);$('toSel').onclick=toSelect;}};}
 
 
@@ -1859,7 +1884,7 @@ function winCruise(dt){EZ.pit=Math.min(EZ.pit+dt*.35,.3);EZ.bank*=Math.exp(-dt*2
 function loop(now){requestAnimationFrame(loop);try{frame(now);}catch(e){console.error(e);if(!loop.err){loop.err=1;toast('잠깐 문제가 생겼어요',String(e&&e.message||e).slice(0,70),6000);}
   if(G.mode==='ending'||G.mode==='play'){G.mode='ending';G.result=G.result||'ammo';debrief();}}}
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
-  if(G.mode==='play'||G.mode==='ending'){G.t+=dt;
+  if(G.mode==='play'||G.mode==='ending'){G.t+=dt;if(G.mode==='play')studentCheckpoint(dt);
     if(G.mode==='play'){flight(dt);}
     if(G.mode==='ending'&&G.result==='win'&&G.mkey!=='show'){if(!G.easy)syncEZ();winCruise(dt);}
     if(G.mode!=='pause'){updWing(dt);updMission(dt);updGuns(dt);updProjs(dt);updParts(dt);updRadio(dt);G.cool-=dt;
