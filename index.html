@@ -482,7 +482,7 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
     <div class="wrap">
       <h1><small>6·25 전쟁 대한민국 공군</small>하늘의 작전</h1>
       <p>F-51 무스탕 조종석에 앉아 6·25 전쟁 때 한국 공군이 해낸 작전을 직접 날아 봐요. 해인사를 지킨 판단, 끊기지 않던 철교, 351고지의 하늘, 그리고 블랙이글스 에어쇼까지.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSchool">✈ 비행학교</button><button class="btn" id="goSelect">🗺️ 작전상황실</button><button class="btn ghost" id="menuMusicBtn" style="display:none">♫ 음악 켜기</button><button class="btn" id="startImmersive">가로 전체화면 시작</button><button class="btn ghost fsBtn">전체화면</button></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSchool">비행학교</button><button class="btn" id="goSelect">🗺️ 작전상황실</button><button class="btn ghost" id="menuMusicBtn" style="display:none">♫ 음악 켜기</button><button class="btn" id="startImmersive">가로 전체화면 시작</button><button class="btn ghost fsBtn">전체화면</button></div>
     </div>
   </section>
 
@@ -540,14 +540,14 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
     <p class="note">저장 버튼이 안 되면 그림을 길게 누르거나 마우스 오른쪽 버튼으로 저장해요.</p>
     <div class="row"><button class="btn ghost" id="certBack">작전 고르기</button><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="certPrint">인쇄</button><a class="btn" id="certDl" href="#" download style="text-decoration:none">그림으로 저장</a></div></div></div></section>
   <section class="screen" id="training"><div class="academy-hud">
-    <div class="academy-head"><small style="color:#f7c96c">대한민국 공군 · 교육용 가상 비행학교</small><h2>🛩 하늘의 비행학교</h2>
+    <div class="academy-head"><small style="color:#f7c96c">대한민국 공군 · 교육용 가상 비행학교</small><h2>하늘의 비행학교</h2>
       <img class="school-art" src="images/flight_school.webp" alt="비행학교 훈련 준비 일러스트"><div id="schoolCoach" aria-live="polite"><b>비행 교관</b> · 환영합니다. 조종간을 움직여 금빛 관문을 통과하세요.</div><p id="schoolProgress">기초 조종 훈련</p><div id="flightPhase" aria-live="polite">1단계 · 조종 적응</div><p id="schoolTarget">좌우 선회와 상승·하강을 연습하세요.</p><p style="color:#c7d8e2" id="schoolTelemetry">추력 0% · 속도 0 · 고도 0m</p>
     </div><div class="academy-cross"></div><div id="schoolNotice"></div>
     <div class="academy-controls"><div class="academy-pad"><button data-school="up" aria-label="상승">↑</button><button data-school="left" aria-label="좌회전">←</button><button data-school="down" aria-label="하강">↓</button><button data-school="right" aria-label="우회전">→</button></div>
     <div class="academy-actions"><button class="school-btn" data-school="throttle" aria-label="추력 올리기">추력 ▲</button><button class="school-btn" data-school="brake" aria-label="추력 줄이기">추력 ▼</button><button class="school-btn" id="schoolGun">기관총</button><button class="school-btn" id="schoolRocket">로켓</button><button class="school-btn" id="schoolFinish">훈련 수료 · 임관식 ▶</button><button class="school-btn" id="schoolSkip">훈련 다시 시작</button></div></div>
   </div></section>
   <section class="screen" id="commission"><div class="order"><div class="stamp">임관</div><p class="date">대한민국 공군 역사 체험 · 가상 임관식</p>
-     <div id="ceremonyStatus">훈련을 마친 조종사의 임관을 축하합니다</div><img class="commission-art" src="images/commissioning_ceremony.webp" alt="비행학교 수료와 소위 임관식 일러스트"><h2>비행학교 수료!</h2><p style="font-size:35px">🎖️ ✦ 🛩️ ✦ 🎖️</p><div class="rank">★ 소위 ★</div><p>이륙, 고도 유지, 관문 통과, 모의 표적 사격 및 착륙 훈련을 마쳤습니다.<br>이제 교육용 가상 조종사 <b>소위</b>로 임관하여 역사 속 작전에 출격합니다.</p>
+     <div id="ceremonyStatus">훈련을 마친 조종사의 임관을 축하합니다</div><img class="commission-art" src="images/commissioning_ceremony.webp" alt="비행학교 수료와 소위 임관식 일러스트"><h2>비행학교 수료!</h2><div class="rank">★ 소위 ★</div><p>이륙 · 기초 비행 · 관문 통과 · 기총 사격 · 로켓 사격 · 착륙 훈련 수료<br>이제 교육용 가상 조종사 <b>소위</b>로 임관하여 역사 속 작전에 출격합니다.</p>
      <p class="note">역사 체험을 위한 가상 계급이며 실제 군 임관과는 관계없습니다.</p>
      <div class="row" style="justify-content:center"><button class="btn ghost" id="schoolRetry">다시 훈련</button><button class="btn" id="commissionGo">작전상황실 입장 ▶</button></div>
   </div></section>
@@ -707,13 +707,13 @@ function buildWorld(key){
   clearParts();bullets.length=0;projs.length=0;
   world=new T.Group();scene.add(world);
   const winter=key==='bridge';
-  WD={key,winter,hf:winter?hBridge:key==='show'?hShow:key==='temple'?hTemple:hHill,water:winter?24:(key==='show'||key==='temple')?-60:0};
+  WD={key,winter,hf:winter?hBridge:(key==='show'||key==='school')?hShow:key==='temple'?hTemple:hHill,water:winter?24:(key==='show'||key==='temple'||key==='school')?-60:0};
   skyMat.uniforms.top.value.set(winter?0x4a79a8:0x7d97ab);skyMat.uniforms.bot.value.set(winter?0xd6e1e9:0xd5d8d2);
   scene.fog=new T.Fog(winter?0xd6e1e9:0xd5d8d2,1600,winter?11500:8500);
   hemi.color.set(winter?0xd8e6f2:0xd9dccf);hemi.groundColor.set(winter?0x7b7a74:0x5e5444);sun.intensity=winter?.95:.85;
   if(key==='temple'){skyMat.uniforms.top.value.set(0x6f8a99);skyMat.uniforms.bot.value.set(0xe9d6b5);scene.fog=new T.Fog(0xd4e0e2,1800,10000);sun.intensity=1;hemi.color.set(0xdfe8e0);}
   if(key==='hill'){skyMat.uniforms.top.value.set(0x61758b);skyMat.uniforms.bot.value.set(0xb9bac0);scene.fog=new T.Fog(0xb9bac0,1150,7400);sun.intensity=.68;}
-  if(key==='show'){skyMat.uniforms.top.value.set(0x3a76b8);skyMat.uniforms.bot.value.set(0xd8e5ee);scene.fog=new T.Fog(0xd8e5ee,2600,14000);sun.intensity=1;}
+  if(key==='show'||key==='school'){skyMat.uniforms.top.value.set(0x3a76b8);skyMat.uniforms.bot.value.set(0xd8e5ee);scene.fog=new T.Fog(0xd8e5ee,2600,14000);sun.intensity=1;}
   const size=19000,seg=240,geo=new T.PlaneGeometry(size,size,seg,seg);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position;for(let i=0;i<pos.count;i++)pos.setY(i,WD.hf(pos.getX(i),pos.getZ(i)));
   geo.computeVertexNormals();const nr=geo.attributes.normal,cols=new Float32Array(pos.count*3),tc=new T.Color();
@@ -729,7 +729,7 @@ function buildWorld(key){
   const tmesh=new T.InstancedMesh(tg,new T.MeshLambertMaterial({color:winter?0x4d6455:0x34493a}),N),dm=new T.Object3D();let c=0,tries=0;
   while(c<N&&tries<N*10){tries++;const x=rnd(-7500,7500),z=rnd(-7500,7800);if(fbm(x/700,z/700,3)<.52)continue;
     const y=WD.hf(x,z);if(y<WD.water+8)continue;const sl=(Math.abs(WD.hf(x+8,z)-y)+Math.abs(WD.hf(x,z+8)-y))/8;if(sl>.9)continue;
-    if(winter){if(Math.abs(x)<90&&Math.abs(z)<1400)continue;}else if(key==='temple'){if(Math.hypot(x,z+30)<230||(Math.abs(x)<140&&z>200&&z<1200))continue;}else if(key==='show'){if(Math.abs(x-60)<450&&Math.abs(z)<1850)continue;}else{if(Math.hypot(x,z)<560||x>coastX(z)-750)continue;}
+    if(winter){if(Math.abs(x)<90&&Math.abs(z)<1400)continue;}else if(key==='temple'){if(Math.hypot(x,z+30)<230||(Math.abs(x)<140&&z>200&&z<1200))continue;}else if(key==='show'||key==='school'){if(Math.abs(x-60)<450&&z>-3300&&z<1850)continue;}else{if(Math.hypot(x,z)<560||x>coastX(z)-750)continue;}
     dm.position.set(x,y-1,z);const s=rnd(.7,1.5);dm.scale.set(s,s*rnd(.9,1.3),s);dm.rotation.y=rnd(0,6);dm.updateMatrix();tmesh.setMatrixAt(c++,dm.matrix);}
   tmesh.count=c;world.add(tmesh);
   // clouds
@@ -738,7 +738,7 @@ function buildWorld(key){
   // villages
   const villages=winter?[[-900,600],[1300,-700],[-1600,-900],[700,1500],[2100,500]]:key==='show'?[[-1400,1600],[900,2300],[-2200,-600],[1700,1200]]:key==='temple'?[[-700,1500],[650,2300],[-1500,600]]:[[-1400,1600],[900,2300],[-2200,-600],[1700,1200]];
   villages.forEach(([vx,vz])=>world.add(makeVillage(vx,vz,WD.hf,winter,11)));
-  if(winter)buildBridgeObjs();else if(key==='show')buildShowObjs();else if(key==='temple')buildTempleObjs();else buildHillObjs();
+  if(winter)buildBridgeObjs();else if(key==='school')buildSchoolObjs();else if(key==='show')buildShowObjs();else if(key==='temple')buildTempleObjs();else buildHillObjs();
 }
 
 
@@ -971,6 +971,7 @@ function toast(t,s,ms){const el=$('toast');el.innerHTML=t+(s?`<small>${s}</small
 
 /* ---------- mission start ---------- */
 const MDEF={
+ school:{start:[0,73.95,1150],load:'rockets',ord:4,obj:'비행학교'},
  bridge:{start:[0,1350,3000],load:'bombs',ord:2,obj:'승호리 철교'},
  temple:{start:[0,900,4300],load:'rockets',ord:6,obj:'해인사'},
  show:{start:[0,320,2700],load:'none',ord:0,obj:'에어쇼'},
@@ -982,13 +983,14 @@ function startMission(key){stopVoice();G.rescues=0;G.checkpoint=null;hintLevel=0
   world.add(ring);world.add(beacon);ring.visible=false;
   Object.assign(G,{mode:'play',t:0,result:null,endT:0,cool:0,gunCool:0,flash:0,shake:0,flakT:2,inp:{pitch:0,roll:0}});
   radioQ.length=0;radioT=0;$('radio').classList.remove('on');$('mtask').classList.remove('on');
-  MI=key==='temple'?{phase:'approach',killed:0,warn:0,wT:-9,cur:-1,said:{},won:false,winT:0,court:false,smT:0,shot:null,decT:0,choiceBomb:0,hitTemple:false}:key==='show'?{ring:0,passed:0,missed:0,stars:0,cheer:0,smoke:true,finale:false,finT:0,trT:0,pre:0,lastD:null,won:false,winT:0,said:{},roll:null,loop:null,solo:null,exStage:-1,exTime:0,exScore:0,exCenter:null,tricks:{roll:false,loop:false,cross:false,diamond:false,afterburner:false,scissors:false,helix:false,heart:false,flower:false}}:key==='bridge'?{act:1,hits:0,rel:[],rel1:[],said:{},won:false,winT:0,actT:0,dived:false,flakTime:0,zoneT:0}
+  MI=key==='school'?{phase:0,ground:true,landing:false,doneT:0,band:0,turned:0,lastH:null,rings:[],ri:0,lastD:null,said:{},won:false,winT:0,cur:-1,killed:0}:key==='temple'?{phase:'approach',killed:0,warn:0,wT:-9,cur:-1,said:{},won:false,winT:0,court:false,smT:0,shot:null,decT:0,choiceBomb:0,hitTemple:false}:key==='show'?{ring:0,passed:0,missed:0,stars:0,cheer:0,smoke:true,finale:false,finT:0,trT:0,pre:0,lastD:null,won:false,winT:0,said:{},roll:null,loop:null,solo:null,exStage:-1,exTime:0,exScore:0,exCenter:null,tricks:{roll:false,loop:false,cross:false,diamond:false,afterburner:false,scissors:false,helix:false,heart:false,flower:false}}:key==='bridge'?{act:1,hits:0,rel:[],rel1:[],said:{},won:false,winT:0,actT:0,dived:false,flakTime:0,zoneT:0}
     :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:4,said:{},navy:[],bar:null,won:false,winT:0,started:false,search:null,markN:0,found:0,calls:0,cd:{navy:0,art:0},art:null};
   camSnap=true;showScreen(null);$('hud').classList.add('on');$('hintBtn').style.display=G.student?'block':'none';$('pauseBtn').style.display='block';$('fsHud').style.display='block';$('helpHud').style.display='block';
   if(touchUI)$('touch').classList.add('on');
-  $('bA').textContent=key==='bridge'?'투하':key==='show'?'연기':'로켓';$('bG').style.display=(key==='hill'||key==='temple')?'':'none';
+  $('bA').textContent=key==='bridge'?'투하':key==='show'?'연기':'로켓';$('bG').style.display=(key==='hill'||key==='temple'||key==='school')?'':'none';
   $('defbar').style.display=key==='hill'?'block':'none';$('cards').classList.toggle('on',key==='hill');
-  if(key==='temple'){toast('1951년 여름 · 가야산','F-51 편대가 지리산·가야산 일대로 출격해요',3200);radio('통제반','해인사가 있는 가야산 일대에 적이 숨어 있다는 보고다.');radio('2번기','2번기, 편대 위치 잡았습니다.');}
+  if(key==='school'){schoolInit();}
+  else if(key==='temple'){toast('1951년 여름 · 가야산','F-51 편대가 지리산·가야산 일대로 출격해요',3200);radio('통제반','해인사가 있는 가야산 일대에 적이 숨어 있다는 보고다.');radio('2번기','2번기, 편대 위치 잡았습니다.');}
   else if(key==='show'){MI.trails=[PL.mesh,...wing].map(o=>({o,tr:makeTrail(0xffffff)}));updRingColors();PL.thr=.8;
     toast('블랙이글스 에어쇼','고리를 지나고 기술을 펼쳐 관중을 놀라게 해요',3000);radio('관제탑','블랙이글스, 쇼를 시작한다. 고리와 기술 문을 차례로 통과하라.');radio('2번기','편대 위치 좋습니다. 연기 켭니다!');}
   else if(key==='bridge'&&G.br2){setTimeout(()=>startAct2(true),0);}
@@ -1032,6 +1034,7 @@ function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,
   if(k.KeyE||k.Equal||k.NumpadAdd||k.ShiftLeft)PL.thr=Math.min(1,PL.thr+.45*dt);if(k.KeyQ||k.Minus||k.NumpadSubtract)PL.thr=Math.max(.2,PL.thr-.45*dt);
   G.inp.pitch=lerp(G.inp.pitch,p,1-Math.exp(-dt*8));G.inp.roll=lerp(G.inp.roll,r,1-Math.exp(-dt*8));
   if(G.mkey==='show'&&MI.loop){loopFly(dt);return;}
+  if(G.mkey==='school'&&MI.ground){schoolGround(dt);return;}
   if(G.easy){easyFly(dt);}else{
   const auth=clamp((PL.v-40)/70,.3,1.15);
   qT.setFromAxisAngle(AX,G.inp.pitch*1.05*auth*dt);PL.q.multiply(qT);
@@ -1053,7 +1056,7 @@ function easyFly(dt){const tb=G.inp.roll*.85;
   EZ.pit=clamp(EZ.pit+G.inp.pitch*.8*dt,-1.15,.75);EZ.bank+=(G.mkey==='show'&&MI.roll)?G.inp.roll*3.2*dt:clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
   eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
   PL.v=lerp(PL.v,clamp(100+PL.thr*28-EZ.pit*70,70,200),1-Math.exp(-dt*.9));PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);}
-function crash(){if(G.mode!=='play')return;explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
+function crash(){if(G.mode!=='play')return;if(G.mkey==='school'&&schoolTouch())return;explosion(PL.pos.clone(),2.2,true);sfx('boom');PL.mesh.visible=false;endMission('crash');}
 
 function spinProps(dt,list){list.forEach(m=>{if(!m)return;m.userData.prop.rotation.z+=dt*55;});}
 function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.normalize();yaw.setFromUnitVectors(V(0,0,-1),f);
@@ -1065,7 +1068,7 @@ function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.no
     m.position.lerp(tgt,1-Math.exp(-dt*(G.mkey==='show'?4:1.6)));m.quaternion.slerp(PL.q,1-Math.exp(-dt*(G.mkey==='show'?5:2.5)));});}
 
 /* ---------- weapons ---------- */
-function fireMain(){if(G.mkey==='show'){if(G.mode==='play'&&!MI.finale){MI.smoke=!MI.smoke;toast(MI.smoke?'연기 켜짐':'연기 꺼짐','',900);updHUD();}return;}if(G.mode!=='play'||G.cool>0||PL.ord<=0)return;G.cool=G.mkey==='bridge'?.7:.35;PL.ord--;updStores();
+function fireMain(){if(G.mkey==='school'&&MI.phase!==4){if(G.mode==='play')toast('로켓은 5단계에서','',1000);return;}if(G.mkey==='show'){if(G.mode==='play'&&!MI.finale){MI.smoke=!MI.smoke;toast(MI.smoke?'연기 켜짐':'연기 꺼짐','',900);updHUD();}return;}if(G.mode!=='play'||G.cool>0||PL.ord<=0)return;G.cool=G.mkey==='bridge'?.7:.35;PL.ord--;updStores();
   const fwd=fwdOf(PL.q);
   if(G.mkey==='bridge'){const p=PL.pos.clone().add(V(0,-1.3,0).applyQuaternion(PL.q)),v=fwd.clone().multiplyScalar(PL.v),pr=predict(p,v,1);
     if(MI.act===1){if(!pr||(p.y-pr.p.y)*FT<2500){PL.ord++;updStores();G.cool=.3;toast('1월 12일엔 높은 곳에서 폭격했어요','2,500ft 위로 올라가서 투하해요',2000);return;}
@@ -1081,7 +1084,7 @@ function fireMain(){if(G.mkey==='show'){if(G.mode==='play'&&!MI.finale){MI.smoke
 function shoot(from,dir,speed,enemy){const m=trPool.pop()||new T.Mesh(tracerGeo,trP);m.material=enemy?trE:trP;m.visible=true;world.add(m);
   bullets.push({m,pos:from.clone(),vel:dir.clone().multiplyScalar(speed),life:enemy?3:1.7,enemy,prev:from.clone()});}
 function updGuns(dt){G.gunCool-=dt;const want=G.gunHeld||G.keys.KeyF;
-  if((G.mkey==='hill'||G.mkey==='temple')&&want&&PL.gun>0&&G.gunCool<=0&&G.mode==='play'){G.gunCool=1/16;G.gunSide*=-1;PL.gun-=2;
+  if((G.mkey==='hill'||G.mkey==='temple'||(G.mkey==='school'&&MI.phase===3))&&want&&PL.gun>0&&G.gunCool<=0&&G.mode==='play'){G.gunCool=1/16;G.gunSide*=-1;PL.gun-=2;
     const fwd=fwdOf(PL.q),conv=PL.pos.clone().addScaledVector(fwd,380),from=PL.pos.clone().add(V(G.gunSide*3.1,-.4,-1.2).applyQuaternion(PL.q));
     const dir=conv.sub(from).normalize();dir.x+=gauss()*.004;dir.y+=gauss()*.004;dir.z+=gauss()*.004;dir.normalize();
     shoot(from,dir,870+PL.v,false);if(Math.random()<.5)sfx('gun');}
@@ -1121,7 +1124,7 @@ function rocketImpact(pos){const d=pos.distanceTo(PL.pos);sfx('boom',d);explosio
 function friendlyCheck(pos,r,pen){if(!WD.friends)return;if(!WD.friends.some(f=>f.distanceTo(pos)<r))return;
   if(G.t-MI.ffT<3)return;MI.ffT=G.t;MI.ff++;MI.def=Math.max(0,MI.def-pen);radio('지상 통제반','아군 진지 근처다! 사격 중지! 주황색 천을 확인하라!',4);toast('아군 진지 근처!','주황색 천 근처는 아군이에요');}
 function hitTarget(t,n){if(!t.alive)return;t.hp-=n;if(t.hp<=0){t.alive=false;t.marked=false;t.burn=14;
-  explosion(t.pos.clone(),1.8,true);t.g.children.forEach(c=>{c.material=logM;});t.g.scale.y=.45;if(G.mkey==='temple'){templeTargetDown();return;}MI.killed++;MI.def=Math.min(100,MI.def+8);
+  explosion(t.pos.clone(),1.8,true);t.g.children.forEach(c=>{c.material=logM;});t.g.scale.y=.45;if(G.mkey==='school'){schoolTargetDown();return;}if(G.mkey==='temple'){templeTargetDown();return;}MI.killed++;MI.def=Math.min(100,MI.def+8);
   if(MI.killed>=WD.targets.length){if(!MI.won){MI.won=true;MI.winT=.3;radio('지상 통제반','적이 물러난다! 351고지를 지켰다. 고맙다!',6);toast('적 진지 모두 파괴','351고지를 지켜 냈어요',3000);}}
   else{toast('적 진지 파괴',`${MI.killed} / ${WD.targets.length}`);radio('모스키토','명중이다! 다음 목표를 알려 주겠다.');if(MI.search&&!WD.targets[MI.search.ti].alive){MI.search=null;setTask(null);}if(MI.cur<0||!WD.targets[MI.cur].alive){MI.cur=-1;if(!MI.search)MI.markT=3.5;}}}}
 function killAA(a){a.active=false;explosion(a.pos.clone(),1.2,true);a.g.scale.y=.4;}
@@ -1135,6 +1138,7 @@ function aaFire(a,dt,range,accuracy){a.cd-=dt;if(!a.active||a.cd>0||a.supT>0)ret
 
 /* ---------- mission logic ---------- */
 function updMission(dt){
+  if(G.mkey==='school'){updSchool(dt);return;}
   if(G.mkey==='temple'){updTemple(dt);}
   else if(G.mkey==='show'){updShow(dt);}
   else if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z),agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z),inV=false;
@@ -1604,6 +1608,8 @@ function attract(dt){G.at+=dt;if(!att.length||att[0].parent!==world){att=[0,1,2]
 /* ---------- HUD ---------- */
 function hdg(){const f=fwdOf(PL.q);return (Math.atan2(f.x,-f.z)*180/Math.PI+360)%360;}
 function updHUD(){if(G.mkey==='hill')updCards();
+  if(G.mkey==='school'){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');$('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
+    $('dmg').firstElementChild.style.width=PL.hp+'%';$('objT').textContent='하늘의 비행학교';$('objS').textContent=`${MI.phase+1}/6 · ${SC_STEPS[MI.phase][0]}`;$('ammo').innerHTML=`로켓 <b>${PL.ord}</b> · 기총 <b>${PL.gun}</b>`;return;}
   if(G.mkey==='temple'){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');$('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
     $('dmg').firstElementChild.style.width=PL.hp+'%';$('objT').textContent='해인사 팔만대장경 지키기';
     $('objS').textContent=MI.phase==='approach'?`가야산 해인사로 · ${(Math.hypot(PL.pos.x,PL.pos.z+30)/1000).toFixed(1)}km`:`능선의 적 은신처 ${MI.killed}/${WD.targets.length} · 해인사는 지키기`;
@@ -1633,7 +1639,8 @@ function draw2D(dt){hx.clearRect(0,0,W,H);if(G.mode!=='play'&&G.mode!=='ending')
     hx.lineWidth=6;hx.beginPath();hx.moveTo(0,H*.08);hx.quadraticCurveTo(W/2,-H*.06,W,H*.08);hx.stroke();}
   const rp=proj(PL.pos.clone().addScaledVector(fwd,420));if(!rp.behind&&!(G.mkey==='show'&&MI.finale)){hx.strokeStyle='rgba(255,196,80,.95)';hx.lineWidth=2;hx.beginPath();hx.arc(rp.x,rp.y,22,0,7);hx.stroke();
     hx.beginPath();hx.arc(rp.x,rp.y,2,0,7);hx.stroke();[[0,-1],[0,1],[-1,0],[1,0]].forEach(([a,b])=>{hx.beginPath();hx.moveTo(rp.x+a*28,rp.y+b*28);hx.lineTo(rp.x+a*38,rp.y+b*38);hx.stroke();});}
-  if(G.mkey==='temple'){marker(V(WD.temple.x,WD.temple.y+20,WD.temple.z),'해인사 (지키기)','#7fdc8a');if(MI.phase==='attack'&&MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];marker(t.pos,`능선의 적 은신처 ${(PL.pos.distanceTo(t.pos)/1000).toFixed(1)}km`,'#ff6a5a');}}
+  if(G.mkey==='school'){const g=schoolGuidePoint();if(g)marker(g[0],`${g[1]} ${(PL.pos.distanceTo(g[0])/1000).toFixed(1)}km`,g[2]);}
+  else if(G.mkey==='temple'){marker(V(WD.temple.x,WD.temple.y+20,WD.temple.z),'해인사 (지키기)','#7fdc8a');if(MI.phase==='attack'&&MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];marker(t.pos,`능선의 적 은신처 ${(PL.pos.distanceTo(t.pos)/1000).toFixed(1)}km`,'#ff6a5a');}}
   else if(G.mkey==='show'){if(!MI.finale&&!MI.loop&&MI.ring<WD.rings.length){const r=WD.rings[MI.ring],K=KINDS[r.kind];marker(r.c,`${K.name} ${(PL.pos.distanceTo(r.c)/1000).toFixed(1)}km`,'#'+K.hi.toString(16).padStart(6,'0'));}}
   else if(G.mkey==='bridge'){const alive=WD.spans[1].alive||WD.spans[2].alive;if(alive)marker(V(0,DECK,0),`승호리 철교 ${(PL.pos.distanceTo(V(0,DECK,0))/1000).toFixed(1)}km`,'#ff6a5a');}
   else{if(MI.cur>=0&&WD.targets[MI.cur].alive){const t=WD.targets[MI.cur];marker(t.pos,`연막 표시 목표 ${(PL.pos.distanceTo(t.pos)/1000).toFixed(1)}km`,'#ffffff');}
@@ -1646,12 +1653,13 @@ function draw2D(dt){hx.clearRect(0,0,W,H);if(G.mode!=='play'&&G.mode!=='ending')
     else if(Math.abs(PL.pos.x)>8200||Math.abs(PL.pos.z)>8200)w='작전 구역을 벗어나고 있어요';}
   $('warn').textContent=w;$('warn').style.display=w?'block':'none';
   drawMini();}
-function drawMini(){const c=$('mini').getContext('2d'),S=240,R0=112,range=G.mkey==='bridge'?4200:2600,sc=R0/range,h=hdg()*Math.PI/180;
+function drawMini(){const c=$('mini').getContext('2d'),S=240,R0=112,range=G.mkey==='bridge'?4200:G.mkey==='school'?3200:2600,sc=R0/range,h=hdg()*Math.PI/180;
   c.clearRect(0,0,S,S);c.save();c.translate(S/2,S/2);c.strokeStyle='rgba(233,238,241,.25)';c.lineWidth=2;c.beginPath();c.arc(0,0,R0*.5,0,7);c.stroke();
   const pt=(x,z)=>{let dx=(x-PL.pos.x)*sc,dy=(z-PL.pos.z)*sc;const cs=Math.cos(-h),sn=Math.sin(-h);let mx=dx*cs-dy*sn,my=dx*sn+dy*cs;const m=Math.hypot(mx,my);if(m>R0-6){mx*=(R0-6)/m;my*=(R0-6)/m;}return[mx,my];};
   const dot=(x,z,r,col)=>{const[a,b]=pt(x,z);c.fillStyle=col;c.beginPath();c.arc(a,b,r,0,7);c.fill();};
   const n=pt(PL.pos.x,PL.pos.z-range*.85);c.fillStyle='#e9eef1';c.font='bold 18px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('N',n[0],n[1]);
-  if(G.mkey==='temple'){dot(WD.temple.x,WD.temple.z,7,'#7fdc8a');if(MI.phase==='attack')WD.targets.forEach((t,i)=>{if(t.alive)dot(t.pos.x,t.pos.z,i===MI.cur?6:4,'#ff6a5a');});}
+  if(G.mkey==='school'){dot(0,0,5,'#dfe6ea');const g=schoolGuidePoint();if(g)dot(g[0].x,g[0].z,6,g[2]);}
+  else if(G.mkey==='temple'){dot(WD.temple.x,WD.temple.z,7,'#7fdc8a');if(MI.phase==='attack')WD.targets.forEach((t,i)=>{if(t.alive)dot(t.pos.x,t.pos.z,i===MI.cur?6:4,'#ff6a5a');});}
   else if(G.mkey==='show'){WD.rings.forEach((r,i)=>{if(i>=MI.ring)dot(r.c.x,r.c.z,i===MI.ring?7:3,i===MI.ring?'#'+KINDS[r.kind].hi.toString(16).padStart(6,'0'):'rgba(255,255,255,.6)');});dot(268,0,5,'#7fbf8a');}
   else if(G.mkey==='bridge'){if(Math.hypot(PL.pos.x,PL.pos.z)>range*.9)dot(0,0,6,'#ff6a5a');const a=pt(0,-110),b=pt(0,110);c.strokeStyle='#ff6a5a';c.lineWidth=5;c.beginPath();c.moveTo(a[0],a[1]);c.lineTo(b[0],b[1]);c.stroke();}
   else{WD.friends.forEach(f=>dot(f.x,f.z,4,'#ff9a3a'));WD.targets.forEach((t,i)=>{if(t.alive)dot(t.pos.x,t.pos.z,i===MI.cur?7:5,i===MI.cur?'#ffffff':'#ff6a5a');});dot(WD.mos.position.x,WD.mos.position.z,4,'#ffd27a');}
@@ -1672,7 +1680,7 @@ function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
 /* ---------- end / screens ---------- */
 const HINTS={temple:['사찰 지붕이 보이는 위치로 접근하세요. 해인사 자체는 공격 대상이 아닙니다.','능선의 적 은신처에만 조준하세요. 초록 조준 표시가 나타날 때 발사하세요.','너무 낮으면 상승하세요. 사찰과 거리를 두고 돌아서 접근하세요.'],bridge:['붉은 빛기둥이 있는 철교 방향으로 비행하세요.','2막에서 기수를 낮춰 조준 원을 철교 중앙 경간에 맞추세요.','조준 원이 초록색일 때 폭탄을 투하하고 바로 기수를 올리세요.'],hill:['모스키토 무전과 흰 연막을 따라 적 진지를 찾으세요.','주황색 천은 아군입니다. 사격 전에 위치를 확인하세요.','미니맵과 목표 화살표를 보세요. 지원 카드를 활용하면 대공포 위협을 줄일 수 있어요.'],show:['노란 고리를 앞쪽 정중앙에 두고 천천히 맞춰보세요.','고리를 지날 때는 방향을 크게 꺾지 않는 것이 좋아요.','어려운 곡예는 속도를 충분히 확보한 후 도전하세요.']};
 let hintLevel=0;
-function targetPoint(){if(!WD||!PL.mesh)return null;const k=G.mkey;if(k==='bridge')return V(0,DECK+35,0);if(k==='temple'){if(MI.phase==='approach'&&WD.temple)return WD.temple.clone().add(V(0,180,0));const t=WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='hill'){const t=WD.targets[MI.cur]||WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='show'){const r=WD.rings&&WD.rings[Math.min(MI.ring,WD.rings.length-1)];return r&&r.c;}return null;}
+function targetPoint(){if(!WD||!PL.mesh)return null;const k=G.mkey;if(k==='school'){const g=schoolGuidePoint();return g&&g[0];}if(k==='bridge')return V(0,DECK+35,0);if(k==='temple'){if(MI.phase==='approach'&&WD.temple)return WD.temple.clone().add(V(0,180,0));const t=WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='hill'){const t=WD.targets[MI.cur]||WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='show'){const r=WD.rings&&WD.rings[Math.min(MI.ring,WD.rings.length-1)];return r&&r.c;}return null;}
 function navUpdate(){const el=$('navGuide'),t=targetPoint();if(!el||!t||!G.student){if(el)el.textContent='';return;}const d=t.clone().sub(PL.pos),forward=fwdOf(PL.q),right=rightOf(PL.q);const angle=Math.atan2(d.dot(right),d.dot(forward))*180/Math.PI;const a=Math.abs(angle),dir=a<12?'⬆':angle>0?(a<65?'↗':'➡'):(a<65?'↖':'⬅');const agl=Math.round(PL.pos.y-groundY(PL.pos.x,PL.pos.z));el.textContent=agl<190?'⚠ 위험 고도 '+agl+'m · 기수를 올리세요':dir+' 목표 '+Math.round(d.length())+'m · 지면 위 '+agl+'m';}
 $('hintBtn').onclick=()=>{if(G.mode!=='play')return;const arr=HINTS[G.mkey]||[];toast('💡 단계별 힌트 '+(hintLevel+1)+'/3',arr[hintLevel],5500);hintLevel=(hintLevel+1)%3;};
 function studentCheckpoint(dt){
@@ -1681,9 +1689,10 @@ function studentCheckpoint(dt){
   if(G.saved>1.3){G.saved=0;const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);
     if(agl>260&&PL.hp>40&&PL.v>85&&(!G.checkpoint||G.t-(G.checkpoint.time||0)>5))G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:PL.v,time:G.t,missionPhase:G.mkey==='bridge'?MI.act:G.mkey==='temple'?MI.phase:G.mkey==='hill'?MI.cur:MI.ring};}
   const hint=$('studentHint');if(hint){const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z);
+    if(G.mkey==='school'){hint.textContent=MI.ground?(MI.landing?'착륙 · 감속 중':'활주로 · 이륙 준비'):MI.phase===5?'활주로 정렬 · 천천히 하강':agl<120?'땅이 가까워요 · 기수 올림':SC_STEPS[MI.phase][1];return;}
     hint.textContent=agl<170?'⚠️ 땅이 가까워요! 기수를 올리세요':G.mkey==='show'?'🟡 다음 고리를 따라가세요':G.mkey==='bridge'?'🎯 철교를 향해 이동하고 조준하세요':G.mkey==='temple'?'🛡️ 해인사는 지키고 적 은신처를 찾으세요':'📻 무전을 듣고 흰 연기를 찾으세요';}
 }
-function endMission(r){if(G.mode!=='play')return;
+function endMission(r){if(G.mode!=='play')return;if(G.mkey==='school'){schoolRecover(r);return;}
   if(G.student&&(r==='crash'||r==='shot')&&G.rescues<2&&G.checkpoint){
     const cp=G.checkpoint;G.rescues++;PL.pos.copy(cp.pos);PL.pos.y=Math.max(cp.pos.y,groundY(cp.pos.x,cp.pos.z)+260);
     PL.q.copy(cp.q);PL.v=Math.max(125,cp.v);PL.thr=.8;PL.hp=75;G.inp={pitch:0,roll:0};G.keys={};G.gunHeld=false;G.flash=0;G.shake=0;
@@ -1697,7 +1706,7 @@ function cleared(){try{return JSON.parse(localStorage.getItem('f51-cleared')||'{
 function markCleared(k,v){try{const c=cleared();c[k]=Math.max(c[k]||0,v||1);localStorage.setItem('f51-cleared',JSON.stringify(c));}catch(e){}}
 
 /* ---------- SUNO 배경음악 (audio 폴더의 MP3) ---------- */
-const BGM_FILES={temple:'audio/bgm_temple.mp3',menu:'audio/bgm_menu.mp3',bridge:'audio/bgm_bridge.mp3',hill:'audio/bgm_hill.mp3',show:'audio/bgm_show.mp3',win:'audio/bgm_success.mp3',fail:'audio/bgm_failure.mp3'};
+const BGM_FILES={school:'audio/bgm_show.mp3',temple:'audio/bgm_temple.mp3',menu:'audio/bgm_menu.mp3',bridge:'audio/bgm_bridge.mp3',hill:'audio/bgm_hill.mp3',show:'audio/bgm_show.mp3',win:'audio/bgm_success.mp3',fail:'audio/bgm_failure.mp3'};
 const VOL={bgm:.35,engine:.25,sfx:.35,radio:.70};try{const saved=JSON.parse(localStorage.getItem('f51-vol')||'{}');for(const k of Object.keys(VOL))if(Number.isFinite(saved[k]))VOL[k]=clamp(saved[k],0,1);}catch(e){}const BGM_VOL=.35;let bgmOn=true,bgmKey=null,bgmEl=null,bgmDucked=false;
 function bgmFade(el,to,ms,done){if(!el)return;const from=el.volume,t0=performance.now();clearInterval(el._f);
   el._f=setInterval(()=>{const k=Math.min(1,(performance.now()-t0)/ms);el.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k>=1){clearInterval(el._f);done&&done();}},40);}
@@ -1828,7 +1837,7 @@ function renderHelp(){if(helpFrom==='start'){$('helpBody').innerHTML=quickStartH
   document.querySelectorAll('#helpBody .tab').forEach(b=>{const ti=HORD.indexOf(b.dataset.t);if(st&&ti>helpMax){b.disabled=true;b.style.opacity=.45;b.style.cursor='not-allowed';}
     b.onclick=()=>{if(st&&ti>helpMax)return;helpTab=b.dataset.t;renderHelp();};});
   document.querySelectorAll('#helpBody .sub').forEach(b=>b.onclick=()=>{helpSub=b.dataset.s;renderHelp();});}
-function openHelp(tab){if(G.mode==='play'){G.mode='pause';engineSet(false);G.keys={};G.gunHeld=false;if(helpFrom!=='start')helpFrom='play';}else if(G.mode==='pause')helpFrom='pause';else return;
+function openHelp(tab){if(G.mkey==='school')return;if(G.mode==='play'){G.mode='pause';engineSet(false);G.keys={};G.gunHeld=false;if(helpFrom!=='start')helpFrom='play';}else if(G.mode==='pause')helpFrom='pause';else return;
   if(typeof tab==='string')helpTab=tab;renderHelp();showScreen('help');$('help').scrollTop=0;}
 $('helpVideo').onclick=()=>{const tab=helpTab,from=helpFrom;showScreen(null);G.mode='play';playCine(G.mkey,()=>{helpFrom=from;openHelp(tab);});};
 $('helpHud').onclick=()=>openHelp();$('pHelp').onclick=()=>openHelp();
@@ -2236,6 +2245,81 @@ function makeOperationsRoom(){
  camera.position.set(0,13,95);camera.lookAt(0,10,-75);return {scene:room,camera};
 }
 function renderOperationsRoom(now){if(!OPS)OPS=makeOperationsRoom();OPS.camera.aspect=W/H;OPS.camera.updateProjectionMatrix();OPS.camera.position.x=Math.sin(now*.00015)*8;OPS.camera.lookAt(0,12,-80);R.render(OPS.scene,OPS.camera);}
+
+/* ---------- 비행학교 (작전과 같은 3D 엔진) ---------- */
+const RWY_Y=72.6,GEAR=1.35,SC_STEPS=[['이륙','추력 올림 · 100kt 이상에서 조종간 당김'],['기초 비행','고도 150~250m 유지 · 90도 선회'],['관문 통과','금빛 관문 3개 중심 통과'],['기총 사격','주황 표적 3개 · 기총'],['로켓 사격','파랑 표적 2개 · 노란 원이 초록일 때 로켓'],['착륙','초록 관문 따라 하강 · 활주로 착지']];
+function targetBoardTex(col){return canvasTex(128,(g,s)=>{g.fillStyle='#f4f1e8';g.fillRect(0,0,s,s);const c=s/2;[[60,col],[46,'#f4f1e8'],[32,col],[18,'#f4f1e8'],[8,col]].forEach(([r,f])=>{g.fillStyle=f;g.beginPath();g.arc(c,c,r,0,7);g.fill();});g.strokeStyle='#333';g.lineWidth=4;g.strokeRect(2,2,s-4,s-4);});}
+function buildSchoolObjs(){const M=archTex().m,asph=new T.MeshLambertMaterial({color:0x4a4d50}),paint=new T.MeshBasicMaterial({color:0xeeeae0}),G0=new T.Group();
+  const add=(geo,mat,x,y,z,ry)=>{const m=new T.Mesh(geo,mat);m.position.set(x,y,z);if(ry)m.rotation.y=ry;G0.add(m);return m;};
+  add(new T.BoxGeometry(46,.6,2600),asph,0,RWY_Y-.3,0);
+  for(let z=-1220;z<1220;z+=60)add(new T.BoxGeometry(1.2,.08,26),paint,0,RWY_Y+.05,z);
+  [-1,1].forEach(e=>{for(let i=0;i<8;i++)add(new T.BoxGeometry(1.8,.08,22),paint,-15.75+i*4.5,RWY_Y+.05,e*1265);
+    add(new T.BoxGeometry(.8,.08,2560),paint,e*21.5,RWY_Y+.05,0);});
+  add(new T.BoxGeometry(18,.5,2000),asph,70,RWY_Y-.35,0);add(new T.BoxGeometry(130,.5,380),asph,150,RWY_Y-.35,520);
+  const lamp=new T.MeshBasicMaterial({color:0xffd27a});for(let z=-1280;z<=1280;z+=80)[-1,1].forEach(e=>add(new T.BoxGeometry(.6,.6,.6),lamp,e*24,RWY_Y+.3,z));
+  [400,470,540,610].forEach(z=>{const h=makeHangar();h.position.set(250,hShow(250,z),z);h.rotation.y=-Math.PI/2;G0.add(h);});
+  world.add(mergeGroup(G0));
+  const TW=makeTower();TW.position.set(170,hShow(170,250),250);TW.rotation.y=-Math.PI/2;world.add(TW);
+  const pole=new T.Mesh(new T.CylinderGeometry(.15,.15,9,6),M.rib);pole.position.set(40,RWY_Y+4.5,-1000);world.add(pole);
+  const sock=new T.Mesh(new T.ConeGeometry(.9,5,10,1,true),new T.MeshLambertMaterial({color:0xff7a1a,side:T.DoubleSide}));sock.rotation.z=Math.PI/2;sock.position.set(42.5,RWY_Y+8.5,-1000);world.add(sock);
+  [[150,470],[150,540],[150,610]].forEach(([x,z])=>{const p=makePlane({load:'none'});p.position.set(x,RWY_Y+GEAR,z);p.rotation.y=-Math.PI/2;world.add(p);});
+  const post=new T.MeshLambertMaterial({color:0x5a4a3a}),tO=targetBoardTex('#ff7a2a'),tB=targetBoardTex('#3a8ad8');
+  WD.targets=[[-90,-2200,'gun'],[0,-2320,'gun'],[90,-2200,'gun'],[-70,-2850,'rocket'],[70,-2950,'rocket']].map(([x,z,kind])=>{const y=hShow(x,z),g=new T.Group();g.position.set(x,y,z);
+    [-5,5].forEach(px=>{const p=new T.Mesh(new T.BoxGeometry(.6,4,.6),post);p.position.set(px,2,0);g.add(p);});
+    const b=new T.Mesh(new T.BoxGeometry(12,12,.5),new T.MeshLambertMaterial({map:kind==='gun'?tO:tB}));b.position.set(0,7,0);g.add(b);
+    g.visible=false;world.add(g);return{g,pos:V(x,y+6,z),hp:kind==='gun'?28:100,alive:false,marked:false,smoke:0,burn:0,kind};});
+  WD.aa=[];WD.friends=null;WD.sgates=[];}
+function schoolRing(c,n,col,r){const m=new T.Mesh(new T.TorusGeometry(r||32,2,10,56),new T.MeshBasicMaterial({color:col,transparent:true,opacity:.95,fog:false}));m.position.copy(c);m.lookAt(c.clone().add(n));world.add(m);return{c,n,m};}
+function schoolInit(){wing.forEach(m=>world.remove(m));wing=[];$('helpHud').style.display='none';
+  PL.pos.set(0,RWY_Y+GEAR,1150);PL.q.identity();syncEZ();PL.v=0;PL.thr=.2;PL.ord=4+(G.easy?2:0);PL.gun=1600;updStores();PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);
+  SCHOOL.active=true;SCHOOL.done=false;camSnap=true;
+  toast('하늘의 비행학교','기초 비행 훈련 6단계',2800);radio('비행 교관','비행학교에 온 것을 환영한다. 추력을 올려 이륙하라.',5);schoolStage(0);}
+function schoolStage(n){MI.phase=n;MI.lastD=null;if(n>=1){MI.ground=false;MI.landing=false;}const [nm,ds]=SC_STEPS[n];toast(`${n+1}단계 · ${nm}`,ds,2600);
+  if(n===1)radio('비행 교관','좋다. 고도 150에서 250미터를 지키며 크게 한 번 돌아라.',5);
+  if(n===2){const f=fwdOf(PL.q);f.y=0;f.normalize();const sd=V(0,1,0).cross(f).normalize();MI.rings=[0,-110,110].map((o,i)=>{const c=PL.pos.clone().addScaledVector(f,700+560*i).addScaledVector(sd,o);c.y=Math.max(hShow(c.x,c.z)+190,260);return schoolRing(c,f.clone(),0xffd84a);});MI.ri=0;radio('비행 교관','앞에 금빛 관문이 보이지? 가운데로 통과하라.',4);}
+  if(n===3){WD.targets.forEach(t=>{if(t.kind==='gun'){t.alive=true;t.g.visible=true;}});MI.cur=WD.targets.findIndex(t=>t.alive);radio('비행 교관','사격장으로 간다. 주황 표적을 기총으로 맞혀라. F 키나 기총 버튼이다.',5);}
+  if(n===4){WD.targets.forEach(t=>{if(t.kind==='rocket'){t.alive=true;t.g.visible=true;}});MI.cur=WD.targets.findIndex(t=>t.alive);radio('비행 교관','이번엔 로켓이다. 기수를 숙여 노란 원이 초록이 되면 쏴라.',5);}
+  if(n===5){MI.cur=-1;WD.sgates=[schoolRing(V(0,hShow(0,-2500)+170,-2500),V(0,0,1),0x7fdc8a,36),schoolRing(V(0,RWY_Y+80,-1850),V(0,0,1),0x7fdc8a,30)];MI.ri=0;
+    radio('비행 교관','훈련 끝. 기지로 귀환한다. 초록 관문을 따라 내려가 활주로에 내려라.',5);}}
+function schoolGround(dt){const f=V(0,0,-1).applyAxisAngle(AY,EZ.yaw);
+  if(MI.landing){PL.v=Math.max(0,PL.v-24*dt);if(PL.v<4&&!MI.doneT){MI.doneT=1.4;toast('착륙 성공','모든 훈련을 마쳤어요',2600);radio('비행 교관','훌륭한 착륙이다. 수료를 축하한다!',4);}}
+  else{PL.v=clamp(PL.v+(PL.thr-.25)*14*dt-(PL.thr<.3?3*dt:0),0,78);
+    if(PL.v>=52&&G.inp.pitch>.25){MI.ground=false;EZ.pit=.16;EZ.bank=0;PL.v=Math.max(PL.v,60);radio('비행 교관','이륙! 좋다, 계속 올라가라.',3);return;}}
+  PL.pos.addScaledVector(f,PL.v*dt);PL.pos.y=RWY_Y+GEAR;eul.set(0,EZ.yaw,0,'YXZ');PL.q.setFromEuler(eul);PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);
+  if(!MI.landing&&PL.pos.z<-1250){PL.pos.set(0,RWY_Y+GEAR,1150);PL.v=0;PL.thr=.2;toast('활주로 끝','다시 이륙 준비',2000);}}
+function schoolTouch(){if(MI.phase!==5||MI.ground)return false;const f=fwdOf(PL.q);
+  if(Math.abs(PL.pos.x)<24&&PL.pos.z>-1290&&PL.pos.z<1150&&f.y>-.28){MI.ground=true;MI.landing=true;EZ.pit=0;EZ.bank=0;PL.pos.y=RWY_Y+GEAR;sfx('thunk');toast('착지','속도를 줄이고 있어요',1500);return true;}
+  return false;}
+function schoolRecover(r){PL.mesh.visible=true;const p=MI.phase;let pos;
+  if(p<=1)pos=V(0,RWY_Y+260,600);else if(p===2&&MI.rings[MI.ri])pos=MI.rings[MI.ri].c.clone().add(V(0,0,700));else if(p===3||p===4)pos=V(0,hShow(0,-1500)+300,-1500);else pos=V(0,hShow(0,-3200)+300,-3300);
+  PL.pos.copy(pos);PL.q.identity();if(p===5)PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();PL.v=120;PL.thr=.75;PL.hp=100;G.inp={pitch:0,roll:0};G.keys={};camSnap=true;
+  if(MI.phase===0){MI.phase=1;}toast(r==='crash'?'훈련 복구':'기체 정비','안전 고도에서 다시 시작해요',2200);}
+function schoolTargetDown(){MI.killed=(MI.killed||0)+1;const left=WD.targets.filter(t=>t.alive&&t.kind===(MI.phase===3?'gun':'rocket')).length;
+  toast('표적 명중',left?`남은 표적 ${left}`:'완료',1300);MI.cur=WD.targets.findIndex(t=>t.alive);
+  if(!left){if(MI.phase===3)schoolStage(4);else if(MI.phase===4)schoolStage(5);}}
+function updSchool(dt){if(G.mode!=='play')return;const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z),kt=Math.round(PL.v*KT),p=MI.phase;
+  if(MI.doneT){MI.doneT-=dt;if(MI.doneT<=0)schoolDone();return;}
+  if(p===0){if(MI.ground)setTask('1단계 · 이륙',PL.v>=52?'<b style="color:#7dff95">조종간 당김</b>':`추력 올림 · 속도 ${kt}kt / 100kt`,PL.v/52,PL.v>=52?'#7fbf8a':'#ffd84a');
+    else{setTask('1단계 · 이륙','상승 유지',clamp(agl/60,0,1),'#7fbf8a');if(agl>60)schoolStage(1);}}
+  else if(p===1){if(agl>150&&agl<250)MI.band=(MI.band||0)+dt;const h=hdg();if(MI.lastH!=null){let d=h-MI.lastH;if(d>180)d-=360;if(d<-180)d+=360;MI.turned=(MI.turned||0)+Math.abs(d);}MI.lastH=h;
+    const b=Math.min(1,(MI.band||0)/4),t=Math.min(1,(MI.turned||0)/90);
+    setTask('2단계 · 기초 비행',`고도 ${Math.round(agl)}m${agl>150&&agl<250?'':' (150~250m)'} · 유지 ${Math.min(4,MI.band||0).toFixed(1)}/4초 · 선회 ${Math.min(90,Math.round(MI.turned||0))}/90°`,(b+t)/2,'#7fd0ff');if(b>=1&&t>=1)schoolStage(2);}
+  else if(p===2){const r=MI.rings[MI.ri];if(r){const rel=PL.pos.clone().sub(r.c),d=rel.dot(r.n);
+      if(MI.lastD!==null&&MI.lastD<0&&d>=0){const off=rel.addScaledVector(r.n,-d).length();
+        if(off<34){r.m.visible=false;MI.ri++;sfx('thunk');toast('관문 통과',`${MI.ri} / 3`,1200);for(let i=0;i<12;i++)puff(texSoft,r.c.clone().add(V(rnd(-25,25),rnd(-25,25),rnd(-25,25))),null,.8,4,14,1,0xffd84a,true);if(MI.ri>=3)schoolStage(3);}
+        else{const f=fwdOf(PL.q);f.y=0;f.normalize();r.c.copy(PL.pos).addScaledVector(f,650);r.c.y=Math.max(hShow(r.c.x,r.c.z)+190,260);r.n.copy(f);r.m.position.copy(r.c);r.m.lookAt(r.c.clone().add(f));toast('관문 벗어남','앞에 다시 놓았어요',1400);}
+        MI.lastD=null;}else MI.lastD=d;}
+    setTask('3단계 · 관문 통과',`금빛 관문 ${MI.ri} / 3`,MI.ri/3,'#ffd84a');}
+  else if(p===3||p===4){const kind=p===3?'gun':'rocket',all=WD.targets.filter(t=>t.kind===kind),done=all.filter(t=>!t.alive).length;
+    setTask(p===3?'4단계 · 기총 사격':'5단계 · 로켓 사격',p===3?`주황 표적 ${done}/${all.length} · F 또는 기총 버튼`:`파랑 표적 ${done}/${all.length} · 노란 원이 초록일 때 로켓`,done/all.length,p===3?'#ff9a4a':'#5aa8ff');}
+  else if(p===5){const g=WD.sgates[MI.ri];if(g){const rel=PL.pos.clone().sub(g.c),d=rel.dot(g.n);if(MI.lastD!==null&&MI.lastD<0&&d>=0){g.m.visible=false;MI.ri++;MI.lastD=null;}else MI.lastD=d;}
+    if(MI.ground)setTask('6단계 · 착륙','감속 중',1-PL.v/80,'#7fbf8a');
+    else setTask('6단계 · 착륙',`활주로 중심 ${Math.round(Math.abs(PL.pos.x))}m · 지면 위 ${Math.round(agl)}m · ${kt}kt · 추력 낮춤`,clamp(1-Math.abs(PL.pos.z+1250)/2500,0,1),'#7fdc8a');}}
+function schoolGuidePoint(){const p=MI.phase;if(p===2&&MI.rings[MI.ri])return[MI.rings[MI.ri].c,'관문','#ffd84a'];if((p===3||p===4)&&MI.cur>=0&&WD.targets[MI.cur])return[WD.targets[MI.cur].pos,'표적','#ff8a4a'];
+  if(p===5)return WD.sgates[MI.ri]?[WD.sgates[MI.ri].c,'착륙 관문','#7fdc8a']:[V(0,RWY_Y,-1250),'활주로','#7fdc8a'];return null;}
+function schoolDone(){SCHOOL.done=true;SCHOOL.active=false;setTask(null);engineSet(false);$('hud').classList.remove('on');$('touch').classList.remove('on');['pauseBtn','fsHud','helpHud'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  G.mode='commission';try{finishTraining();}catch(e){showScreen('commission');}}
+
 /* ---------- 3D flying school / academy commissioning ---------- */
 const SCHOOL_KEY='f51-flight-school-commission-v1';
 function schoolCommissioned(){try{return localStorage.getItem(SCHOOL_KEY)==='yes';}catch(e){return false;}}
@@ -2265,7 +2349,7 @@ function buildSchool(){
  const craft=makePlane({load:'none'});craft.scale.setScalar(2.25);S.add(craft);SCHOOL.scene=S;SCHOOL.craft=craft;SCHOOL.cam=new T.PerspectiveCamera(65,W/H,.5,14000);
 }
 function schoolReset(){Object.assign(SCHOOL,{active:true,keys:{},phase:0,x:0,y:3,z:500,yaw:0,bank:0,pitch:0,throttle:0,speed:0,shots:0,rockets:0,passed:0,stable:0,landed:0,done:false,coachAt:0});SCHOOL.ringMeshes.forEach(m=>m.visible=true);SCHOOL.targets.forEach(t=>{t.hit=false;t.m.visible=false;});}
-function beginTraining(){if(!SCHOOL.scene)buildSchool();schoolReset();G.mode='training';G.keys={};engineSet(false);$('hud').classList.remove('on');$('touch').classList.remove('on');$('schoolFinish').style.display='none';showScreen('training');schoolGuide();last=performance.now();}
+function beginTraining(){audioInit();SCHOOL.active=true;SCHOOL.done=false;startMission('school');}
 function resumeAfterSchool(){SCHOOL.active=false;showScreen(null);G.mode='play';$('hud').classList.add('on');if(touchUI)$('touch').classList.add('on');last=performance.now();}
 function finishTraining(){if(!SCHOOL.done)return;SCHOOL.active=false;G.mode='commission';showScreen('commission');}
 $('schoolFinish').onclick=finishTraining;$('schoolSkip').onclick=beginTraining;$('schoolRetry').onclick=beginTraining;
