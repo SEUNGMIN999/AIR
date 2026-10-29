@@ -264,13 +264,122 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
 #cineEnd{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:none;text-align:center;color:#fff;background:rgba(12,20,27,.82);padding:22px 26px;border-radius:16px;pointer-events:auto;width:min(90%,420px)}
 #cineEnd.on{display:block}#cineEnd b{font-family:"Black Han Sans";font-weight:400;font-size:26px}#cineEnd p{margin:6px 0 16px;color:#c9d4dc}
 #cineEnd div{display:flex;gap:10px;justify-content:center}#cineEnd .btn.ghost{color:#fff}
+
+/* 2026 classroom refinement */
+#training{background:rgba(8,20,34,.94);z-index:7}.trainer{width:min(840px,96vw);background:#f3eddd;color:#242b30;padding:18px;border-radius:15px;max-height:93vh;overflow:auto}.trainer h2{margin:0 0 8px}.train-canvas{width:100%;height:240px;display:block;border-radius:10px;background:linear-gradient(#73afd5,#badce9 62%,#80a47c 63%)}.train-controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0}.train-controls button{font:inherit;font-weight:bold;padding:10px 15px;border:1px solid #8294a3;border-radius:10px;background:#fff;color:#26333d;touch-action:manipulation}.train-controls button:active{background:#ead28b}.train-task{background:#e1ebd9;border-radius:8px;padding:8px;margin:8px 0}.star-grade{font-size:32px;color:#bb8a22;letter-spacing:4px}.history-compare{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.history-compare>div{background:#fff;border:1px solid #c8bb9e;border-radius:8px;padding:10px}.history-compare svg{width:100%;height:120px}.history-compare strong{display:block;margin-bottom:6px}@media(max-width:540px){.history-compare{grid-template-columns:1fr}.train-canvas{height:175px}}
+
+/* 3D 비행학교: immersive training overlay */
+#training{background:transparent;z-index:7;pointer-events:none;align-items:stretch;justify-content:stretch;padding:0;overflow:hidden}
+#training .academy-hud{position:absolute;inset:0;pointer-events:none;color:white;font-family:"Gowun Dodum",sans-serif}
+.academy-head{position:absolute;left:18px;top:18px;max-width:min(460px,75vw);border-left:5px solid #dbab4d;background:rgba(9,23,37,.83);padding:14px 18px;border-radius:9px;box-shadow:0 8px 30px #0005}
+.academy-head h2{font-size:clamp(20px,3vw,30px);margin:0 0 7px}.academy-head p{margin:5px 0;font-size:15px;line-height:1.5}
+#schoolProgress{font-weight:bold;color:#ffdb85}#schoolTarget{color:#fff}
+.academy-cross{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:20px;height:20px;border:2px solid #ffe39b;border-radius:50%;box-shadow:0 0 8px #0009}
+.academy-controls{pointer-events:auto;position:absolute;bottom:25px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:end;gap:12px}
+.academy-pad{display:grid;grid-template-columns:repeat(3,62px);grid-template-rows:repeat(2,55px);gap:7px}
+.academy-pad button{font:inherit;font-size:22px;font-weight:bold;color:white;border:1px solid #fff8;border-radius:12px;background:#1b3a51d9;touch-action:none}.academy-pad [data-school="up"]{grid-column:2;grid-row:1}.academy-pad [data-school="left"]{grid-column:1;grid-row:2}.academy-pad [data-school="down"]{grid-column:2;grid-row:2}.academy-pad [data-school="right"]{grid-column:3;grid-row:2}
+.school-btn{font:inherit;font-weight:bold;border-radius:9px;border:1px solid #fff8;padding:12px 16px;cursor:pointer;pointer-events:auto;background:#e1aa44;color:#14212b}
+#schoolSkip{background:#203b50;color:white}#schoolFinish{display:none}
+#commission{z-index:9;background:rgba(6,19,31,.88)}#commission .order{max-width:580px;text-align:center;transform:none;border-top:8px solid #d9a441}
+#commission h2{font-size:clamp(30px,5vw,44px)}#commission .rank{font-family:"Black Han Sans";font-size:50px;color:#a17420}
+#schoolNotice{position:absolute;top:45%;left:50%;transform:translate(-50%,-50%);font-size:clamp(20px,4vw,32px);font-family:"Black Han Sans";color:#fff;text-shadow:0 3px 8px #000;opacity:0;transition:opacity .3s}
+@media(max-width:610px){.academy-head{top:10px;left:10px;padding:9px 11px}.academy-controls{left:10px;right:10px;bottom:15px}.academy-pad{grid-template-columns:repeat(3,50px);grid-template-rows:repeat(2,47px)}.school-btn{padding:9px;font-size:13px}.academy-head p{font-size:12px}}
+
+/* Compact, mission-specific preflight briefing: optimized for phones */
+.quick-mini{padding:14px 18px 8px!important}
+.quick-lead{font-size:14px;margin:0 0 10px!important;color:#615c52}
+.quick-actions{display:grid;gap:7px}
+.quick-action{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #e2dac9;border-radius:11px;padding:9px 11px;min-height:57px}
+.quick-number{display:grid;place-items:center;flex:none;width:23px;height:23px;border-radius:50%;background:#2e4a62;color:#fff;font-weight:700;font-size:13px}
+.quick-symbol{font-size:22px;width:29px;text-align:center;flex:none}
+.quick-action b{display:block;font-size:15px;line-height:1.25;color:#252522}
+.quick-action small{display:block;font-size:13px;color:#625e55;line-height:1.35;margin-top:3px}
+.quick-controls{margin-top:10px;border-radius:10px;background:#e7ebee;padding:10px 12px;font-size:13px}
+.quick-controls strong{display:block;margin-bottom:5px;color:#253a4a}
+.quick-controls>div{display:flex;flex-wrap:wrap;gap:5px 12px}
+.quick-controls span{white-space:nowrap}
+.quick-note{color:#736e64;font-size:12px;margin:8px 0 0!important}
+@media(max-width:560px){#help .hbox{max-height:calc(100dvh - 22px);overflow-y:auto}#help .hhead{padding:10px 14px}#help .hhead h2{font-size:19px}#help .hicon{width:37px;height:37px;font-size:20px}.quick-mini{padding:11px 12px 4px!important}.quick-action{min-height:52px;padding:7px 9px}.quick-action small{font-size:12px}.quick-action b{font-size:14px}#help .hfoot{padding:8px 12px 12px}#help .hfoot>span{font-size:11px}}
+/* integrated academy / operations room */
+#select{background:linear-gradient(90deg,rgba(7,17,27,.91),rgba(7,20,32,.7));z-index:3}
+#select:before{content:"작전상황실  /  OPERATIONS ROOM";font-size:12px;letter-spacing:.16em;color:#f5cc75}
+#select .mcard{border:2px solid #cab17b;transition:transform .2s,box-shadow .2s}
+#select .mcard:hover{box-shadow:0 0 0 3px #f2c86a,0 14px 28px #0007}
+#schoolCoach{margin-top:8px;padding:9px 11px;border-left:3px solid #f6cb68;background:#092437d9;color:#f9f4dc;border-radius:6px;font-size:14px;line-height:1.5}
+#schoolCoach b{color:#ffdb83}
+#commission{background:radial-gradient(circle at 50% 25%,rgba(221,181,91,.23),transparent 55%),rgba(5,13,25,.93)}
+#commission .rank{animation:rankRise 1.2s ease-out both;text-shadow:0 3px 15px #c69b5460}
+@keyframes rankRise{from{opacity:0;transform:translateY(35px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+.academy-head{max-width:min(500px,92vw)}
+@media(max-width:550px){#schoolCoach{font-size:12px}.academy-head{max-width:calc(100vw - 20px)}#select:before{font-size:10px}}
+
+/* 2026 mobile/tablet/desktop responsive pass */
+html,body,#app{height:100%;height:100dvh;min-height:0}
+.screen{padding:max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));overscroll-behavior:contain}
+.screen .order{max-height:calc(100dvh - 20px);overflow:auto;overscroll-behavior:contain}
+#title .wrap{padding:0 0 max(18px,3vh) max(8px,2vw)}
+#select{justify-content:flex-start;scrollbar-width:thin;padding-top:max(14px,env(safe-area-inset-top));padding-bottom:max(18px,env(safe-area-inset-bottom))}
+#select .missions{flex-shrink:0}
+#select .mcard{min-height:0}
+#rotationNotice{display:none;position:absolute;z-index:8;left:50%;top:12px;transform:translateX(-50%);max-width:min(92vw,480px);width:max-content;background:rgba(9,25,38,.94);color:#fff;border:1px solid #e0b75e;border-radius:13px;padding:12px 38px 12px 14px;font-size:13px;box-shadow:0 5px 20px #0006;pointer-events:auto}
+#rotationNotice button{position:absolute;right:6px;top:3px;border:0;background:transparent;color:white;font-size:23px;width:30px;height:35px;cursor:pointer}
+body.portrait-flight #rotationNotice{display:block}
+@media (hover:none) and (pointer:coarse){button,.btn,.opt{touch-action:manipulation}#pauseBtn,#fsHud,#helpHud{min-width:42px;min-height:42px}}
+@media (max-width:900px) and (max-height:520px) and (orientation:landscape){
+ #title .wrap{max-width:55%;padding:8px 0 10px 10px}#title h1{font-size:clamp(32px,6vw,55px)}#title p{font-size:12px;line-height:1.35;margin:8px 0 12px}#title .btn{padding:8px 12px;font-size:14px}
+ #select{gap:7px;padding:7px 12px}#select h2{font-size:20px}#select>p{font-size:11px}#select .missions{width:min(95vw,800px);gap:7px}#select .mcard{padding:8px 10px;gap:2px}#select .mcard svg{display:none}#select .mcard h3{font-size:16px}#select .mcard p{font-size:11px;line-height:1.25}#select .mcard .d{font-size:10px}#select .prog{max-width:85vw}
+ .screen .order{padding:13px;max-width:680px;max-height:calc(100dvh - 12px)}.order h2{font-size:22px}.order p,.order li{font-size:13px;line-height:1.4}.order .row{margin-top:8px}.order .btn{font-size:14px;padding:8px 12px}
+ #commission .order{max-width:650px}#commission .rank{font-size:30px}#commission h2{font-size:24px}
+ .academy-head{top:5px;left:8px;max-width:45vw;padding:6px 9px}.academy-head h2{font-size:17px}.academy-head p{font-size:11px;line-height:1.25;margin:2px 0}#schoolCoach{font-size:11px;padding:4px 6px;margin-top:3px}
+ .academy-controls{left:8px;right:8px;bottom:max(7px,env(safe-area-inset-bottom))}.academy-pad{grid-template-columns:repeat(3,44px);grid-template-rows:repeat(2,38px);gap:4px}.academy-pad button{font-size:18px;border-radius:7px}.school-btn{font-size:11px;padding:7px 8px}
+ #inst{top:5px;padding:3px}#inst div{min-width:40px;padding:0 2px}#inst b{font-size:15px}#inst small{font-size:9px}#obj{top:46px;left:6px;max-width:29vw;padding:5px;font-size:10px}#obj b{font-size:12px}#mini{right:8px;top:6px;width:66px;height:66px}#ammo{top:75px;right:7px;font-size:10px}#navGuide{top:48px;min-width:0;max-width:38vw;font-size:11px;padding:4px}
+ #stick{width:98px;height:98px;left:max(8px,env(safe-area-inset-left));bottom:max(7px,env(safe-area-inset-bottom))}#knob{width:46px;height:46px;margin:-23px 0 0 -23px}#bA{width:68px;height:68px;right:max(8px,env(safe-area-inset-right));bottom:max(7px,env(safe-area-inset-bottom));font-size:13px}#bG{width:56px;height:56px;right:80px;bottom:max(7px,env(safe-area-inset-bottom));font-size:12px}#bTu,#bTd,#bV{width:40px;height:34px;font-size:11px;right:8px}#bTu{bottom:154px}#bTd{bottom:113px}#bV{bottom:76px;right:8px}
+ #touch.on ~ #pauseBtn{top:8px;right:82px;left:auto;width:34px;height:34px}#touch.on ~ #fsHud{top:8px;right:124px;left:auto;width:34px;height:34px}#touch.on ~ #helpHud{top:8px;right:166px;left:auto;height:34px;min-width:34px;padding:0 8px}
+ #radio{bottom:108px;max-width:35vw;padding:5px;font-size:10px}.rface{width:32px;height:32px}.rtext{font-size:11px}#mtask{top:76px;max-width:40vw;padding:5px}#mtask b#mtT{font-size:15px}#mtask span{font-size:11px}#cards{top:92px;left:5px;width:125px}#hintBtn{right:110px;bottom:8px;font-size:11px;padding:7px}#studentHint{bottom:100px}
+ #cineCap{padding:7px 9px;bottom:calc(9vh + 5px)}#cineT{font-size:19px}#cineS{font-size:12px;margin:3px auto 6px}.ctop{top:calc(9vh - 38px)}
+}
+@media (max-width:480px) and (orientation:portrait){
+ #title h1{font-size:clamp(40px,12vw,62px)}#title p{font-size:14px}#select .missions{grid-template-columns:1fr 1fr;gap:7px}#select .mcard{padding:9px}#select .mcard svg{height:42px}#select .mcard h3{font-size:16px}#select .mcard p{font-size:12px}#select>div[style*="background"]{font-size:12px}#rotationNotice{font-size:12px}
+ .academy-head{max-width:calc(100vw - 18px)}.academy-controls{bottom:max(12px,env(safe-area-inset-bottom))}#touch.on ~ #helpHud{top:315px}#touch.on ~ #fsHud{top:265px}#touch.on ~ #pauseBtn{top:215px}
+}
+@media (prefers-reduced-motion:reduce){#commission .rank{animation:none}#select .mcard{transition:none}}
+
+/* Generated illustration integration — responsive menu, training, commissioning */
+.mcard .mission-art{width:100%;height:clamp(95px,13vw,160px);object-fit:cover;object-position:center;border-radius:8px;margin:0 0 5px;display:block;}
+.mcard{overflow:hidden;}
+.school-art{display:block;width:min(100%,260px);max-height:92px;object-fit:cover;border-radius:9px;margin:5px 0 8px;border:1px solid rgba(255,255,255,.32);}
+.commission-art{display:block;width:100%;height:clamp(115px,25vh,260px);object-fit:cover;object-position:center;border-radius:10px;margin:4px 0 16px;}
+@media(max-width:620px){.mcard .mission-art{height:86px;border-radius:5px}.school-art{width:145px;max-height:60px}.commission-art{height:140px}}
+@media(max-height:500px) and (orientation:landscape){.school-art{width:105px;max-height:43px;float:right;margin:0 0 3px 8px}.commission-art{height:100px}.mcard .mission-art{height:65px}}
+
+/* Chapter polish / immersive device support */
+#startImmersive{background:#e1aa44;color:#122435;border:2px solid #fff5}
+#landscapeDialog{position:absolute;inset:0;z-index:32;background:rgba(4,16,26,.94);color:#fff;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:auto}
+#landscapeDialog.on{display:flex}#landscapeDialog .panel2{max-width:360px}#landscapeDialog h2{font-size:25px;margin:8px 0}#landscapeDialog button{margin:8px;padding:12px 20px}
+#hudModeBtn{position:absolute;bottom:12px;left:170px;border:1px solid #cfad65;background:#132c3ddb;color:#fff;border-radius:24px;padding:9px 13px;cursor:pointer;display:none;z-index:4}
+#hudModeBtn.on{display:block}#app.basic-hud #inst div:nth-child(3),#app.basic-hud #inst div:nth-child(4),#app.basic-hud #ammo{display:none!important}
+#app.basic-hud #obj{font-size:15px;max-width:42vw}#app.basic-hud #navGuide{font-size:17px}
+#missionDetail{width:min(820px,96vw);border:1px solid #d3b877;background:#0a2336ed;padding:12px;border-radius:13px;color:#fff;display:grid;grid-template-columns:minmax(100px,180px) 1fr;gap:12px;align-items:center}
+#missionDetail img{width:100%;max-height:110px;object-fit:cover;border-radius:9px}#missionDetail p{font-size:13px;margin:4px 0}#missionDetail strong{color:#ffda81}
+#opsMap{position:relative;width:min(820px,96vw);height:100px;border:1px solid #ba9a66;border-radius:14px;background:linear-gradient(120deg,#254d5a,#193344);display:flex;justify-content:space-evenly;align-items:center;gap:5px;padding:8px}
+#opsMap button{color:#fff;background:#164256c9;border:1px solid #dfc181;border-radius:10px;font:inherit;font-size:12px;padding:9px 7px;cursor:pointer;min-height:54px;flex:1}#opsMap button.active{background:#876522;box-shadow:0 0 0 2px #f4d58b}
+#commission .order{animation:ceremonyIn .9s ease-out both}#commission .commission-art{animation:ceremonyZoom 9s ease-out both}#commission .rank{animation:rankRise 1.4s 1s ease-out both}
+#ceremonyStatus{color:#815f25;font-weight:700;letter-spacing:.07em}#commission .order .btn{position:relative;z-index:2}
+@keyframes ceremonyIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes ceremonyZoom{from{transform:scale(1.045);filter:brightness(.7)}to{transform:scale(1);filter:brightness(1)}}
+#flightPhase{font-size:13px;color:#fee39a;background:#0a263fcf;padding:5px 8px;border-radius:6px;margin-top:4px}
+#cinematicTransition{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:#071624;color:white;text-align:center;pointer-events:auto}
+#cinematicTransition.on{display:flex}#cinematicTransition img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35}#cinematicTransition .inner{position:relative;padding:25px;max-width:640px;text-shadow:0 3px 10px #000}#cinematicTransition h2{font-size:clamp(30px,6vw,58px)}#cinematicTransition button{font:inherit;border-radius:10px;border:1px solid #edca76;background:#dbaa4c;padding:10px 20px;cursor:pointer}
+#historyVerify{font-size:13px;border:1px solid #ccb77a;border-radius:8px;padding:9px;background:#f4eedc;color:#322a20;margin-top:8px}
+@media(max-height:520px) and (orientation:landscape){#missionDetail{padding:5px;grid-template-columns:90px 1fr;gap:7px}#missionDetail img{max-height:55px}#missionDetail p{font-size:10px}#opsMap{height:63px;padding:4px}#opsMap button{min-height:42px;font-size:10px;padding:4px}#hudModeBtn{bottom:9px;left:110px;font-size:11px;padding:5px}#commission .commission-art{max-height:68px}#commission .order{padding:7px}#commission .rank{font-size:25px}}
+@media(prefers-reduced-motion:reduce){#commission .order,#commission .commission-art,#commission .rank{animation:none}}
 </style>
 </head>
 <body>
-<div id="app">
+<div id="app"><div id="rotationNotice" role="status">📱 비행 조작은 가로 화면이 더 편리합니다. 세로 화면에서도 계속할 수 있어요.<button type="button" id="rotationDismiss" aria-label="회전 안내 닫기">×</button></div>
   <canvas id="gl"></canvas>
   <canvas id="hud2d"></canvas>
-  <div id="loading">비행장 준비 중…</div>
+  <div id="landscapeDialog" role="dialog" aria-label="가로 화면 안내"><div class="panel2"><div style="font-size:55px">📱 ↻</div><h2>가로로 돌려 주세요</h2><p>비행 조종은 가로 화면이 편리합니다. 자동 가로 잠금이 지원되지 않는 브라우저는 휴대전화의 자동 회전을 켜 주세요.</p><button class="btn" id="landscapeTry">가로 전체화면 시도</button><button class="btn ghost" id="landscapeContinue">세로로 계속</button></div></div><div id="cinematicTransition"><img src="images/mission_temple.webp" alt="작전 영상 배경"><div class="inner"><p>대한민국 공군 역사 체험</p><h2 id="transitionTitle">작전 준비</h2><p id="transitionDesc">출격 명령을 확인하세요.</p><button id="transitionGo">미션 영상 시작 ▶</button></div></div><div id="loading">비행장 준비 중…</div>
 
   <div id="hud">
     <div class="panel" id="obj"><b id="objT">목표</b><span id="objS"></span><div id="defbar"><i></i></div></div>
@@ -303,47 +412,39 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     <div class="ctop"><span class="cbadge">미션 영상</span><b id="cineName"></b><button id="cineSkip">건너뛰기</button></div>
     <div id="cineRet"><i></i><span>확인 중</span></div>
     <div id="cineCap"><span id="cineNo"></span><b id="cineT"></b><p id="cineS"></p><div id="cineSeg"></div></div>
-    <div id="cineEnd"><b>미션 영상 끝</b><p>간단 조종법을 확인하고 출격해요</p><div><button class="btn ghost" id="cineReplay">다시 보기</button><button class="btn" id="cineGo">다음</button></div></div>
+    <div id="cineEnd"><b>미션 영상 끝</b><p>작전의 핵심 3가지를 확인해요</p><div><button class="btn ghost" id="cineReplay">다시 보기</button><button class="btn" id="cineGo">다음</button></div></div>
   </div>
   <button id="pauseBtn" aria-label="일시정지">II</button>
   <button id="fsHud" class="fsBtn" aria-label="전체화면">⛶</button>
-  <button id="helpHud" aria-label="조종법 보기">?</button>
+  <button id="hudModeBtn" type="button">초급 HUD</button><button id="helpHud" aria-label="조종법 보기">?</button>
 
   <section class="screen on" id="title">
     <div class="wrap">
       <h1><small>6·25 전쟁 대한민국 공군</small>하늘의 작전</h1>
       <p>F-51 무스탕 조종석에 앉아 6·25 전쟁 때 한국 공군이 해낸 작전을 직접 날아 봐요. 해인사를 지킨 판단, 끊기지 않던 철교, 351고지의 하늘, 그리고 블랙이글스 에어쇼까지.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSelect">작전 고르기</button><button class="btn ghost" id="menuMusicBtn" style="display:none">♫ 음악 켜기</button><button class="btn ghost fsBtn">전체화면</button></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="goSelect">비행학교 입학 / 작전상황실</button><button class="btn ghost" id="menuMusicBtn" style="display:none">♫ 음악 켜기</button><button class="btn" id="startImmersive">가로 전체화면 시작</button><button class="btn ghost fsBtn">전체화면</button></div>
     </div>
   </section>
 
   <section class="screen" id="select">
-    <h2>출격할 작전을 고르세요</h2>
-    <div class="missions">
+    <h2>🗺️ 소위 작전상황실</h2><p style="text-align:center;margin:0;color:#f4d590">대한민국 공군 역사 체험 · 연도별 작전 지도</p>
+    <div style="background:rgba(8,28,38,.87);border:1px solid #a88d55;border-radius:12px;padding:10px 14px;max-width:820px;width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<svg viewBox="0 0 150 100" width="125" height="76" role="img" aria-label="한반도 개념 지도: 승호리, 351고지, 해인사 위치 표시"><path d="M55 5Q76 0 92 19L87 36Q113 44 94 61L84 84L62 98L49 78L43 49L32 33Z" fill="#557c69" stroke="#d8c695" stroke-width="2"/><circle cx="65" cy="27" r="4" fill="#f4d46b"/><circle cx="93" cy="60" r="4" fill="#f4d46b"/><circle cx="58" cy="77" r="4" fill="#f4d46b"/><g font-size="11" fill="#fff"><text x="70" y="25">승호리</text><text x="97" y="57">351고지</text><text x="10" y="91">해인사</text></g></svg>
+<div style="flex:1;min-width:180px;font-size:14px;line-height:1.6"><b style="color:#f4d590">작전 위치 개념도</b><div>1951 해인사 · 1952 승호리 · 1952~53 351고지</div><small>위치는 학습용 개념 표시이며 실제 축척 지도는 아닙니다. 블랙이글스는 현대 항공시범으로 이어집니다.</small></div></div><div id="opsMap" aria-label="작전상황실 지도에서 임무 선택"><button type="button" data-ops="temple">📍 해인사<br>1951</button><button type="button" data-ops="bridge">📍 승호리<br>1952</button><button type="button" data-ops="hill">📍 351고지<br>1952~53</button><button type="button" data-ops="show">✈ 블랙이글스<br>현대</button></div><div id="missionDetail"><img src="images/mission_temple.webp" alt="선택한 작전 이미지"><div><strong>작전상황실</strong><p>지도 표시를 눌러 작전 내용을 확인하고 출격하세요.</p><button class="btn" id="opsLaunch" type="button" style="padding:7px 14px;font-size:14px">이 작전 선택 ▶</button></div></div><div class="missions">
       <button class="mcard" data-m="temple"><span class="done">완료</span>
-        <svg viewBox="0 0 300 90" aria-hidden="true"><rect width="300" height="90" fill="#cfdccf"/><path d="M0 90 L0 50 Q60 20 120 40 Q170 15 230 35 Q270 25 300 45 L300 90Z" fill="#557543"/>
-        <rect x="118" y="58" width="64" height="12" fill="#e9e2d0"/><path d="M110 60 L150 46 L190 60Z" fill="#3c3f44"/><rect x="128" y="70" width="44" height="10" fill="#9a968c"/>
-        <circle cx="150" cy="40" r="7" fill="#fff" opacity=".8"/><circle cx="154" cy="31" r="5" fill="#fff" opacity=".6"/></svg>
+        <img class="mission-art" src="images/mission_temple.webp" alt="temple 작전 일러스트" loading="lazy">
         <h3>해인사 팔만대장경 지키기</h3><span class="d">1951년 · 경남 합천 가야산</span>
         <p>폭격 지점으로 표시된 해인사. 쏠까, 지킬까? 문화유산을 지킨 조종사의 판단을 따라가요.</p></button>
       <button class="mcard" data-m="bridge"><span class="done">완료</span>
-        <svg viewBox="0 0 300 90" aria-hidden="true"><rect width="300" height="90" fill="#cfd8dd"/><path d="M0 52 Q80 38 150 50 T300 46 L300 70 Q220 62 150 72 T0 74Z" fill="#8fa9b8"/>
-        <g fill="#3c3b38"><rect x="95" y="52" width="110" height="5"/><rect x="100" y="57" width="4" height="18"/><rect x="127" y="57" width="4" height="18"/><rect x="154" y="57" width="4" height="18"/><rect x="181" y="57" width="4" height="18"/></g>
-        <rect x="122" y="44" width="56" height="20" fill="none" stroke="#C8372D" stroke-width="2.5" stroke-dasharray="6 4"/></svg>
+        <img class="mission-art" src="images/mission_bridge.webp" alt="bridge 작전 일러스트" loading="lazy">
         <h3>승호리 철교 차단작전</h3><span class="d">1952년 1월 15일 · 평양 동쪽</span>
         <p>유엔 공군이 500번 넘게 실패한 철교. 급강하해서 가운데 경간 2개를 끊어요.</p></button>
       <button class="mcard" data-m="hill"><span class="done">완료</span>
-        <svg viewBox="0 0 300 90" aria-hidden="true"><rect width="300" height="90" fill="#cdd3cf"/><path d="M0 90 L60 70 Q120 30 150 22 Q185 30 240 68 L300 80 L300 90Z" fill="#7d7356"/>
-        <rect x="140" y="20" width="10" height="4" fill="#ff7a1a"/><rect x="156" y="24" width="10" height="4" fill="#ff7a1a"/>
-        <circle cx="100" cy="52" r="9" fill="#fff" opacity=".85"/><circle cx="104" cy="42" r="7" fill="#fff" opacity=".7"/><circle cx="108" cy="33" r="5" fill="#fff" opacity=".5"/></svg>
+        <img class="mission-art" src="images/mission_hill.webp" alt="hill 작전 일러스트" loading="lazy">
         <h3>351고지 근접항공지원</h3><span class="d">1953년 3월 · 동해안 전선</span>
         <p>정찰기가 연막으로 표시한 적 진지를 로켓과 기총으로 공격해 고지를 지키는 국군을 도와요.</p></button>
       <button class="mcard" data-m="show"><span class="done">완료</span>
-        <svg viewBox="0 0 300 90" aria-hidden="true"><rect width="300" height="90" fill="#9fc3e3"/>
-        <path d="M120 45 A30 30 0 0 1 180 45 A15 15 0 0 1 150 45 A15 15 0 0 0 120 45" fill="none" stroke="#e0393e" stroke-width="5" stroke-linecap="round"/>
-        <path d="M120 45 A30 30 0 0 0 180 45" fill="none" stroke="#2b5fd9" stroke-width="5" stroke-linecap="round"/>
-        <g fill="#17181b"><path d="M30 64 l14 -4 l-14 -4 l3 4z"/><path d="M46 72 l14 -4 l-14 -4 l3 4z"/><path d="M46 56 l14 -4 l-14 -4 l3 4z"/></g>
-        <path d="M0 64 H30 M10 72 H46 M10 56 H46" stroke="#fff" stroke-width="3" opacity=".8"/></svg>
+        <img class="mission-art" src="images/mission_show.webp" alt="show 작전 일러스트" loading="lazy">
         <h3>블랙이글스 에어쇼</h3><span class="d">1953년 첫 특수비행 → 오늘의 T-50B</span>
         <p>전쟁이 끝난 하늘에서 시작된 공군 특수비행팀. 노란 고리를 통과하고 마지막엔 하늘에 태극 문양을 그려요.</p></button>
     </div>
@@ -363,8 +464,10 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>소리 (전체)</span><button id="tSound" aria-pressed="true">켜짐</button></div>
-      <div class="toggle"><span>배경음악</span><button id="tMusic" aria-pressed="true">켜짐</button></div>
+      <div class="toggle"><span>가상 관제사 음성 (교육용 합성 음성)</span><button id="tVoice" aria-pressed="false">꺼짐</button></div>
+       <div class="toggle"><span>배경음악</span><button id="tMusic" aria-pressed="true">켜짐</button></div>
       <div class="volpanel"><b>🔊 음량 세부 조절</b><label>배경음악 <output id="vBgmOut">35%</output><input id="vBgm" type="range" min="0" max="100" value="35"></label><label>비행 엔진·바람 <output id="vEngineOut">25%</output><input id="vEngine" type="range" min="0" max="100" value="25"></label><label>폭발·기총 효과음 <output id="vSfxOut">35%</output><input id="vSfx" type="range" min="0" max="100" value="35"></label><label>무전 알림음 <output id="vRadioOut">70%</output><input id="vRadio" type="range" min="0" max="100" value="70"></label><small>실제 무전 대사는 글자로 표시되며, 무전 중 배경음악이 자동으로 낮아집니다.</small></div><div class="toggle"><span>조종법 다시 보기</span><button id="pHelp">보기</button></div>
+      <div class="toggle"><span>그래픽 품질 (저사양 기기: 낮음 권장)</span><select id="qualitySelect" aria-label="그래픽 품질" style="font:inherit;max-width:130px;padding:7px;border:1px solid #8d846f;border-radius:8px"><option value="auto">자동</option><option value="low">낮음</option><option value="medium">보통</option><option value="high">높음</option></select></div>
       <div class="toggle"><span>전체화면</span><button class="fsBtn" aria-pressed="false">켜기</button></div>
       <div class="row"><button class="btn ghost" id="pQuit">작전 고르기</button><div style="display:flex;gap:10px"><button class="btn ghost" id="pRestart">다시 시작</button><button class="btn" id="pResume">계속</button></div></div></div>
   </section>
@@ -378,6 +481,18 @@ button:focus-visible{outline:3px solid #fff;outline-offset:3px}
     <img id="certImg" alt="명예 공군증">
     <p class="note">저장 버튼이 안 되면 그림을 길게 누르거나 마우스 오른쪽 버튼으로 저장해요.</p>
     <div class="row"><button class="btn ghost" id="certBack">작전 고르기</button><div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn ghost" id="certPrint">인쇄</button><a class="btn" id="certDl" href="#" download style="text-decoration:none">그림으로 저장</a></div></div></div></section>
+  <section class="screen" id="training"><div class="academy-hud">
+    <div class="academy-head"><small style="color:#f7c96c">대한민국 공군 · 교육용 가상 비행학교</small><h2>🛩 하늘의 비행학교</h2>
+      <img class="school-art" src="images/flight_school.webp" alt="비행학교 훈련 준비 일러스트"><div id="schoolCoach" aria-live="polite"><b>비행 교관</b> · 환영합니다. 조종간을 움직여 금빛 관문을 통과하세요.</div><p id="schoolProgress">기초 조종 훈련</p><div id="flightPhase" aria-live="polite">1단계 · 조종 적응</div><p id="schoolTarget">좌우 선회와 상승·하강을 연습하세요.</p><p style="color:#c7d8e2">PC: A/D(←/→) 방향, W/S(↑/↓) 고도 · 태블릿: 아래 조종 버튼</p>
+    </div><div class="academy-cross"></div><div id="schoolNotice"></div>
+    <div class="academy-controls"><div class="academy-pad"><button data-school="up" aria-label="상승">↑</button><button data-school="left" aria-label="좌회전">←</button><button data-school="down" aria-label="하강">↓</button><button data-school="right" aria-label="우회전">→</button></div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:end"><button class="school-btn" id="schoolFinish">훈련 수료 · 임관식 ▶</button><button class="school-btn" id="schoolSkip">훈련 다시 시작</button></div></div>
+  </div></section>
+  <section class="screen" id="commission"><div class="order"><div class="stamp">임관</div><p class="date">대한민국 공군 역사 체험 · 가상 임관식</p>
+     <div id="ceremonyStatus">훈련을 마친 조종사의 임관을 축하합니다</div><img class="commission-art" src="images/commissioning_ceremony.webp" alt="비행학교 수료와 소위 임관식 일러스트"><h2>비행학교 수료!</h2><p style="font-size:35px">🎖️ ✦ 🛩️ ✦ 🎖️</p><div class="rank">★ 소위 ★</div><p>기초 비행 조종과 관문 통과 훈련을 마쳤습니다.<br>이제 교육용 가상 조종사 <b>소위</b>로 임관하여 역사 속 작전에 출격합니다.</p>
+     <p class="note">역사 체험을 위한 가상 계급이며 실제 군 임관과는 관계없습니다.</p>
+     <div class="row" style="justify-content:center"><button class="btn ghost" id="schoolRetry">다시 훈련</button><button class="btn" id="commissionGo">작전상황실 입장 ▶</button></div>
+  </div></section>
   <section class="screen" id="quiz"><div class="order" id="quizBody"></div></section>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -422,13 +537,20 @@ function hHill(x,z){const d=Math.hypot(x,z);
 /* ---------- renderer ---------- */
 const gl=$('gl'),hc=$('hud2d'),hx=hc.getContext('2d');
 const R=new T.WebGLRenderer({canvas:gl,antialias:true,powerPreference:'high-performance'});
-R.setPixelRatio(Math.min(1.6,window.devicePixelRatio||1));
+const PERF={quality:'auto',ratio:1,slow:0,fast:0,lastEval:0};
+function autoQuality(){const coarse=matchMedia('(pointer:coarse)').matches;const mem=navigator.deviceMemory||4;const cores=navigator.hardwareConcurrency||4;return (coarse&&(mem<=4||cores<=4))?'low':coarse?'medium':'high';}
+function applyQuality(level){PERF.quality=level;PERF.ratio=Math.min(window.devicePixelRatio||1,level==='low'?1:level==='medium'?1.25:1.6);R.setPixelRatio(PERF.ratio);if(typeof resize==='function'&&gl.clientWidth)resize();}
+R.setPixelRatio(1);
 const scene=new T.Scene();
 const cam=new T.PerspectiveCamera(62,1,1,32000);
 let W=1,H=1;
 function resize(){W=gl.clientWidth;H=gl.clientHeight;R.setSize(W,H,false);cam.aspect=W/H;cam.updateProjectionMatrix();
   const d=Math.min(2,window.devicePixelRatio||1);hc.width=W*d;hc.height=H*d;hx.setTransform(d,0,0,d,0,0);}
 window.addEventListener('resize',resize);
+window.addEventListener('orientationchange',()=>{resetTouchInputs();setTimeout(resize,150);setTimeout(resize,500);});
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>{resize();updateRotationNotice();});
+function updateRotationNotice(){const active=['play','training'].includes(G.mode);document.body.classList.toggle('portrait-flight',active&&window.innerHeight>window.innerWidth&&matchMedia('(pointer:coarse)').matches&&!sessionStorage.getItem('f51-dismiss-rotate'));}
+$('rotationDismiss').onclick=()=>{sessionStorage.setItem('f51-dismiss-rotate','1');updateRotationNotice();};
 
 /* ---------- textures ---------- */
 function canvasTex(sz,fn){const c=document.createElement('canvas');c.width=c.height=sz;fn(c.getContext('2d'),sz);const t=new T.CanvasTexture(c);return t;}
@@ -531,7 +653,8 @@ function buildWorld(key){
   skyMat.uniforms.top.value.set(winter?0x4a79a8:0x7d97ab);skyMat.uniforms.bot.value.set(winter?0xd6e1e9:0xd5d8d2);
   scene.fog=new T.Fog(winter?0xd6e1e9:0xd5d8d2,1600,winter?11500:8500);
   hemi.color.set(winter?0xd8e6f2:0xd9dccf);hemi.groundColor.set(winter?0x7b7a74:0x5e5444);sun.intensity=winter?.95:.85;
-  if(key==='temple'){skyMat.uniforms.top.value.set(0x4a83bd);skyMat.uniforms.bot.value.set(0xd4e0e2);scene.fog=new T.Fog(0xd4e0e2,1800,10000);sun.intensity=1;hemi.color.set(0xdfe8e0);}
+  if(key==='temple'){skyMat.uniforms.top.value.set(0x6f8a99);skyMat.uniforms.bot.value.set(0xe9d6b5);scene.fog=new T.Fog(0xd4e0e2,1800,10000);sun.intensity=1;hemi.color.set(0xdfe8e0);}
+  if(key==='hill'){skyMat.uniforms.top.value.set(0x61758b);skyMat.uniforms.bot.value.set(0xb9bac0);scene.fog=new T.Fog(0xb9bac0,1150,7400);sun.intensity=.68;}
   if(key==='show'){skyMat.uniforms.top.value.set(0x3a76b8);skyMat.uniforms.bot.value.set(0xd8e5ee);scene.fog=new T.Fog(0xd8e5ee,2600,14000);sun.intensity=1;}
   const size=19000,seg=240,geo=new T.PlaneGeometry(size,size,seg,seg);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position;for(let i=0;i<pos.count;i++)pos.setY(i,WD.hf(pos.getX(i),pos.getZ(i)));
@@ -736,7 +859,10 @@ function predict(p0,v0,gs){const p=p0.clone(),v=v0.clone();for(let i=0;i<1500;i+
 function segDist(a,b,c){const ab=vT.copy(b).sub(a),l2=ab.lengthSq();let t=l2?clamp(c.clone().sub(a).dot(ab)/l2,0,1):0;return a.clone().addScaledVector(ab,t).distanceTo(c);}
 
 /* ---------- messages ---------- */
-const radioQ=[];let radioT=0;
+const radioQ=[];let radioT=0;let voiceEnabled=false;let spokenUtterance=null;
+function stopVoice(){try{if('speechSynthesis' in window)window.speechSynthesis.cancel();}catch(e){}spokenUtterance=null;}
+function sayRadio(txt){if(!voiceEnabled||!('speechSynthesis' in window))return;try{stopVoice();const u=new SpeechSynthesisUtterance(txt);u.lang='ko-KR';u.rate=1.02;u.volume=Math.min(1,VOL.radio);u.pitch=.92;u.onend=()=>{spokenUtterance=null;};spokenUtterance=u;window.speechSynthesis.speak(u);}catch(e){console.warn('음성 합성 실패',e);}}
+
 function radio(who,txt,dur){radioQ.push({who,txt,dur:dur||4.6});}
 /* ---------- 무전 인물 ---------- */
 const RTYPE={rok:{bg:'#2b3a2f',hel:'leather',hc:'#6b4a2e',scarf:'#c8372d',jk:'#5b4a35',role:'대한민국 공군 F-51 조종사'},
@@ -782,7 +908,7 @@ function setRadioFace(w){const t=speakerType(w),slug=RSLUG[w],face=$('rFace');fa
   $('rRole').textContent=RTYPE[t].role;}
 
 function updRadio(dt){if(radioT>0){radioT-=dt;if(radioT<=0){$('radio').classList.remove('on');if(G.mode==='play')bgmDuck(false);}}
-  if(radioT<=0&&radioQ.length){const m=radioQ.shift();bgmDuck(true);setRadioFace(m.who);$('rWho').textContent=m.who;$('rTxt').textContent=m.txt;const el=$('radio');el.classList.remove('on');void el.offsetWidth;el.classList.add('on');radioT=m.dur;sfx('radio');}}
+  if(radioT<=0&&radioQ.length){const m=radioQ.shift();bgmDuck(true);setRadioFace(m.who);$('rWho').textContent=m.who;$('rTxt').textContent=m.txt;const el=$('radio');el.classList.remove('on');void el.offsetWidth;el.classList.add('on');radioT=m.dur;sfx('radio');sayRadio(m.txt);}}
 function toast(t,s,ms){const el=$('toast');el.innerHTML=t+(s?`<small>${s}</small>`:'');el.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove('on'),ms||2200);}
 
 /* ---------- mission start ---------- */
@@ -791,7 +917,7 @@ const MDEF={
  temple:{start:[0,900,4300],load:'rockets',ord:6,obj:'해인사'},
  show:{start:[0,320,2700],load:'none',ord:0,obj:'에어쇼'},
  hill:{start:[200,800,-3000],load:'rockets',ord:6,obj:'351고지'}};
-function startMission(key){G.rescues=0;G.checkpoint=null;hintLevel=0;audioInit();bgmDucked=false;bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
+function startMission(key){stopVoice();G.rescues=0;G.checkpoint=null;hintLevel=0;audioInit();bgmDucked=false;bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
   PL.mesh=key==='show'?makeJet():makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
   PL.v=118;PL.thr=.75;PL.hp=100;G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:118,time:0};PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
   wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
@@ -820,10 +946,10 @@ const stick={x:0,y:0,id:null};let touchUI=matchMedia('(pointer:coarse)').matches
 const stEl=$('stick'),knob=$('knob');
 function stickMove(e){const r=stEl.getBoundingClientRect();let x=(e.clientX-(r.left+r.width/2))/(r.width/2),y=(e.clientY-(r.top+r.height/2))/(r.height/2);const m=Math.hypot(x,y);if(m>1){x/=m;y/=m;}
   stick.x=x;stick.y=y;knob.style.transform=`translate(${x*42}px,${y*42}px)`;}
-stEl.addEventListener('pointerdown',e=>{stick.id=e.pointerId;stEl.setPointerCapture(e.pointerId);stickMove(e);});
-stEl.addEventListener('pointermove',e=>{if(e.pointerId===stick.id)stickMove(e);});
+stEl.addEventListener('pointerdown',e=>{e.preventDefault();stick.id=e.pointerId;stEl.setPointerCapture(e.pointerId);stickMove(e);});
+stEl.addEventListener('pointermove',e=>{if(e.pointerId===stick.id){e.preventDefault();stickMove(e);}});
 const stickEnd=e=>{if(e.pointerId!==stick.id)return;stick.id=null;stick.x=stick.y=0;knob.style.transform='';};
-stEl.addEventListener('pointerup',stickEnd);stEl.addEventListener('pointercancel',stickEnd);
+stEl.addEventListener('pointerup',stickEnd);stEl.addEventListener('pointercancel',stickEnd);stEl.addEventListener('lostpointercapture',()=>{stick.id=null;stick.x=stick.y=0;knob.style.transform='';});
 $('bA').addEventListener('pointerdown',e=>{e.preventDefault();fireMain();});
 $('bG').addEventListener('pointerdown',e=>{e.preventDefault();G.gunHeld=true;});
 ['pointerup','pointercancel','pointerleave'].forEach(n=>$('bG').addEventListener(n,()=>G.gunHeld=false));
@@ -835,7 +961,10 @@ window.addEventListener('keydown',e=>{G.keys[e.code]=true;if(G.mode!=='play')ret
   if(e.code==='Space'){e.preventDefault();fireMain();}if(e.code==='KeyC')PL.view=1-PL.view,camSnap=true;if(e.code==='Escape'||e.code==='KeyP')pauseGame();if(e.code==='KeyH')openHelp();if(e.code==='Digit1')callSupport('navy');if(e.code==='Digit2')callSupport('art');
   if(e.code.startsWith('Arrow'))e.preventDefault();});
 window.addEventListener('keyup',e=>{G.keys[e.code]=false;});
-window.addEventListener('blur',()=>{G.keys={};G.gunHeld=false;});
+function resetTouchInputs(){stick.id=null;stick.x=stick.y=0;knob.style.transform='';G.gunHeld=false;G.keys={};if(typeof SCHOOL!=='undefined'&&SCHOOL.keys)SCHOOL.keys={};}
+window.addEventListener('blur',resetTouchInputs);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)resetTouchInputs();});
+window.addEventListener('pointercancel',()=>{G.gunHeld=false;});
 
 /* ---------- flight ---------- */
 function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,r=0;
@@ -1439,14 +1568,17 @@ function bgmFade(el,to,ms,done){if(!el)return;const from=el.volume,t0=performanc
 function bgm(key){if(key===bgmKey&&bgmEl){if(bgmEl.paused&&bgmOn&&!muted)bgmEl.play().catch(()=>{});return;}bgmKey=key;const old=bgmEl;bgmEl=null;
   if(old)bgmFade(old,0,700,()=>{old.pause();old.removeAttribute('src');old.load();});
   if(!key||!bgmOn||muted||!BGM_FILES[key])return;
-  const a=new Audio(BGM_FILES[key]);a.loop=key!=='win'&&key!=='fail';a.volume=0;a.preload='auto';a.onerror=()=>console.warn('배경음악 파일을 불러오지 못했습니다:',BGM_FILES[key]);
+  const a=new Audio(BGM_FILES[key]);a.setAttribute('playsinline','');a.loop=key!=='win'&&key!=='fail';a.volume=0;a.preload='auto';a.onerror=()=>{console.warn('배경음악 파일을 불러오지 못했습니다:',BGM_FILES[key]);if(key==='menu')$('menuMusicBtn').style.display='inline-block';};
   if(key==='win'||key==='fail')a.onended=()=>{if(bgmKey===key){bgmKey=null;bgm('menu');}};
   const pr=a.play();if(pr&&pr.then)pr.then(()=>{if(key==='menu')$('menuMusicBtn').style.display='none';}).catch(()=>{if(key==='menu'&&G.mode==='title')$('menuMusicBtn').style.display='inline-block';});bgmEl=a;bgmFade(a,bgmDucked?VOL.bgm*.22:VOL.bgm,900);}
-function bgmDuck(on){bgmDucked=!!on;if(bgmEl)bgmFade(bgmEl,bgmDucked?VOL.bgm*.22:VOL.bgm,450);}
-function toSelect(){G.mode='select';bgmDucked=false;bgm('menu');$('hud').classList.remove('on');$('hintBtn').style.display='none';$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
+function bgmDuck(on){bgmDucked=!!on;if(bgmEl)bgmFade(bgmEl,bgmDucked?VOL.bgm*.15:VOL.bgm,450);}
+function situationMusic(dt){if(!bgmEl||G.mode!=='play'||bgmDucked)return;const ground=groundY(PL.pos.x,PL.pos.z),danger=PL.hp<30||PL.pos.y-ground<110;const target=VOL.bgm*(danger?.88:1);if(Math.abs(bgmEl.volume-target)>.035&&(!bgmEl._situationAt||performance.now()-bgmEl._situationAt>500)){bgmEl._situationAt=performance.now();bgmFade(bgmEl,target,500);}}
+
+function toSelect(){if(!schoolCommissioned()){beginTraining();return;}stopVoice();SCHOOL.active=false;G.mode='select';bgmDucked=false;bgm('menu');$('hud').classList.remove('on');$('hintBtn').style.display='none';$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
   if(!WD||WD.key!=='bridge'){buildWorld('bridge');}const c=cleared();const q=quizDone();document.querySelectorAll('.mcard').forEach(m=>m.classList.toggle('cleared',!!(c[m.dataset.m]&&q[m.dataset.m])));updSelectCert();showScreen('select');}
 function pauseGame(){if(G.mode!=='play')return;G.mode='pause';bgmDuck(true);engineSet(false);G.keys={};showScreen('pause');}
 $('pauseBtn').onclick=pauseGame;
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopVoice();if(G.mode==='play')pauseGame();last=performance.now();}});window.addEventListener('blur',()=>{if(G.mode==='play')pauseGame();});
 let helpFrom='play',helpTab='brief';
 const MNAME={temple:'해인사 팔만대장경 지키기',bridge:'승호리 철교 차단작전',hill:'351고지 근접항공지원',show:'블랙이글스 에어쇼'};
 const HB={
@@ -1535,10 +1667,26 @@ const QUICK_START={
  hill:[['📻','무전을 듣고 흰 연기와 목표 진지를 찾아요.'],['🎯','조준 표시를 목표에 맞춰요.'],['🚀','초록색이면 로켓 또는 기총을 발사해요.'],['🛡️','주황색 천이 있는 아군은 공격하지 않아요.']],
  show:[['🟡','노란 고리의 가운데로 날아가요.'],['↔️','조종간을 움직여 비행 방향을 바꿔요.'],['✨','안내에 따라 배럴 롤·루프에 도전해요.'],['🛩️','속도가 너무 낮아지지 않게 조절해요.']]
 };
-function quickStartHTML(){const touch=touchUI;const keys=touch?'화면 왼쪽 조종간':'방향키 또는 WASD';const fire=touch?'오른쪽 투하·기총 버튼':'Space(투하) / F(기총)';
- return `<div class="hhead" style="--mc:#2e4a62"><span class="hicon">🕹️</span><div><small>미션 영상 다음 단계</small><h2>${MNAME[G.mkey]} · 간단 조종법</h2></div></div><div class="tabbody" style="min-height:0"><div class="tip"><b>방향 조종:</b> ${keys}<br><b>무기 사용:</b> ${G.mkey==='show'?'Space(연기)':fire}<br><b>속도:</b> ${touch?'오른쪽 추력 ▲ / ▼':'W/S 또는 추력 조절 키 (자세한 조종법 참고)'}</div><div class="tip" id="practiceBox">🎮 출격 전 조작 연습: 아래에서 <b>상승·좌우 방향·발사</b>를 차례로 눌러 확인하세요.<div class="practiceBtns"><button type="button" data-p="up">⬆ 상승</button><button type="button" data-p="turn">↔ 방향</button><button type="button" data-p="fire">🎯 발사</button></div><small id="practiceStatus">연습 0 / 3 · 실제 무장은 사용하지 않습니다.</small></div><ol class="steps">${QUICK_START[G.mkey].map(([e,t],i)=>step(i+1,e,t)).join('')}</ol><p class="note">자세한 설명은 비행 중 <b>?</b> 버튼에서 다시 확인할 수 있어요.</p></div>`;}
+function quickStartHTML(){
+ const k=G.mkey, touch=touchUI;
+ const actions={
+  temple:[['🛡️','해인사는 보호','사찰을 공격하지 않아요.'],['🎯','은신처 조준','능선의 목표에 표시를 맞춰요.'],['🚀','로켓 발사','조준 표시가 초록색일 때 발사해요.']],
+  bridge:[['🧭','철교로 이동','목표 화살표를 따라가요.'],['🎯','폭탄 투하','노란 원이 초록색일 때 투하해요.'],['⬆️','빠르게 상승','투하 직후 기수를 올려요.']],
+  hill:[['📻','무전 확인','흰 연기로 표시된 진지를 찾아요.'],['🛡️','아군 확인','주황색 천이 있는 아군은 보호해요.'],['🚀','지원 공격','목표에 조준 후 로켓·기총을 사용해요.']],
+  show:[['🟡','고리 통과','빛나는 노란 고리 가운데로 날아요.'],['🛩️','비행 자세 유지','방향과 속도를 조절해요.'],['✨','곡예 비행','화면의 단계 안내를 따라가요.']]
+ };
+ const fire=k==='show'?'연기':k==='bridge'?'투하':'발사';
+ const control=touch?`<span>🕹️ 왼쪽 조종간</span><span>⏫ 오른쪽 추력</span><span>🔴 ${fire} 버튼</span>`:`<span>↕️ W/S 또는 ↑/↓</span><span>↔️ A/D 또는 ←/→</span><span>␣ Space ${fire}</span>`;
+ return `<div class="hhead" style="--mc:#2e4a62"><span class="hicon">✈️</span><div><small>미션 영상 다음 단계 · 15초 확인</small><h2>${MNAME[k]} · 출격 안내</h2></div></div>
+ <div class="tabbody quick-mini" style="min-height:0">
+ <p class="quick-lead">비행학교에서 배운 조종으로 <b>이번 작전의 3가지 핵심</b>만 기억하세요.</p>
+ <div class="quick-actions">${actions[k].map(([ic,title,desc],i)=>`<div class="quick-action"><span class="quick-number">${i+1}</span><span class="quick-symbol">${ic}</span><div><b>${title}</b><small>${desc}</small></div></div>`).join('')}</div>
+ <div class="quick-controls"><strong>조작 핵심</strong><div>${control}</div></div>
+ <p class="quick-note">자세한 조종법은 비행 중 <b>?</b> 버튼에서 다시 볼 수 있어요.</p>
+ </div>`;
+}
 const HORD=['brief','how','ctrl'];let helpMax=0;
-function renderHelp(){if(helpFrom==='start'){$('helpBody').innerHTML=quickStartHTML();$('helpClose').textContent='출격하기 ▶';const done=new Set();document.querySelectorAll('#practiceBox [data-p]').forEach(b=>b.onclick=()=>{done.add(b.dataset.p);b.disabled=true;b.style.background='#d8e9d6';$('practiceStatus').textContent='연습 '+done.size+' / 3'+(done.size===3?' · 준비 완료!':'');});return;}$('helpBody').innerHTML=helpHTML();const st=helpFrom==='start',idx=HORD.indexOf(helpTab);
+function renderHelp(){if(helpFrom==='start'){$('helpBody').innerHTML=quickStartHTML();$('helpClose').textContent='작전 출격 ▶';return;}$('helpBody').innerHTML=helpHTML();const st=helpFrom==='start',idx=HORD.indexOf(helpTab);
   if(st)helpMax=Math.max(helpMax,idx);
   $('helpClose').textContent=st?(idx<2?`다음 ▶ (${idx+1}/3)`:'출격!'):'계속 비행하기';
   document.querySelectorAll('#helpBody .tab').forEach(b=>{const ti=HORD.indexOf(b.dataset.t);if(st&&ti>helpMax){b.disabled=true;b.style.opacity=.45;b.style.cursor='not-allowed';}
@@ -1549,7 +1697,7 @@ function openHelp(tab){if(G.mode==='play'){G.mode='pause';engineSet(false);G.key
 $('helpVideo').onclick=()=>{const tab=helpTab,from=helpFrom;showScreen(null);G.mode='play';playCine(G.mkey,()=>{helpFrom=from;openHelp(tab);});};
 $('helpHud').onclick=()=>openHelp();$('pHelp').onclick=()=>openHelp();
 $('helpClose').onclick=()=>{
-  if(helpFrom==='pause')showScreen('pause');else{showScreen(null);G.mode='play';bgmDuck(false);}helpFrom='play';};
+  if(helpFrom==='pause')showScreen('pause');else if(helpFrom==='start'){if(schoolCommissioned())resumeAfterSchool();else{G.mode='brief';showScreen('brief');}}else{showScreen(null);G.mode='play';bgmDuck(false);}helpFrom='play';};
 const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
 function toggleFS(){const el=document.documentElement;
   if(fsEl()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return;}
@@ -1562,6 +1710,7 @@ document.querySelectorAll('.fsBtn').forEach(b=>b.addEventListener('click',toggle
 $('pResume').onclick=()=>{showScreen(null);G.mode='play';bgmDuck(false);};
 $('pRestart').onclick=()=>startMission(G.mkey);
 $('pQuit').onclick=toSelect;
+$('tVoice').onclick=()=>{voiceEnabled=!voiceEnabled;$('tVoice').setAttribute('aria-pressed',voiceEnabled);$('tVoice').textContent=voiceEnabled?'켜짐':'꺼짐';if(!voiceEnabled)stopVoice();};
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
 for(const [key,id] of [['bgm','vBgm'],['engine','vEngine'],['sfx','vSfx'],['radio','vRadio']]){const el=$(id),out=$(id+'Out');el.value=Math.round(VOL[key]*100);out.textContent=el.value+'%';el.oninput=()=>{VOL[key]=+el.value/100;out.textContent=el.value+'%';try{localStorage.setItem('f51-vol',JSON.stringify(VOL));}catch(e){}if(key==='bgm'&&bgmEl)bgmFade(bgmEl,bgmDucked?VOL.bgm*.22:VOL.bgm,120);};}
 tgl('tStudent' ,()=>G.student,v=>{G.student=v;if(v){G.easy=true;G.assist=true;syncEZ();$('tEasy').setAttribute('aria-pressed','true');$('tEasy').textContent='켜짐';}document.getElementById('app').classList.toggle('student-mode',v);$('hintBtn').style.display=v?'block':'none';});
@@ -1638,15 +1787,18 @@ const BRIEF={
 let bk='bridge',bp=0;
 function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
   $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'미션 영상 보기':'다음';$('brief').scrollTop=0;}
+$('qualitySelect').addEventListener('change',e=>{const v=e.target.value;applyQuality(v==='auto'?autoQuality():v);});
+function unlockMusic(){if(!bgmOn||muted||!bgmEl)return;if(bgmEl.paused){const p=bgmEl.play();if(p&&p.catch)p.catch(()=>{});}}
+document.addEventListener('pointerdown',unlockMusic,{passive:true});document.addEventListener('keydown',unlockMusic);
 $('menuMusicBtn').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'){bgmEl.play().then(()=>$('menuMusicBtn').style.display='none').catch(()=>{});}else{bgmKey=null;bgm('menu');}};
-$('goSelect').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'&&bgmEl.paused)bgmEl.play().catch(()=>{});toSelect();};
+$('goSelect').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'&&bgmEl.paused)bgmEl.play().catch(()=>{});if(schoolCommissioned())toSelect();else beginTraining();};
 $('backTitle').onclick=()=>{G.mode='title';bgm('menu');showScreen('title');};
 document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{audioInit();bk=m.dataset.m;bp=0;renderBrief();G.mode='brief';showScreen('brief');});
 $('prevBtn').onclick=()=>{if(bp>0){bp--;renderBrief();}};
-$('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else{G.br2=false;startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=2;openHelp('ctrl');});}};
+$('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else{G.br2=false;showMissionTransition(bk,()=>{startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=2;openHelp('ctrl');});});}};
 
-const HISTORY={temple:{real:'해인사 장경판전은 실제로 팔만대장경이 보관된 유산입니다. 게임의 사찰 지형과 무전은 교육용 3D 재구성입니다.',source:'전통문화포털 · 고려대장경 및 장경판전',url:'https://www.kculture.or.kr/brd/board/399/L/menu/498?bbIdx=14575&brdType=R&recordCnt=10&searchField=&searchText=&thisPage=1',place:'경남 합천 가야산'},bridge:{real:'1952년 승호리 철교 차단작전은 대한민국 공군의 6·25 전쟁 주요 작전으로 기억됩니다. 게임의 교량 배치, 표적 원, 폭탄 궤적은 이해를 돕기 위한 재현입니다.',source:'국방일보 · 공군 3대 전과 소개',url:'https://kookbang.dema.mil.kr/newsWeb/20250624/2/ATCE_CTGR_0010050000/view.do',place:'평양 동쪽 승호리 일대'},hill:{real:'351고지 지원은 한 번의 전투만이 아니라 1952~1953년 동부전선에서 진행된 공지합동작전입니다. 게임은 여러 작전의 특징을 한 장면에 압축했습니다.',source:'국가보훈부 · 351고지 전투지원작전 기념비',url:'https://mpva.go.kr/mpva/selectBbsNttView.do?bbsNo=218&integrDeptCode=&key=1548&nttNo=63395&pageIndex=1&searchCnd=all&searchCtgry=&searchKrwd=',place:'강원 고성 동부전선'},show:{real:'블랙이글스 특수비행의 시작과 현대 T-50B 비행을 게임의 한 코스에 결합했습니다. 고리, 기술 문, 관중 환호는 게임 장치입니다.',source:'공군 제10전투비행단 역사 · 국방일보',url:'https://kookbang.dema.mil.kr/newsWeb/20250624/2/ATCE_CTGR_0010050000/view.do',place:'사천 · 현대 에어쇼'} };
-function historyCompareHTML(k){const h=HISTORY[k];return `<div class="hcard2" style="margin-top:14px;border-color:#b7a66f"><b>🔎 실제 역사와 게임 비교</b><p><strong>게임 속 장면:</strong> 3D 지형과 임무 수행은 교육용 시뮬레이션입니다.</p><p><strong>실제 역사:</strong> ${h.real}</p><p><strong>지도에서 찾아볼 곳:</strong> ${h.place}</p><p><a href="${h.url}" target="_blank" rel="noopener noreferrer" style="color:#164b8b;font-weight:bold">📚 관련 역사 자료 보기 ↗</a></p><p class="note">링크는 외부 기관 자료 페이지이며 실제 사진의 제공 여부는 각 자료에 따라 다릅니다.</p></div>`;}
+const HISTORY={temple:{real:'해인사 장경판전은 실제로 팔만대장경이 보관된 유산입니다. 게임의 사찰 지형과 무전은 교육용 3D 재구성입니다.',source:'전통문화포털 · 고려대장경 및 장경판전',url:'https://www.kculture.or.kr/brd/board/399/L/menu/498?bbIdx=14575&brdType=R&recordCnt=10&searchField=&searchText=&thisPage=1',place:'경남 합천 가야산'},bridge:{real:'1952년 승호리 철교 차단작전은 대한민국 공군의 6·25 전쟁 주요 작전으로 기억됩니다. 게임의 교량 배치, 표적 원, 폭탄 궤적은 이해를 돕기 위한 재현입니다.',source:'한국민족문화대백과사전 · 승호리철교 차단작전',url:'https://encykorea.aks.ac.kr/Article/E0032286',place:'평양 동쪽 승호리 일대'},hill:{real:'351고지 지원은 한 번의 전투만이 아니라 1952~1953년 동부전선에서 진행된 공지합동작전입니다. 게임은 여러 작전의 특징을 한 장면에 압축했습니다.',source:'국가보훈부 현충시설정보서비스 · 공군 351고지 전투지원작전 기념비',url:'https://mfis.mpva.go.kr/memorial/mfisMovementList.do',place:'강원 고성 동부전선'},show:{real:'블랙이글스 특수비행의 시작과 현대 T-50B 비행을 게임의 한 코스에 결합했습니다. 고리, 기술 문, 관중 환호는 게임 장치입니다.',source:'공군 제10전투비행단 역사 · 국방일보',url:'https://kookbang.dema.mil.kr/newsWeb/20250624/2/ATCE_CTGR_0010050000/view.do',place:'사천 · 현대 에어쇼'} };
+function historyCompareHTML(k){const h=HISTORY[k];const links={temple:'https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=Haeinsa%20Tripitaka',bridge:'https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=Korean%20War%20railway%20bridge',hill:'https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=Korean%20War%20F-51',show:'https://commons.wikimedia.org/wiki/Special:MediaSearch?type=image&search=Black%20Eagles%20T-50B'};const figure=`<div class="history-compare"><div><strong>🎮 게임 속 재구성</strong><svg viewBox="0 0 300 120" aria-label="게임 속 작전 개념도"><rect width="300" height="120" fill="#b6cbd0"/><path d="M0 110L70 40L140 85L200 24L300 112Z" fill="#789083"/><path d="M60 60L100 52L152 66L102 62L92 86L84 62Z" fill="#e8e5d8"/><circle cx="205" cy="65" r="15" fill="none" stroke="#d34d3d" stroke-width="4"/></svg><small>실제 지형이나 사진이 아닌 교육용 도식</small></div><div><strong>🗺 실제 위치·역사 자료</strong><svg viewBox="0 0 300 120" aria-label="실제 역사 위치 개념도"><rect width="300" height="120" fill="#f1e9d4"/><path d="M20 108 Q75 50 118 94 T280 28" fill="none" stroke="#8b9f9b" stroke-width="15" opacity=".5"/><path d="M20 108 Q75 50 118 94 T280 28" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="5 6"/><circle cx="168" cy="74" r="9" fill="#c33e32"/><text x="180" y="70" font-size="12" fill="#292929">참고 위치</text></svg><small>정확한 지도가 아닌 위치 개념도 · ${h.place}</small></div></div><p><a target="_blank" rel="noopener noreferrer" href="${links[k]}">📷 관련 사진 검색 (Wikimedia Commons) ↗</a> · 해당 사건 사진이 아닐 수 있으니 출처와 설명을 확인하세요.</p>`;return `<div class="hcard2" style="margin-top:14px;border-color:#b7a66f"><b>🔎 실제 역사와 게임 비교</b>${figure}<p><strong>게임 속 장면:</strong> 3D 지형과 임무 수행은 교육용 시뮬레이션입니다.</p><p><strong>실제 역사:</strong> ${h.real}</p><p><strong>지도에서 찾아볼 곳:</strong> ${h.place}</p><p><a href="${h.url}" target="_blank" rel="noopener noreferrer" style="color:#164b8b;font-weight:bold">📚 관련 역사 자료 보기 ↗</a></p><p class="note">링크는 외부 기관 자료 페이지이며 실제 사진의 제공 여부는 각 자료에 따라 다릅니다.</p></div>`;}
 function debrief(){G.mode='debrief';bgmDucked=false;bgm(G.result==='win'?'win':'fail');$('hud').classList.remove('on');$('hintBtn').style.display='none';$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);const r=G.result,win=r==='win';if(win)markCleared(G.mkey);
   const head={temple:'문화유산 피해',win:'임무 성공',crash:'지면 충돌',shot:'기체 손상, 비상 탈출',ammo:'무장 소진, 귀환',lost:'방어선 후퇴'}[r];let html='';
   if(G.mkey==='bridge'){const avg=MI.rel.length?Math.round(MI.rel.reduce((a,b)=>a+b,0)/MI.rel.length):0;
@@ -1678,7 +1830,10 @@ function debrief(){G.mode='debrief';bgmDucked=false;bgm(G.result==='win'?'win':'
     <div class="tricks"><span class="${MI.found?'ok':''}">📻 무전으로 찾은 목표 ${MI.found}곳</span><span class="${MI.calls?'ok':''}">🤝 지원 요청 ${MI.calls}회</span></div>
     <p>1953년 3월, <mark>윤응렬 소령</mark>이 이끈 한국 공군 F-51 16대가 351고지를 공격하던 적을 공격했어요. 미 공군 T-6 모스키토 정찰기(한국 공군 조종사도 함께 탔어요)와 지상 통제반이 목표를 알려 주었고, 미 해군 함포와 국군 포병이 적 대공포를 눌러 주었어요.</p>
     <p>그 덕분에 <mark>국군 제15사단</mark>이 351고지를 지켜 냈어요. 공군·해군·육군, 그리고 한국과 미국이 힘을 합친 합동작전이었어요.</p>`;}
-  html+=historyCompareHTML(G.mkey);html+=`<p class="note">게임 속 무전 대화와 지형은 이해를 돕기 위해 새로 꾸민 장면이에요.</p>
+  const perf=G.mkey==='temple'?Math.max(0,100-MI.warn*10-(MI.hitTemple?70:0)):G.mkey==='bridge'?Math.max(0,45+MI.hits*25-MI.rel.length*2):G.mkey==='hill'?Math.max(0,Math.round(MI.def)-MI.ff*12):Math.max(0,Math.round(100*MI.passed/Math.max(1,WD.rings.length)));
+  const grade=win?(perf>=85?3:perf>=60?2:1):0;try{const grades=JSON.parse(localStorage.getItem('f51-grades')||'{}');grades[G.mkey]=Math.max(grade,grades[G.mkey]||0);localStorage.setItem('f51-grades',JSON.stringify(grades));}catch(e){}
+  html+=`<div class="hcard2"><b>⭐ 나의 작전 평가</b><div class="star-grade">${'★'.repeat(grade)}${'☆'.repeat(3-grade)}</div><p>${!win?'재도전해서 별을 획득해 보세요.':grade===3?'정확한 판단과 안정적인 수행!':grade===2?'좋은 결과예요. 더 안전하게 도전해 보세요.':'임무 완료! 다음엔 안전과 정확도도 챙겨 보세요.'}</p></div>`;
+  html+=historyCompareHTML(G.mkey);html+=`<div id="historyVerify"><b>역사 자료 확인 안내</b><p>일러스트·군복·무전·비행 지형·교관·임관식은 교육용 재구성입니다. 링크의 실제 문헌 설명과 게임 연출을 구별해서 살펴보세요.</p><p>승호리는 1952년 1월 12~15일, 351고지 항공지원은 1952~1953년에 걸친 사건입니다. 외부 자료는 온라인 연결 시 확인할 수 있습니다.</p></div>`;html+=`<p class="note">게임 속 무전 대화와 지형은 이해를 돕기 위해 새로 꾸민 장면이에요.</p>
     ${win?'<div class="tip">📝 확인 문제까지 모두 풀면 이 작전이 <b>수료</b>돼요. 네 작전을 모두 수료하면 명예 공군증을 받아요!</div>':''}
     <div class="row"><button class="btn ghost" id="againBtn">다시 출격</button><button class="btn" id="quizBtn">확인 문제 풀기</button></div>`;
   $('debriefBody').innerHTML=html;showScreen('debrief');$('debrief').scrollTop=0;
@@ -1716,9 +1871,33 @@ function renderQuiz(){const Q=QZ[G.mkey],it=Q[qi];
     ${allCleared()?'<div class="tip" style="background:#f3e8c4;border:3px solid #c9a227"><b>🎖 네 작전과 확인 문제를 모두 마쳤어요!</b><br>이제 명예 공군증을 받을 수 있어요.</div>':won?`<div class="tip">✅ 이 작전을 수료했어요. 작전 수료 <b>${doneCount()} / ${MKEYS.length}</b></div>`:'<div class="tip warn">이 작전은 아직 성공하지 못했어요. 작전을 성공하면 수료돼요.</div>'}
     <p>${G.mkey==='temple'?'김영환 대령의 판단 덕분에 팔만대장경은 지금도 해인사 장경판전에 그대로 남아 있어요.':G.mkey==='show'?'블랙이글스의 시작은 1953년 F-51 무스탕 4대였어요. 전쟁의 하늘이 평화의 하늘로 이어진 셈이에요.':G.mkey==='bridge'?'승호리 철교 차단작전은 한국 공군이 스스로의 힘으로 큰 작전을 해낸 사례로 기억돼요.':'351고지 작전은 하늘과 땅, 여러 나라가 함께 고지를 지켜 낸 합동작전으로 기억돼요.'}</p>
     <div class="hcard2"><b>✏️ 나의 작전 기록</b><p>${{temple:'그 상황에서 내가 가장 중요하게 생각한 가치는?',bridge:'실패한 뒤 어떤 방법을 바꾸어야 한다고 생각하나요?',hill:'아군과 협력할 때 중요한 점은?',show:'함께 비행하기 위해 필요한 태도는?'}[G.mkey]}</p><textarea id="reflectText" aria-label="작전 소감" placeholder="한 문장으로 써 보세요" style="width:100%;min-height:65px;padding:9px;margin-top:8px;border:1px solid #b9b09a;border-radius:6px;font:inherit"></textarea><button class="btn" style="margin-top:8px;font-size:15px" id="reflectSave">내 생각 저장</button><p class="note" id="reflectStatus">이 기기의 브라우저에만 저장됩니다.</p></div>
-    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><div style="display:flex;gap:10px;flex-wrap:wrap">${allCleared()?'<button class="btn" id="certBtn3">🎖 명예 공군증 받기</button>':''}<button class="btn" id="toSel">다른 작전 고르기</button></div></div>`;if($('reflectText')){try{$('reflectText').value=localStorage.getItem('f51-reflect-'+G.mkey)||'';}catch(e){}$('reflectSave').onclick=()=>{try{localStorage.setItem('f51-reflect-'+G.mkey,$('reflectText').value.slice(0,500));$('reflectStatus').textContent='저장했어요!';}catch(e){$('reflectStatus').textContent='이 브라우저에서는 저장할 수 없어요.';}};}if($('certBtn3'))$('certBtn3').onclick=openCert;
-    $('again2').onclick=()=>startMission(G.mkey);$('toSel').onclick=toSelect;};}
+    <div class="row"><button class="btn ghost" id="again2">다시 출격</button><div style="display:flex;gap:10px;flex-wrap:wrap">${allCleared()?'<button class="btn" id="certBtn3">🎖 명예 공군증 받기</button>':''}<button class="btn ghost" id="saveReport">📄 작전 보고서 저장</button><button class="btn" id="toSel">다른 작전 고르기</button></div></div>`;if($('reflectText')){try{$('reflectText').value=localStorage.getItem('f51-reflect-'+G.mkey)||'';}catch(e){}$('reflectSave').onclick=()=>{try{localStorage.setItem('f51-reflect-'+G.mkey,$('reflectText').value.slice(0,500));$('reflectStatus').textContent='저장했어요!';}catch(e){$('reflectStatus').textContent='이 브라우저에서는 저장할 수 없어요.';}};}if($('certBtn3'))$('certBtn3').onclick=openCert;
+    $('saveReport').onclick=saveReport; $('again2').onclick=()=>startMission(G.mkey);$('toSel').onclick=toSelect;};}
 
+
+function saveReport(){const key=G.mkey,question={temple:'내가 소중하게 생각한 가치',bridge:'실패와 전술 변경에서 배운 점',hill:'협력과 소통에서 배운 점',show:'팀워크와 평화의 의미'}[key];let thoughts='';try{thoughts=localStorage.getItem('f51-reflect-'+key)||'';}catch(e){}const safe=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));let grades={};try{grades=JSON.parse(localStorage.getItem('f51-grades')||'{}');}catch(e){}const html=`<!doctype html><html lang="ko"><meta charset="utf-8"><title>나의 비행 작전 보고서</title><style>body{font-family:Arial,'Malgun Gothic',sans-serif;max-width:760px;margin:50px auto;padding:20px;color:#233344;line-height:1.75}h1{border-bottom:3px solid #c49a39}section{padding:20px;border:1px solid #ddd;border-radius:9px;margin-top:16px}.stars{color:#c49a39;font-size:29px}@media print{body{margin:0}}
+/* Chapter polish / immersive device support */
+#startImmersive{background:#e1aa44;color:#122435;border:2px solid #fff5}
+#landscapeDialog{position:absolute;inset:0;z-index:32;background:rgba(4,16,26,.94);color:#fff;display:none;align-items:center;justify-content:center;text-align:center;padding:24px;pointer-events:auto}
+#landscapeDialog.on{display:flex}#landscapeDialog .panel2{max-width:360px}#landscapeDialog h2{font-size:25px;margin:8px 0}#landscapeDialog button{margin:8px;padding:12px 20px}
+#hudModeBtn{position:absolute;bottom:12px;left:170px;border:1px solid #cfad65;background:#132c3ddb;color:#fff;border-radius:24px;padding:9px 13px;cursor:pointer;display:none;z-index:4}
+#hudModeBtn.on{display:block}#app.basic-hud #inst div:nth-child(3),#app.basic-hud #inst div:nth-child(4),#app.basic-hud #ammo{display:none!important}
+#app.basic-hud #obj{font-size:15px;max-width:42vw}#app.basic-hud #navGuide{font-size:17px}
+#missionDetail{width:min(820px,96vw);border:1px solid #d3b877;background:#0a2336ed;padding:12px;border-radius:13px;color:#fff;display:grid;grid-template-columns:minmax(100px,180px) 1fr;gap:12px;align-items:center}
+#missionDetail img{width:100%;max-height:110px;object-fit:cover;border-radius:9px}#missionDetail p{font-size:13px;margin:4px 0}#missionDetail strong{color:#ffda81}
+#opsMap{position:relative;width:min(820px,96vw);height:100px;border:1px solid #ba9a66;border-radius:14px;background:linear-gradient(120deg,#254d5a,#193344);display:flex;justify-content:space-evenly;align-items:center;gap:5px;padding:8px}
+#opsMap button{color:#fff;background:#164256c9;border:1px solid #dfc181;border-radius:10px;font:inherit;font-size:12px;padding:9px 7px;cursor:pointer;min-height:54px;flex:1}#opsMap button.active{background:#876522;box-shadow:0 0 0 2px #f4d58b}
+#commission .order{animation:ceremonyIn .9s ease-out both}#commission .commission-art{animation:ceremonyZoom 9s ease-out both}#commission .rank{animation:rankRise 1.4s 1s ease-out both}
+#ceremonyStatus{color:#815f25;font-weight:700;letter-spacing:.07em}#commission .order .btn{position:relative;z-index:2}
+@keyframes ceremonyIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes ceremonyZoom{from{transform:scale(1.045);filter:brightness(.7)}to{transform:scale(1);filter:brightness(1)}}
+#flightPhase{font-size:13px;color:#fee39a;background:#0a263fcf;padding:5px 8px;border-radius:6px;margin-top:4px}
+#cinematicTransition{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:#071624;color:white;text-align:center;pointer-events:auto}
+#cinematicTransition.on{display:flex}#cinematicTransition img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35}#cinematicTransition .inner{position:relative;padding:25px;max-width:640px;text-shadow:0 3px 10px #000}#cinematicTransition h2{font-size:clamp(30px,6vw,58px)}#cinematicTransition button{font:inherit;border-radius:10px;border:1px solid #edca76;background:#dbaa4c;padding:10px 20px;cursor:pointer}
+#historyVerify{font-size:13px;border:1px solid #ccb77a;border-radius:8px;padding:9px;background:#f4eedc;color:#322a20;margin-top:8px}
+@media(max-height:520px) and (orientation:landscape){#missionDetail{padding:5px;grid-template-columns:90px 1fr;gap:7px}#missionDetail img{max-height:55px}#missionDetail p{font-size:10px}#opsMap{height:63px;padding:4px}#opsMap button{min-height:42px;font-size:10px;padding:4px}#hudModeBtn{bottom:9px;left:110px;font-size:11px;padding:5px}#commission .commission-art{max-height:68px}#commission .order{padding:7px}#commission .rank{font-size:25px}}
+@media(prefers-reduced-motion:reduce){#commission .order,#commission .commission-art,#commission .rank{animation:none}}
+</style><h1>나의 비행 작전 보고서</h1><p>6·25 하늘의 작전 · 교육용 체험 기록 · ${new Date().toLocaleDateString('ko-KR')}</p><section><h2>${safe(MNAME[key])}</h2><p>작전 수행: ${cleared()[key]?'성공':'재도전 필요'}</p><p>역사 확인 문제: ${quizDone()[key]?'학습 완료':'미완료'}</p><p class="stars">${'★'.repeat(grades[key]||0)}${'☆'.repeat(3-(grades[key]||0))}</p></section><section><h3>${safe(question)}</h3><p>${safe(thoughts)||'아직 기록하지 않았어요.'}</p></section><section><h3>실제 역사와 비교</h3><p>${safe(HISTORY[key].real)}</p><p>위치: ${safe(HISTORY[key].place)}</p><p>이 자료의 게임 장면과 무전은 교육용으로 재구성되었습니다.</p></section><p><button onclick="print()">인쇄 / PDF 저장</button></p></html>`;const url=URL.createObjectURL(new Blob([html],{type:'text/html;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='625_작전보고서_'+key+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),15000);}
 
 /* ---------- 명예 공군증 ---------- */
 const MKEYS=['temple','bridge','hill','show'];
@@ -1894,25 +2073,123 @@ $('cineSkip').onclick=()=>{if(!cine)return;try{endCine();}catch(e){console.error
 $('cineReplay').onclick=()=>{if(!cine)return;const then=cine.then,k=cine.key;cineClear();cine.hidden.forEach(m=>m.visible=true);cine=null;playCine(k,then);};
 $('cineGo').onclick=endCine;
 
+/* ---------- 3D operations room (educational, stylized) ---------- */
+let OPS=null;
+function makeOperationsRoom(){
+ const room=new T.Scene();room.background=new T.Color(0x0a1b26);const camera=new T.PerspectiveCamera(58,W/H,.1,500);
+ room.add(new T.HemisphereLight(0xd2e9ff,0x192a29,.8));const lamp=new T.PointLight(0xffce85,2.4,180);lamp.position.set(0,62,-70);room.add(lamp);
+ const floor=new T.Mesh(new T.PlaneGeometry(400,300),new T.MeshPhongMaterial({color:0x283a40}));floor.rotation.x=-Math.PI/2;floor.position.y=-34;room.add(floor);
+ const wall=new T.Mesh(new T.PlaneGeometry(310,150),new T.MeshPhongMaterial({color:0x1c323b}));wall.position.set(0,25,-120);room.add(wall);
+ for(const x of [-120,120]){const pillar=new T.Mesh(new T.BoxGeometry(9,118,12),new T.MeshPhongMaterial({color:0x435560}));pillar.position.set(x,20,-111);room.add(pillar);}
+ const board=new T.Mesh(new T.BoxGeometry(175,90,3),new T.MeshPhongMaterial({color:0x987c4a}));board.position.set(0,35,-112);room.add(board);
+ const boardFace=new T.Mesh(new T.PlaneGeometry(163,80),new T.MeshBasicMaterial({color:0xd5c9a9,side:T.DoubleSide}));boardFace.position.set(0,35,-109.8);room.add(boardFace);
+ const pen=new T.MeshPhongMaterial({color:0xc74c3c});
+ [[-30,49],[-10,25],[18,13]].forEach(([x,y])=>{const dot=new T.Mesh(new T.SphereGeometry(2.6,12,8),pen);dot.position.set(x,y,-109.4);room.add(dot);});
+ const table=new T.Mesh(new T.BoxGeometry(130,4,75),new T.MeshPhongMaterial({color:0x695b47}));table.position.set(0,-25,-25);room.add(table);
+ const topMap=new T.Mesh(new T.PlaneGeometry(111,60),new T.MeshPhongMaterial({color:0xb9b08e,side:T.DoubleSide}));topMap.rotation.x=-Math.PI/2;topMap.position.set(0,-22.8,-25);room.add(topMap);
+ for(let i=0;i<3;i++){const light=new T.Mesh(new T.SphereGeometry(1.5,8,6),new T.MeshBasicMaterial({color:0xeeb64c}));light.position.set(-30+i*30,-21.5,-25+(i%2)*12);room.add(light);}
+ camera.position.set(0,13,95);camera.lookAt(0,10,-75);return {scene:room,camera};
+}
+function renderOperationsRoom(now){if(!OPS)OPS=makeOperationsRoom();OPS.camera.aspect=W/H;OPS.camera.updateProjectionMatrix();OPS.camera.position.x=Math.sin(now*.00015)*8;OPS.camera.lookAt(0,12,-80);R.render(OPS.scene,OPS.camera);}
+/* ---------- 3D flying school / academy commissioning ---------- */
+const SCHOOL_KEY='f51-flight-school-commission-v1';
+function schoolCommissioned(){try{return localStorage.getItem(SCHOOL_KEY)==='yes';}catch(e){return false;}}
+const SCHOOL={active:false,keys:{},scene:null,cam:null,craft:null,ringMeshes:[],x:0,y:0,z:0,bank:0,pitch:0,seenTurn:false,seenPitch:false,passed:0,done:false,prevZ:100,coachAt:0};
+function academyNotice(t){const el=$('schoolNotice');el.textContent=t;el.style.opacity=1;clearTimeout(SCHOOL.noticeTimer);SCHOOL.noticeTimer=setTimeout(()=>el.style.opacity=0,2000);}
+function buildSchool(){
+ const S=new T.Scene();S.background=new T.Color(0x93bfdc);S.fog=new T.Fog(0xa1c5d9,700,3300);S.add(new T.HemisphereLight(0xffffff,0x67745d,1.5));
+ const sun=new T.DirectionalLight(0xfff4dd,1.3);sun.position.set(160,240,70);S.add(sun);
+ const land=new T.Mesh(new T.PlaneGeometry(6500,6500),new T.MeshLambertMaterial({color:0x66895f}));land.rotation.x=-Math.PI/2;land.position.y=-15;S.add(land);
+ const runway=new T.Mesh(new T.PlaneGeometry(110,1650),new T.MeshLambertMaterial({color:0x404e58,side:T.DoubleSide}));runway.rotation.x=-Math.PI/2;runway.position.set(0,-13,-370);S.add(runway);
+ for(let z=220;z>-1050;z-=95){const marker=new T.Mesh(new T.BoxGeometry(3,.2,38),new T.MeshBasicMaterial({color:0xffffff}));marker.position.set(0,-12,z);S.add(marker);}
+ for(const side of [-1,1])for(let i=0;i<4;i++){const h=new T.Mesh(new T.BoxGeometry(65,28,48),new T.MeshLambertMaterial({color:i%2?0x6a8291:0x909d9c}));h.position.set(side*(170+i*105),1,120-i*180);S.add(h);const roof=new T.Mesh(new T.ConeGeometry(47,15,4),new T.MeshLambertMaterial({color:0x394b54}));roof.position.set(h.position.x,23,h.position.z);roof.rotation.y=Math.PI/4;S.add(roof);}
+ for(let i=0;i<25;i++){const tree=new T.Mesh(new T.ConeGeometry(11+Math.random()*7,45,5),new T.MeshLambertMaterial({color:0x345d43}));tree.position.set((Math.random()-.5)*2400,10,-Math.random()*2200);if(Math.abs(tree.position.x)<80)tree.position.x+=200;S.add(tree);}
+ const rings=[];const spots=[{x:0,y:150,z:-320},{x:-90,y:174,z:-670},{x:75,y:185,z:-1020}];
+ spots.forEach((p,i)=>{const material=new T.MeshBasicMaterial({color:0xf9c744,emissive:0xf9c744});const ring=new T.Mesh(new T.TorusGeometry(56,5,10,56),material);ring.position.set(p.x,p.y,p.z);S.add(ring);rings.push(ring);});
+ const craft=makePlane({load:'none'});craft.scale.setScalar(3.2);S.add(craft);const camera=new T.PerspectiveCamera(68,W/H,1,12000);
+ SCHOOL.scene=S;SCHOOL.cam=camera;SCHOOL.craft=craft;SCHOOL.ringMeshes=rings;
+}
+function schoolLabel(){const n=SCHOOL.passed;const phase=$('flightPhase');if(phase)phase.textContent=n===0?'1단계 · 상승·하강 및 선회':n===1?'2단계 · 목표 고도 유지':n===2?'3단계 · 관문 정밀 통과':'훈련 수료';$('schoolProgress').textContent=n===0?'1/3 · 비행 조종 익히기':n===1?'2/3 · 두 번째 관문':'3/3 · 마지막 관문';
+ $('schoolTarget').textContent=n===0?'조종 버튼으로 상승·하강·좌우 선회를 해보고 첫 금빛 고리를 통과하세요.':n===1?'방향을 조절하여 왼쪽 두 번째 고리를 통과하세요.':'마지막 고리를 통과하면 소위 임관식이 시작됩니다.';}
+function beginTraining(){
+ if(!SCHOOL.scene)buildSchool();
+ Object.assign(SCHOOL,{active:true,keys:{},x:0,y:145,z:100,bank:0,pitch:0,seenTurn:false,seenPitch:false,passed:0,done:false,prevZ:100,coachAt:0});
+ SCHOOL.ringMeshes.forEach(r=>{r.visible=true;r.material.color.setHex(0xf9c744);});
+ SCHOOL.craft.visible=true;G.mode='training';G.keys={};engineSet(false);bgmDuck(true);$('hud').classList.remove('on');$('touch').classList.remove('on');$('schoolFinish').style.display='none';showScreen('training');schoolLabel();academyNotice('비행학교에 오신 것을 환영합니다!');last=performance.now();
+}
+function resumeAfterSchool(){SCHOOL.active=false;showScreen(null);G.mode='play';bgmDuck(false);$('hud').classList.add('on');if(touchUI)$('touch').classList.add('on');last=performance.now();}
+function finishTraining(){if(!SCHOOL.done)return;SCHOOL.active=false;G.mode='commission';showScreen('commission');}
+$('schoolFinish').onclick=finishTraining;
+$('schoolSkip').onclick=()=>beginTraining();
+$('schoolRetry').onclick=beginTraining;
+$('commissionGo').onclick=()=>{try{localStorage.setItem(SCHOOL_KEY,'yes');}catch(e){}SCHOOL.active=false;toSelect();toast('소위 임관을 축하합니다!','작전상황실에서 출격할 임무를 선택하세요',3300);};
+document.querySelectorAll('[data-school]').forEach(b=>{const k=b.dataset.school;b.addEventListener('pointerdown',e=>{e.preventDefault();SCHOOL.keys[k]=true;try{b.setPointerCapture(e.pointerId);}catch(_){} });for(const ev of ['pointerup','pointercancel','pointerleave','lostpointercapture'])b.addEventListener(ev,()=>SCHOOL.keys[k]=false);});
+window.addEventListener('keydown',e=>{if(G.mode!=='training')return;const map={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down'};if(map[e.key]){SCHOOL.keys[map[e.key]]=true;e.preventDefault();}});
+window.addEventListener('blur',()=>{SCHOOL.keys={};resetTouchInputs();});document.addEventListener('visibilitychange',()=>{if(document.hidden)SCHOOL.keys={};});
+window.addEventListener('keyup',e=>{const map={ArrowLeft:'left',a:'left',A:'left',ArrowRight:'right',d:'right',D:'right',ArrowUp:'up',w:'up',W:'up',ArrowDown:'down',s:'down',S:'down'};if(map[e.key])SCHOOL.keys[map[e.key]]=false;});
+function schoolFrame(dt){
+ const sc=SCHOOL,k=sc.keys,dX=(k.right?1:0)-(k.left?1:0),dY=(k.up?1:0)-(k.down?1:0);
+ if(dX)sc.seenTurn=true;if(dY)sc.seenPitch=true;sc.prevZ=sc.z;
+ sc.x=clamp(sc.x+dX*112*dt,-350,350);sc.y=clamp(sc.y+dY*102*dt,65,290);sc.z-=145*dt;
+ sc.bank=lerp(sc.bank,-dX*.45,Math.min(1,dt*4));sc.pitch=lerp(sc.pitch,dY*.21,Math.min(1,dt*4));
+ const p=sc.craft.position;p.set(sc.x,sc.y,sc.z);sc.craft.rotation.set(sc.pitch,0,sc.bank);
+ sc.ringMeshes.forEach((r,i)=>{r.rotation.z+=dt*.25;if(i<sc.passed)r.visible=false;});
+ const active=sc.ringMeshes[sc.passed];if(active){const dz=sc.z-active.position.z;
+ if(sc.prevZ>=active.position.z&&sc.z<active.position.z){const fraction=clamp((sc.prevZ-active.position.z)/Math.max(.001,sc.prevZ-sc.z),0,1);if(Math.hypot(sc.x-active.position.x,sc.y-active.position.y)<49&&sc.seenTurn&&sc.seenPitch){sc.passed++;academyNotice('관문 통과! '+sc.passed+'/3');schoolLabel();}else{sc.z=active.position.z+170;sc.prevZ=sc.z;academyNotice(!sc.seenTurn||!sc.seenPitch?'먼저 상승·하강과 좌우 선회를 해보세요!':'고리 가운데로 다시 접근하세요!');}}
+ }
+ if(sc.passed===3&&!sc.done){sc.done=true;academyNotice('훈련 성공! 소위 임관식으로 이동합니다.');$('schoolFinish').style.display='inline-block';setTimeout(()=>{if(G.mode==='training'&&SCHOOL.done)finishTraining();},1500);}
+ if(sc.coachAt<=0){sc.coachAt=2.6;const msg=sc.y<90?'고도가 낮습니다! 상승해 보세요.':sc.y>265?'너무 높습니다. 조금 하강하세요.':!sc.seenTurn?'좌우 방향 조작을 연습하세요.':!sc.seenPitch?'상승과 하강을 연습하세요.':sc.passed<3?'좋습니다! 다음 황금 고리의 중앙을 통과하세요.':'모든 훈련을 수료했습니다!';$('schoolCoach').innerHTML='<b>비행 교관</b> · '+msg;}else sc.coachAt-=dt;const cp=sc.cam;cp.aspect=W/H;cp.updateProjectionMatrix();cp.position.lerp(V(sc.x*.6,sc.y+44,sc.z+250),Math.min(1,dt*3));cp.lookAt(sc.x,sc.y+5,sc.z-240);
+ R.render(sc.scene,cp);
+}
 /* ---------- loop ---------- */
 let last=performance.now(),hudT=0;
 function winCruise(dt){EZ.pit=Math.min(EZ.pit+dt*.35,.3);EZ.bank*=Math.exp(-dt*2);eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
   PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);PL.pos.y=Math.max(PL.pos.y,groundY(PL.pos.x,PL.pos.z)+30);PL.mesh.position.copy(PL.pos);PL.mesh.quaternion.copy(PL.q);}
 function loop(now){requestAnimationFrame(loop);try{frame(now);}catch(e){console.error(e);if(!loop.err){loop.err=1;toast('잠깐 문제가 생겼어요',String(e&&e.message||e).slice(0,70),6000);}
-  if(G.mode==='ending'||G.mode==='play'){G.mode='ending';G.result=G.result||'ammo';debrief();}}}
-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;
+  if(G.mode==='ending'||G.mode==='play'){G.mode='pause';G.keys={};engineSet(false);bgmDuck(true);showScreen('pause');toast('실행 중 오류가 발생했습니다','다시 시작 또는 작전 선택으로 복구할 수 있어요',4500);}}}
+function frame(now){const rawDt=(now-last)/1000,dt=Math.min(.05,Math.max(0,rawDt));last=now;
+  if(now-PERF.lastEval>2500){PERF.lastEval=now;const active=['play','training','cine','select'].includes(G.mode);if(active&&rawDt>.06){PERF.slow++;PERF.fast=0;}else if(active&&rawDt<.022){PERF.fast++;PERF.slow=Math.max(0,PERF.slow-1);}if(PERF.slow>=3&&PERF.quality!=='low'){applyQuality(PERF.quality==='high'?'medium':'low');PERF.slow=0;}else if(PERF.fast>=12&&PERF.quality==='low'&&autoQuality()!=='low'){applyQuality('medium');PERF.fast=0;}}updateRotationNotice();
   if(G.mode==='play'||G.mode==='ending'){G.t+=dt;if(G.mode==='play')studentCheckpoint(dt);
     if(G.mode==='play'){flight(dt);}
     if(G.mode==='ending'&&G.result==='win'&&G.mkey!=='show'){if(!G.easy)syncEZ();winCruise(dt);}
     if(G.mode!=='pause'){updWing(dt);updMission(dt);updGuns(dt);updProjs(dt);updParts(dt);updRadio(dt);G.cool-=dt;
-      spinProps(dt,[PL.mesh,...wing,WD.mos]);updCam(dt);updRing();hudT-=dt;if(hudT<=0){hudT=.1;updHUD();navUpdate();}engineSet(G.mode==='play'||G.result==='win');}
+      spinProps(dt,[PL.mesh,...wing,WD.mos]);updCam(dt);updRing();hudT-=dt;if(hudT<=0){hudT=.1;updHUD();navUpdate();situationMusic(dt);}engineSet(G.mode==='play'||G.result==='win');}
     if(G.mode==='ending'){G.endT-=dt;if(G.endT<=0||performance.now()-G.endAt>7000)debrief();}
     draw2D(dt);}
   else if(G.mode==='cine'){G.t+=dt;updCine(dt);updParts(dt);hx.clearRect(0,0,W,H);}
+  else if(G.mode==='training'){if(!document.hidden)schoolFrame(dt);return;}
+  else if(G.mode==='select'){hx.clearRect(0,0,W,H);renderOperationsRoom(now);return;}
   else if(G.mode==='pause'){}
   else{attract(dt);updParts(dt);hx.clearRect(0,0,W,H);}
   R.render(scene,cam);}
-resize();buildWorld('bridge');$('loading').style.display='none';bgm('menu');requestAnimationFrame(loop);
+
+/* ---------- seven feature integration ---------- */
+let selectedOps='temple', landscapeDismissed=false, hudBasic=true, transitionCallback=null;
+const MISSION_ART={temple:'mission_temple.webp',bridge:'mission_bridge.webp',hill:'mission_hill.webp',show:'mission_show.webp'};
+const MISSION_NAMES={temple:'해인사 팔만대장경 지키기',bridge:'승호리 철교 차단작전',hill:'351고지 근접항공지원',show:'블랙이글스 에어쇼'};
+const MISSION_INFO={temple:'1951년 · 가야산의 문화유산을 지키는 판단',bridge:'1952년 · 실패에서 배운 새로운 전술',hill:'1952~53년 · 공군과 지상군의 협력',show:'현대 · 평화의 하늘과 팀워크'};
+function showMissionTransition(key,callback){transitionCallback=callback;const el=$('cinematicTransition');el.querySelector('img').src='images/'+MISSION_ART[key];$('transitionTitle').textContent=MISSION_NAMES[key];$('transitionDesc').textContent=MISSION_INFO[key];el.classList.add('on');}
+$('transitionGo').onclick=()=>{const f=transitionCallback;if(!f)return;transitionCallback=null;$('cinematicTransition').classList.remove('on');if(f)f();};
+function selectOps(key){selectedOps=key;document.querySelectorAll('[data-ops]').forEach(el=>el.classList.toggle('active',el.dataset.ops===key));const detail=$('missionDetail');detail.querySelector('img').src='images/'+MISSION_ART[key];detail.querySelector('strong').textContent=MISSION_NAMES[key];detail.querySelector('p').textContent=MISSION_INFO[key]+' · 아래 작전 출격 버튼을 누르세요.';}
+function openOpsBrief(key){bk=key;bp=0;renderBrief();G.mode='brief';showScreen('brief');}
+document.querySelectorAll('[data-ops]').forEach(el=>el.addEventListener('click',()=>selectOps(el.dataset.ops)));
+$('opsLaunch').onclick=()=>openOpsBrief(selectedOps);selectOps('temple');
+const origCard=document.querySelectorAll('.mcard');origCard.forEach(m=>{m.onclick=()=>{selectOps(m.dataset.m);openOpsBrief(m.dataset.m);};});
+async function immersiveStart(){audioInit();const root=$('app');try{if(!document.fullscreenElement){await (root.requestFullscreen?root.requestFullscreen({navigationUI:'hide'}):root.webkitRequestFullscreen?.());}}catch(e){console.info('전체화면 미지원:',e.message);}try{if(screen.orientation&&screen.orientation.lock&&document.fullscreenElement)await screen.orientation.lock('landscape');}catch(e){console.info('가로 잠금 미지원:',e.message);}resize();checkLandscape(true);}
+$('startImmersive').onclick=()=>{const entry=schoolCommissioned()?toSelect:beginTraining;entry();void immersiveStart();};
+$('landscapeTry').onclick=()=>immersiveStart();
+$('landscapeContinue').onclick=()=>{landscapeDismissed=true;$('landscapeDialog').classList.remove('on');};
+function checkLandscape(force){const narrow=window.matchMedia('(pointer:coarse) and (max-width:700px) and (orientation:portrait)').matches;const active=['play','training','cine'].includes(G.mode);$('landscapeDialog').classList.toggle('on',narrow&&(active||force)&&!landscapeDismissed);}
+window.addEventListener('resize',()=>{landscapeDismissed=false;checkLandscape(false)});
+document.addEventListener('fullscreenchange',()=>{resize();checkLandscape(false)});
+const origShowScreen=showScreen;showScreen=function(id){origShowScreen(id);checkLandscape(false);};
+const HUD=$('hudModeBtn');HUD.onclick=()=>{hudBasic=!hudBasic;$('app').classList.toggle('basic-hud',hudBasic);HUD.textContent=hudBasic?'초급 HUD · 전문가로':'전문가 HUD · 초급으로';};
+const prevStart=startMission;startMission=function(key){prevStart(key);HUD.classList.add('on');$('app').classList.toggle('basic-hud',hudBasic);};
+const oldToSelect=toSelect;toSelect=function(){HUD.classList.remove('on');oldToSelect();};
+const oldFinishTraining=finishTraining;finishTraining=function(){oldFinishTraining();if(G.mode==='commission'){const label=$('ceremonyStatus');label.textContent='비행학교 훈련 수료 · 소위 임관을 축하합니다';bgm('win');}};
+$('commissionGo').addEventListener('click',()=>{bgm('menu');});
+
+applyQuality(autoQuality());resize();buildWorld('bridge');$('loading').style.display='none';bgm('menu');requestAnimationFrame(loop);
 window.__G=G;window.__PL=PL;window.__start=startMission;
 })();
 </script></body></html>
