@@ -373,6 +373,24 @@ body.portrait-flight #rotationNotice{display:block}
 #historyVerify{font-size:13px;border:1px solid #ccb77a;border-radius:8px;padding:9px;background:#f4eedc;color:#322a20;margin-top:8px}
 @media(max-height:520px) and (orientation:landscape){#missionDetail{padding:5px;grid-template-columns:90px 1fr;gap:7px}#missionDetail img{max-height:55px}#missionDetail p{font-size:10px}#opsMap{height:63px;padding:4px}#opsMap button{min-height:42px;font-size:10px;padding:4px}#hudModeBtn{bottom:9px;left:110px;font-size:11px;padding:5px}#commission .commission-art{max-height:68px}#commission .order{padding:7px}#commission .rank{font-size:25px}}
 @media(prefers-reduced-motion:reduce){#commission .order,#commission .commission-art,#commission .rank{animation:none}}
+
+/* 간결한 결과 화면 — 상세 역사 자료는 선택적으로 펼침 */
+#debrief .order{max-width:720px;padding:clamp(16px,3vw,30px)}
+#debrief .debrief-intro{margin:8px 0 12px;font-size:clamp(15px,2vw,18px);line-height:1.5}
+#debrief .debrief-takeaway{padding:12px 14px;background:#f0e7ce;border-left:4px solid #b38a40;border-radius:8px;margin:12px 0;font-size:15px;line-height:1.5}
+#debrief .stat{margin:12px 0;gap:7px}
+#debrief .stat div{padding:9px 6px}
+#debrief .stat b{font-size:clamp(18px,3vw,23px)}
+#debrief .debrief-grade{display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;padding:10px 14px;margin:12px 0}
+#debrief .debrief-grade .star-grade{font-size:26px;margin:0;color:#b78620;white-space:nowrap}
+#debrief .debrief-grade p{margin:0;font-size:14px;line-height:1.35}
+#debrief .debrief-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+#debrief .debrief-actions .btn{flex:1;min-width:130px}
+#debrief .debrief-more{border:1px solid #c5b897;border-radius:12px;background:#f6f0e3;margin:8px 0 4px;overflow:hidden}
+#debrief .debrief-more summary{cursor:pointer;padding:13px 15px;font-weight:700;color:#483a27;list-style:revert}
+#debrief .debrief-more .debrief-extra{padding:5px 14px 16px;border-top:1px solid #d8ceba}
+#debrief .debrief-more .debrief-extra p{font-size:15px;line-height:1.6}
+@media(max-width:520px){#debrief .debrief-actions .btn{font-size:16px;padding:10px 12px}#debrief .stat small{font-size:11px}}
 </style>
 </head>
 <body>
@@ -920,11 +938,11 @@ const MDEF={
 function startMission(key){stopVoice();G.rescues=0;G.checkpoint=null;hintLevel=0;audioInit();bgmDucked=false;bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
   PL.mesh=key==='show'?makeJet():makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
   PL.v=118;PL.thr=.75;PL.hp=100;G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:118,time:0};PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
-  wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
+  wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22],[-42,0,30],[42,0,30]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
   world.add(ring);world.add(beacon);ring.visible=false;
   Object.assign(G,{mode:'play',t:0,result:null,endT:0,cool:0,gunCool:0,flash:0,shake:0,flakT:2,inp:{pitch:0,roll:0}});
   radioQ.length=0;radioT=0;$('radio').classList.remove('on');$('mtask').classList.remove('on');
-  MI=key==='temple'?{phase:'approach',killed:0,warn:0,wT:-9,cur:-1,said:{},won:false,winT:0,court:false,smT:0,shot:null,decT:0,choiceBomb:0,hitTemple:false}:key==='show'?{ring:0,passed:0,missed:0,stars:0,cheer:0,smoke:true,finale:false,finT:0,trT:0,pre:0,lastD:null,won:false,winT:0,said:{},roll:null,loop:null,solo:null,tricks:{roll:false,loop:false,cross:false}}:key==='bridge'?{act:1,hits:0,rel:[],rel1:[],said:{},won:false,winT:0,actT:0,dived:false,flakTime:0,zoneT:0}
+  MI=key==='temple'?{phase:'approach',killed:0,warn:0,wT:-9,cur:-1,said:{},won:false,winT:0,court:false,smT:0,shot:null,decT:0,choiceBomb:0,hitTemple:false}:key==='show'?{ring:0,passed:0,missed:0,stars:0,cheer:0,smoke:true,finale:false,finT:0,trT:0,pre:0,lastD:null,won:false,winT:0,said:{},roll:null,loop:null,solo:null,exStage:-1,exTime:0,exScore:0,exCenter:null,tricks:{roll:false,loop:false,cross:false,diamond:false,afterburner:false,scissors:false,helix:false,heart:false,flower:false}}:key==='bridge'?{act:1,hits:0,rel:[],rel1:[],said:{},won:false,winT:0,actT:0,dived:false,flakTime:0,zoneT:0}
     :{killed:0,def:100,ff:0,ffT:0,cur:-1,markT:4,said:{},navy:[],bar:null,won:false,winT:0,started:false,search:null,markN:0,found:0,calls:0,cd:{navy:0,art:0},art:null};
   camSnap=true;showScreen(null);$('hud').classList.add('on');$('hintBtn').style.display=G.student?'block':'none';$('pauseBtn').style.display='block';$('fsHud').style.display='block';$('helpHud').style.display='block';
   if(touchUI)$('touch').classList.add('on');
@@ -967,7 +985,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)resetTouchI
 window.addEventListener('pointercancel',()=>{G.gunHeld=false;});
 
 /* ---------- flight ---------- */
-function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,r=0;
+function flight(dt){if(G.mkey==='show'&&(MI.finale||MI.exStage>=0))return;const k=G.keys;let p=0,r=0;
   if(k.KeyW||k.ArrowUp)p+=1;if(k.KeyS||k.ArrowDown)p-=1;if(k.KeyA||k.ArrowLeft)r-=1;if(k.KeyD||k.ArrowRight)r+=1;
   p+=-Math.sign(stick.y)*Math.pow(Math.abs(stick.y),1.4);r+=Math.sign(stick.x)*Math.pow(Math.abs(stick.x),1.4);
   p=clamp(p,-1,1);r=clamp(r,-1,1);if(G.invert)p=-p;
@@ -999,7 +1017,7 @@ function crash(){if(G.mode!=='play')return;explosion(PL.pos.clone(),2.2,true);sf
 
 function spinProps(dt,list){list.forEach(m=>{if(!m)return;m.userData.prop.rotation.z+=dt*55;});}
 function updWing(dt){const yaw=new T.Quaternion();const f=fwdOf(PL.q);f.y=0;f.normalize();yaw.setFromUnitVectors(V(0,0,-1),f);
-  if(G.mkey==='show'&&MI.finale)return;
+  if(G.mkey==='show'&&(MI.finale||MI.exStage>=0))return;
   const fq=(G.mkey==='show'&&(MI.loop||MI.roll))?PL.q:yaw;
   wing.forEach((m,i)=>{const tgt=PL.pos.clone().add(m.userData.off.clone().applyQuaternion(fq));
     const floor=WD.hf(tgt.x,tgt.z)+(G.mkey==='show'?25:140);if(G.mkey==='hill'&&PL.pos.y<700)tgt.y=Math.max(tgt.y,720+i*30);tgt.y=Math.max(tgt.y,floor);
@@ -1209,9 +1227,10 @@ function cheer(st,title,sub){MI.stars+=st;MI.cheer=Math.min(100,MI.cheer+st*12);
   for(let i=0;i<14;i++)puff(texSoft,PL.pos.clone().add(V(rnd(-25,25),rnd(-15,25),rnd(-25,25))),V(rnd(-8,8),rnd(-4,10),rnd(-8,8)),.9,4,16,1,st>=2?0xffd84a:0xffffff,true);}
 function setTask(t,sub,prog,col){const el=$('mtask');if(!t){el.classList.remove('on');return;}el.classList.add('on');$('mtT').textContent=t;$('mtS').innerHTML=sub||'';
   $('mtB').parentElement.style.display=prog==null?'none':'';if(prog!=null){$('mtB').style.width=clamp(prog,0,1)*100+'%';$('mtB').style.background=col||'';}}
-function updShow(dt){MI.trT+=dt;if(MI.trT>=.05){MI.trT=0;MI.trails.forEach(({o,tr})=>trailStep(tr,o,MI.finale?(o.userData.out?null:true):MI.smoke));}
+function updShow(dt){MI.trT+=dt;if(MI.trT>=.05){MI.trT=0;MI.trails.forEach(({o,tr})=>trailStep(tr,o,(MI.finale||MI.exStage>=0)?(o.userData.out?null:true):MI.smoke));}
   if(MI.solo){const S=MI.solo;S.m.position.addScaledVector(S.v,dt);S.left-=dt;if(S.left<=0){S.m.visible=false;}}
   if(MI.finale){setTask(null);finaleUpd(dt);return;}
+  if(MI.exStage>=0){updateExtraManeuvers(dt);return;}
   if(MI.pre>0){MI.pre-=dt;setTask(null);if(MI.pre<=0)finaleStart();return;}
   if(G.mode!=='play')return;
   const pull=G.invert?'↓':'↑';
@@ -1251,7 +1270,61 @@ function itemResult(r,off){const K=KINDS[r.kind];r.m.visible=false;MI.ring++;upd
     if(off<K.r+6&&S){const st=dtc<.8?3:dtc<1.8?2:1;if(st===3)MI.tricks.cross=true;cheer(st,st===3?'완벽한 크로스!':'크로스 성공',`솔로기와 ${dtc.toFixed(1)}초 차이`);if(st===3)radio('해설','두 비행기가 눈앞에서 스쳐 지나갑니다! 완벽한 크로스!');}
     else toast('크로스 문을 놓쳤어요','다음 목표로 가요',1500);}
   if(MI.ring===4&&!MI.said.crowd){MI.said.crowd=1;radio('해설','블랙이글스가 관중석 앞을 낮게 지나갑니다! 박수 부탁드립니다!');}
-  if(MI.ring>=WD.rings.length){MI.pre=1.5;radio('편대장','전 편대, 브레이크 준비! 그다음 1번기와 2번기는 태극!');}}
+  if(MI.ring>=WD.rings.length){beginExtraManeuvers();}}
+/* Six additional aerobatic lessons. 3D educational choreography, not an official flight-plan recreation. */
+const EXTRA_SHOW=[
+  {key:'diamond',title:'다이아몬드 편대',sub:'조종간을 중앙에 두고 편대 위치를 유지하세요',duration:7},
+  {key:'afterburner',title:'애프터버너 루프',sub:'상승 조종을 유지하며 수직 원형 기동을 경험하세요',duration:7},
+  {key:'scissors',title:'시저 패스',sub:'서로 교차하는 편대의 움직임을 관찰하세요',duration:7},
+  {key:'helix',title:'더블 헬릭스',sub:'네 대가 만드는 이중 나선 궤적을 관찰하세요',duration:8},
+  {key:'heart',title:'하트와 큐피드 화살',sub:'두 기체가 하트를 그리고 한 대가 중앙을 통과합니다',duration:11}
+];
+function beginExtraManeuvers(){MI.exStage=0;MI.exTime=0;MI.exScore=0;MI.exCenter=V(-600,640,0);MI.lastD=null;
+  PL.view=0;camSnap=true;G.keys={};radio('시범 교관','이제 블랙이글스 특수비행을 차례로 체험합니다. 실제 기동을 참고한 교육용 재현입니다.');
+  enterExtraStage();}
+function enterExtraStage(){const st=EXTRA_SHOW[MI.exStage];if(!st){MI.exStage=-1;MI.pre=1.4;radio('편대장','이어서 레인 폴, 태극, 무궁화꽃 피날레를 선보이겠습니다!');return;}
+  MI.exTime=0;MI.exScore=0;MI.trails.forEach(({tr})=>trailReset(tr));
+  [PL.mesh,...wing].forEach((m)=>{m.visible=true;m.userData.out=0;});
+  radio('시범 교관',st.title+'! '+st.sub);toast('특수비행 · '+st.title,st.sub,2600);}
+function extraPose(m,p,tangent,bank=0){m.visible=true;m.position.copy(p);const dir=tangent.clone().normalize();const up=V(Math.sin(bank),Math.cos(bank),0);if(Math.abs(dir.dot(up))>.97)up.set(0,0,1);
+  const mat=new T.Matrix4().lookAt(p,p.clone().add(dir),up);m.quaternion.setFromRotationMatrix(mat);}
+function updateExtraManeuvers(dt){const st=EXTRA_SHOW[MI.exStage];if(!st)return;
+  MI.exTime+=dt;const t=MI.exTime,phase=t/st.duration,two=Math.PI*2,all=[PL.mesh,...wing];
+  const C=MI.exCenter, flight=V(0,0,-1),n=all.length;
+  // HUD exercises use the exact control input used by the historical missions.
+  if(st.key==='diamond'){
+    MI.exScore+=dt*(Math.abs(G.inp.roll)<.22&&Math.abs(G.inp.pitch)<.22?1:0);
+    all.forEach((m,i)=>{const row=Math.floor((i+1)/2),sd=i===0?0:i%2?1:-1;
+      const pos=C.clone().add(V(sd*row*21,Math.sin(t*.8)*2,-row*30-t*105));
+      if(i===0)pos.x+=G.inp.roll*12,pos.y+=G.inp.pitch*12;
+      extraPose(m,pos,flight);});
+  }else if(st.key==='afterburner'){
+    MI.exScore+=dt*(G.inp.pitch>.25?1:0);
+    const a=phase*two,center=C.clone().add(V(0,155,-t*28));
+    all.forEach((m,i)=>{const delta=(i%4-1.5)*.09,p=V(center.x+(i-3.5)*10,center.y+Math.sin(a+delta)*160,center.z-Math.cos(a+delta)*160);
+      extraPose(m,p,V(0,Math.cos(a+delta),Math.sin(a+delta)),a*.12);});
+  }else if(st.key==='scissors'){
+    all.forEach((m,i)=>{const group=i<4?1:-1,j=i%4;
+      const p=C.clone().add(V(group*(290-t*77)+j*7,Math.sin(t*.75+j*.3)*20,group*(45+j*30)-t*65));
+      extraPose(m,p,V(-group*.8,0,-.6),group*.16);});
+  }else if(st.key==='helix'){
+    all.forEach((m,i)=>{const j=i%4,layer=i<4?0:1,theta=t*1.25+j*Math.PI/2+layer*Math.PI;
+      const p=C.clone().add(V(Math.cos(theta)*85,Math.sin(theta)*85,-t*115-layer*24));
+      extraPose(m,p,V(-Math.sin(theta),Math.cos(theta),-1));});
+  }else if(st.key==='heart'){
+    all.forEach((m,i)=>{let p,dir;
+      if(i===0||i===1){const side=i?1:-1,a=Math.PI*(.15+1.85*phase),h=heart(a,side);
+        p=V(C.x+side*55,C.y+(h.y-HY)*.5,C.z+(h.z)*.6);dir=V(0,Math.cos(a),-side*Math.sin(a));}
+      else if(i===2){p=C.clone().add(V(-250+t*55,15,-110));dir=V(1,0,0);}
+      else{p=C.clone().add(V((i-4)*36,-110,-160-t*90));dir=flight;}
+      extraPose(m,p,dir);});
+  }
+  PL.pos.copy(PL.mesh.position);PL.q.copy(PL.mesh.quaternion);
+  const pr=Math.min(1,phase);setTask('✈ '+st.title,st.sub,pr,st.key==='diamond'?'#f5ce70':'#79caeb');
+  if(phase>=1){const quality=(st.key==='diamond'||st.key==='afterburner')?MI.exScore/st.duration:1;
+    const score=(st.key==='diamond'||st.key==='afterburner')?(quality>.58?3:quality>.22?2:1):2;
+    MI.tricks[st.key]=score>=2;cheer(score,st.title+' 완료',score>=3?'조종 평가 우수':'시범비행 완료');MI.exStage++;enterExtraStage();}
+}
 function loopFly(dt){const L=MI.loop,up=V(0,1,0),C=L.E.clone().addScaledVector(up,150);
   if(G.inp.pitch>.25)L.grace=0;else{L.grace+=dt;if(L.grace>1){endLoop(false);return;}}
   L.ang+=Math.min(PL.v,125)/150*dt;const a=Math.min(L.ang,2*Math.PI);
@@ -1262,14 +1335,14 @@ function loopFly(dt){const L=MI.loop,up=V(0,1,0),C=L.E.clone().addScaledVector(u
   if(L.ang>=2*Math.PI)endLoop(true);}
 function endLoop(ok){const L=MI.loop;MI.loop=null;WD.loopDeco.forEach(m=>m.visible=false);
   if(ok){const mm=new T.Matrix4().lookAt(PL.pos,PL.pos.clone().add(L.d),AY);PL.q.setFromRotationMatrix(mm);MI.tricks.loop=true;
-    cheer(3,'루프 성공!','★★★ 하늘에 커다란 원을 그렸어요');radio('해설','완벽한 루프! 6대가 한 몸처럼 원을 그렸습니다!');}
+    cheer(3,'루프 성공!','★★★ 하늘에 커다란 원을 그렸어요');radio('해설','완벽한 루프! 편대가 한 몸처럼 원을 그렸습니다!');}
   else{const fr=L.ang/(2*Math.PI);if(fr>.5)cheer(1,'루프를 다 못 돌았어요','★ 끝까지 당기고 있어야 해요');else toast('루프 실패','문을 지나면 조종간을 계속 당겨요',1800);}
   syncEZ();EZ.pit=clamp(EZ.pit,-.3,.6);}
 function finaleStart(){MI.finale=true;MI.finT=0;$('touch').classList.remove('on');setTask(null);
-  toast('피날레: 브레이크','6대가 한 점에서 사방으로 흩어져요',2600);
+  toast('레인 폴 기동','8대 편대가 상승 후 강하하며 여러 방향으로 분리해요 · 교육용 재현',3200);
   [PL.mesh,...wing].forEach(m=>m.visible=true);if(MI.solo)MI.solo.m.visible=false;finaleUpd(0);
   MI.trails.forEach(({tr})=>{trailReset(tr);tr.mat.color.set(0xffffff);});}
-const BRK=5.5,TGR=210,TGY=480,TGV=125,HRT=2*Math.PI*TGR/TGV;
+const BRK=8.0,TGR=210,TGY=480,TGV=125,HRT=2*Math.PI*TGR/TGV;
 // 태극 경로: 0번=빨강(위쪽 큰 반원 → S자 곡선), 1번=파랑(아래쪽 큰 반원). u는 관중석에서 본 오른쪽.
 function tgPt(w,s){const R=TGR,P=Math.PI,r=R/2;let u,v,cu=0,cv=0;
   if(w===1){const th=P+clamp(s,0,P*R)/R;u=R*Math.cos(th);v=R*Math.sin(th);}
@@ -1279,17 +1352,40 @@ function tgPt(w,s){const R=TGR,P=Math.PI,r=R/2;let u,v,cu=0,cv=0;
   return{p:V(HX,TGY+v,-u),c:V(HX,TGY+cv,-cu)};}
 const tgLen=w=>w===1?Math.PI*TGR:2*Math.PI*TGR;
 function finaleUpd(dt){MI.finT+=dt;const T0=MI.finT,all=[PL.mesh,...wing];
-  if(T0<BRK){const B0=V(HX,300,0);all.forEach((m,i)=>{const th=(-70+i*28)*Math.PI/180,d=V(0,Math.cos(th),Math.sin(th)),p=B0.clone().addScaledVector(d,(T0-1.6)*130);
-      const mm=new T.Matrix4().lookAt(p,p.clone().add(d),V(1,0,0));m.position.copy(p);m.quaternion.setFromRotationMatrix(mm);});
-    if(T0>1.5&&!MI.said.brk){MI.said.brk=1;radio('편대장','브레이크, 지금!');sfx('far');}}
-  else{if(!MI.said.hs){MI.said.hs=1;wing.forEach((m,i)=>{if(i>0)m.visible=false;});MI.trails.forEach(({tr},i)=>{trailReset(tr);if(i===0)tr.mat.color.set(0xe0393e);else if(i===1)tr.mat.color.set(0x2b5fd9);});
-      toast('피날레: 태극','1번기는 빨강, 2번기는 파랑 연기로 태극 문양을 그려요',2800);radio('편대장','1번기, 2번기 태극 기동!');}
-    const tt=T0-BRK;[[PL.mesh,0],[wing[0],1]].forEach(([m,w])=>{let p,nx,upv;const sd=tt*TGV,L=tgLen(w);
+  if(T0<BRK){
+    // Rain Fall inspired choreography: eight T-50B jets first climb together,
+    // crest, descend, then separate. Educational approximation, not a flight plan.
+    const climb=Math.min(1,T0/2.4), dive=clamp((T0-2.4)/2.1,0,1), spread=clamp((T0-4.4)/3.6,0,1);
+    const ease=x=>x*x*(3-2*x), sep=ease(spread), alt=300+280*ease(climb)-210*ease(dive);
+    all.forEach((m,i)=>{
+      const angle=(i-3.5)*Math.PI/7.7;
+      const dx=Math.sin(angle),dz=Math.cos(angle);
+      const p=V(HX+dx*(18+330*sep),alt-95*sep, dz*(i%2?1:-1)*15+260*sep*Math.cos(angle));
+      const tangent=V(dx*sep*.75,-.25-.65*dive,dz*sep*.65-1).normalize();
+      const mm=new T.Matrix4().lookAt(p,p.clone().add(tangent),V(0,1,0));m.position.copy(p);m.quaternion.setFromRotationMatrix(mm);m.visible=true;
+    });
+    if(T0>4.4&&!MI.said.brk){MI.said.brk=1;radio('편대장','레인 폴! 하강 후 각 방향으로 분리!');sfx('far');}
+  }
+  else{if(!MI.said.hs){MI.said.hs=1;PL.mesh.visible=false;wing.forEach((m,i)=>{m.visible=(i===5||i===6);});MI.trails.forEach(({tr},i)=>{trailReset(tr);if(i===6)tr.mat.color.set(0xe0393e);else if(i===7)tr.mat.color.set(0x2b5fd9);});
+      toast('피날레: 태극','7번기·8번기가 태극 문양을 그립니다 · 교육용 재현',2800);radio('편대장','7번기, 8번기 태극 기동!');}
+    const tt=T0-BRK;[[wing[5],0],[wing[6],1]].forEach(([m,w])=>{let p,nx,upv;const sd=tt*TGV,L=tgLen(w);
       if(sd<=L){const a=tgPt(w,sd),b=tgPt(w,Math.min(L,sd+2));p=a.p;nx=b.p.distanceTo(p)<.01?p.clone().add(V(0,1,0)):b.p;upv=a.c.clone().sub(p);m.userData.lastT=nx.clone().sub(p).normalize();}
       else{if(!m.userData.out){m.userData.out=1;m.userData.fdir=(m.userData.lastT||V(0,1,0)).clone();}m.userData.fdir.lerp(V(0,1,0),dt*.8).normalize();p=m.position.clone().addScaledVector(m.userData.fdir,TGV*dt);nx=p.clone().add(m.userData.fdir);upv=V(1,0,0);}
       if(upv.lengthSq()<1)upv.set(1,0,0);const mm=new T.Matrix4().lookAt(p,nx,upv.normalize());m.position.copy(p);m.quaternion.setFromRotationMatrix(mm);});
     if(tt>HRT+.3&&!MI.said.done){MI.said.done=1;toast('태극 완성!','관중석에서 박수가 쏟아져요',3000);radio('해설','하늘에 커다란 태극 문양이 그려졌습니다! 블랙이글스에게 큰 박수를!');}
-    if(tt>HRT+3.5&&!MI.won){MI.won=true;MI.winT=.1;}}
+    if(tt>HRT+3.5&&!MI.said.flower){MI.said.flower=1;MI.flowerTime=0;MI.tricks.flower=true;
+      PL.mesh.visible=true;wing.forEach(m=>m.visible=true);
+      MI.trails.forEach(({tr},i)=>{trailReset(tr);tr.mat.color.set(i%2?0xf5f6f5:0xe6d4ef);});
+      radio('해설','마지막은 대한민국의 국화에서 영감을 받은 무궁화꽃 기동입니다!');
+      toast('무궁화꽃 피날레','다섯 꽃잎이 피어나는 교육용 연막 연출',3200);}
+    if(MI.said.flower){MI.flowerTime+=dt;const ft=MI.flowerTime,ph=Math.min(1,ft/9);
+      all.forEach((m,i)=>{const petal=i%5,phase=petal*2*Math.PI/5,rad=42+ph*225,
+        flower=rad*(.55+.45*Math.sin(Math.PI*ph)),height=TGY+Math.sin(ph*Math.PI)*125;
+        const p=V(HX+Math.cos(phase)*flower+Math.cos(ft*.8+i)*10,height+Math.sin(phase)*flower*.66,110-(i>4?65:0));
+        const tangent=V(Math.cos(phase)*.65,Math.cos(Math.PI*ph)*.5,1).normalize();
+        extraPose(m,p,tangent);});
+      if(ft>10&&!MI.won){MI.won=true;MI.winT=.1;radio('해설','무궁화꽃 피날레까지 완성했습니다! 블랙이글스에게 박수를!');}}
+    }
   PL.pos.copy(PL.mesh.position);PL.q.copy(PL.mesh.quaternion);}
 
 
@@ -1444,7 +1540,8 @@ function templeTargetDown(){MI.killed++;const n=WD.targets.length;
 /* ---------- camera ---------- */
 const camPos=V(0,0,0),camUp=V(0,1,0);let camSnap=true;
 function updCam(dt){const fwd=fwdOf(PL.q),up=upOf(PL.q);
-  if(G.mkey==='show'&&MI.finale){PL.mesh.visible=true;cam.position.set(330,hShow(330,40)+30,40);cam.up.set(0,1,0);cam.fov=60;cam.lookAt(HX,MI.finT<BRK?420:TGY-10,0);cam.updateProjectionMatrix();sky.position.copy(cam.position);camSnap=true;return;}
+  if(G.mkey==='show'&&MI.exStage>=0){const mid=MI.exCenter||V(-600,640,0);cam.position.set(mid.x+470,mid.y+230,mid.z+530);cam.up.set(0,1,0);cam.fov=72;cam.lookAt(mid.x,mid.y,mid.z-MI.exTime*65);cam.updateProjectionMatrix();sky.position.copy(cam.position);return;}
+  if(G.mkey==='show'&&MI.finale){PL.mesh.visible=true;cam.position.set(460,MI.said.flower?650:550,MI.said.flower?280:120);if(MI.finT>=BRK&&!MI.said.flower){PL.mesh.visible=false;wing[5].visible=true;wing[6].visible=true;}cam.up.set(0,1,0);cam.fov=69;cam.lookAt(HX,MI.finT<BRK?530:TGY,0);cam.updateProjectionMatrix();sky.position.copy(cam.position);camSnap=true;return;}
   if(G.mode==='play'&&PL.view===1){PL.mesh.visible=false;cam.position.copy(PL.pos).add(V(0,1.15,.15).applyQuaternion(PL.q));cam.quaternion.copy(PL.q);cam.fov=70;}
   else{if(G.mode==='play')PL.mesh.visible=true;cam.fov=62;
     const want=G.mode==='play'?PL.pos.clone().add((G.mkey==='show'?V(0,15,72):V(0,4.2,17)).applyQuaternion(PL.q)):PL.pos.clone().add(V(Math.cos(G.t*.3)*40,18,Math.sin(G.t*.3)*40));
@@ -1475,7 +1572,7 @@ function updHUD(){if(G.mkey==='hill')updCards();
   $('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
   $('dmg').firstElementChild.style.width=PL.hp+'%';$('dmg').firstElementChild.style.background=PL.hp<40?'#e0604f':'';
   if(G.mkey==='show'){const R=WD.rings,n=R.length;$('objT').textContent='블랙이글스 에어쇼';
-    const cur=R[Math.min(MI.ring,n-1)];$('objS').textContent=MI.finale||MI.pre>0?'피날레: 브레이크와 태극':MI.loop?'루프 중!':`다음: ${KINDS[cur.kind].name} (${Math.min(MI.ring+1,n)}/${n}) · ${(PL.pos.distanceTo(cur.c)/1000).toFixed(1)}km`;
+    const cur=R[Math.min(MI.ring,n-1)];$('objS').textContent=MI.exStage>=0?'특수비행: '+EXTRA_SHOW[MI.exStage].title:MI.finale||MI.pre>0?'피날레: 레인 폴·태극·무궁화꽃':MI.loop?'루프 중!':`다음: ${KINDS[cur.kind].name} (${Math.min(MI.ring+1,n)}/${n}) · ${(PL.pos.distanceTo(cur.c)/1000).toFixed(1)}km`;
     $('ammo').innerHTML=`연기 <b>${MI.smoke?'켜짐':'꺼짐'}</b> · ★ <b>${MI.stars}</b><div class="cheer"><i style="width:${MI.cheer}%"></i></div><small>관중 환호</small>`;MI.cheer=Math.max(0,MI.cheer-.08);}
   else if(G.mkey==='bridge'){const d=Math.hypot(PL.pos.x,PL.pos.z);$('objT').textContent=MI.act===1?'1막 · 1월 12일 첫 출격':'2막 · 1월 15일 재출격';
     $('objS').textContent=MI.act===1?`높은 고도에서 투하 · 철교 ${(d/1000).toFixed(1)}km`:d>2600?`① 붉은 빛기둥(철교) 쪽으로 날아가요 · ${(d/1000).toFixed(1)}km`:`② 기수를 숙여 노란 원이 초록색이 되면 투하! · 경간 ${MI.hits}/2`;$('ammo').innerHTML=`폭탄 <b>${PL.ord}</b>발`;}
@@ -1570,9 +1667,9 @@ function bgm(key){if(key===bgmKey&&bgmEl){if(bgmEl.paused&&bgmOn&&!muted)bgmEl.p
   if(!key||!bgmOn||muted||!BGM_FILES[key])return;
   const a=new Audio(BGM_FILES[key]);a.setAttribute('playsinline','');a.loop=key!=='win'&&key!=='fail';a.volume=0;a.preload='auto';a.onerror=()=>{console.warn('배경음악 파일을 불러오지 못했습니다:',BGM_FILES[key]);if(key==='menu')$('menuMusicBtn').style.display='inline-block';};
   if(key==='win'||key==='fail')a.onended=()=>{if(bgmKey===key){bgmKey=null;bgm('menu');}};
-  const pr=a.play();if(pr&&pr.then)pr.then(()=>{if(key==='menu')$('menuMusicBtn').style.display='none';}).catch(()=>{if(key==='menu'&&G.mode==='title')$('menuMusicBtn').style.display='inline-block';});bgmEl=a;bgmFade(a,bgmDucked?VOL.bgm*.22:VOL.bgm,900);}
-function bgmDuck(on){bgmDucked=!!on;if(bgmEl)bgmFade(bgmEl,bgmDucked?VOL.bgm*.15:VOL.bgm,450);}
-function situationMusic(dt){if(!bgmEl||G.mode!=='play'||bgmDucked)return;const ground=groundY(PL.pos.x,PL.pos.z),danger=PL.hp<30||PL.pos.y-ground<110;const target=VOL.bgm*(danger?.88:1);if(Math.abs(bgmEl.volume-target)>.035&&(!bgmEl._situationAt||performance.now()-bgmEl._situationAt>500)){bgmEl._situationAt=performance.now();bgmFade(bgmEl,target,500);}}
+  const pr=a.play();if(pr&&pr.then)pr.then(()=>{if(key==='menu')$('menuMusicBtn').style.display='none';}).catch(()=>{if(key==='menu'&&G.mode==='title')$('menuMusicBtn').style.display='inline-block';});bgmEl=a;bgmFade(a,VOL.bgm,900);}
+function bgmDuck(on){/* 음성·효과음과 관계없이 사용자가 설정한 음악 음량 유지 */bgmDucked=false;}
+function situationMusic(dt){/* 전투·위험 상황에도 BGM 음량 일정하게 유지 */}
 
 function toSelect(){if(!schoolCommissioned()){beginTraining();return;}stopVoice();SCHOOL.active=false;G.mode='select';bgmDucked=false;bgm('menu');$('hud').classList.remove('on');$('hintBtn').style.display='none';$('touch').classList.remove('on');$('pauseBtn').style.display='none';$('fsHud').style.display='none';$('helpHud').style.display='none';engineSet(false);
   if(!WD||WD.key!=='bridge'){buildWorld('bridge');}const c=cleared();const q=quizDone();document.querySelectorAll('.mcard').forEach(m=>m.classList.toggle('cleared',!!(c[m.dataset.m]&&q[m.dataset.m])));updSelectCert();showScreen('select');}
@@ -1712,7 +1809,7 @@ $('pRestart').onclick=()=>startMission(G.mkey);
 $('pQuit').onclick=toSelect;
 $('tVoice').onclick=()=>{voiceEnabled=!voiceEnabled;$('tVoice').setAttribute('aria-pressed',voiceEnabled);$('tVoice').textContent=voiceEnabled?'켜짐':'꺼짐';if(!voiceEnabled)stopVoice();};
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
-for(const [key,id] of [['bgm','vBgm'],['engine','vEngine'],['sfx','vSfx'],['radio','vRadio']]){const el=$(id),out=$(id+'Out');el.value=Math.round(VOL[key]*100);out.textContent=el.value+'%';el.oninput=()=>{VOL[key]=+el.value/100;out.textContent=el.value+'%';try{localStorage.setItem('f51-vol',JSON.stringify(VOL));}catch(e){}if(key==='bgm'&&bgmEl)bgmFade(bgmEl,bgmDucked?VOL.bgm*.22:VOL.bgm,120);};}
+for(const [key,id] of [['bgm','vBgm'],['engine','vEngine'],['sfx','vSfx'],['radio','vRadio']]){const el=$(id),out=$(id+'Out');el.value=Math.round(VOL[key]*100);out.textContent=el.value+'%';el.oninput=()=>{VOL[key]=+el.value/100;out.textContent=el.value+'%';try{localStorage.setItem('f51-vol',JSON.stringify(VOL));}catch(e){}if(key==='bgm'&&bgmEl)bgmFade(bgmEl,VOL.bgm,120);};}
 tgl('tStudent' ,()=>G.student,v=>{G.student=v;if(v){G.easy=true;G.assist=true;syncEZ();$('tEasy').setAttribute('aria-pressed','true');$('tEasy').textContent='켜짐';}document.getElementById('app').classList.toggle('student-mode',v);$('hintBtn').style.display=v?'block':'none';});
 tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);const bgmNow=()=>(G.mode==='play'||G.mode==='pause'||G.mode==='cine')?G.mkey:'menu';
 tgl('tSound',()=>!muted,v=>{muted=!v;bgm(null);if(!muted)bgm(bgmNow());});tgl('tMusic',()=>bgmOn,v=>{bgmOn=v;bgm(null);if(v)bgm(bgmNow());});
@@ -1786,14 +1883,14 @@ const BRIEF={
 <p>적 진지 <mark>3곳</mark>을 부수면 성공이에요.</p><ul>${CTRL}</ul>`]};
 let bk='bridge',bp=0;
 function renderBrief(){const P=BRIEF[bk];$('briefBody').innerHTML=P[bp];$('dots').innerHTML=P.map((_,i)=>`<i class="${i===bp?'on':''}"></i>`).join('');
-  $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'미션 영상 보기':'다음';$('brief').scrollTop=0;}
+  $('prevBtn').style.visibility=bp?'visible':'hidden';$('nextBtn').textContent=bp===P.length-1?'영상으로 이동':'다음';$('brief').scrollTop=0;}
 $('qualitySelect').addEventListener('change',e=>{const v=e.target.value;applyQuality(v==='auto'?autoQuality():v);});
 function unlockMusic(){if(!bgmOn||muted||!bgmEl)return;if(bgmEl.paused){const p=bgmEl.play();if(p&&p.catch)p.catch(()=>{});}}
 document.addEventListener('pointerdown',unlockMusic,{passive:true});document.addEventListener('keydown',unlockMusic);
 $('menuMusicBtn').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'){bgmEl.play().then(()=>$('menuMusicBtn').style.display='none').catch(()=>{});}else{bgmKey=null;bgm('menu');}};
 $('goSelect').onclick=()=>{audioInit();if(bgmEl&&bgmKey==='menu'&&bgmEl.paused)bgmEl.play().catch(()=>{});if(schoolCommissioned())toSelect();else beginTraining();};
 $('backTitle').onclick=()=>{G.mode='title';bgm('menu');showScreen('title');};
-document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{audioInit();bk=m.dataset.m;bp=0;renderBrief();G.mode='brief';showScreen('brief');});
+document.querySelectorAll('.mcard').forEach(m=>m.onclick=()=>{selectOps(m.dataset.m);openOpsBrief(m.dataset.m);});
 $('prevBtn').onclick=()=>{if(bp>0){bp--;renderBrief();}};
 $('nextBtn').onclick=()=>{if(bp<BRIEF[bk].length-1){bp++;renderBrief();}else{G.br2=false;showMissionTransition(bk,()=>{startMission(bk);playCine(bk,()=>{helpFrom='start';helpMax=2;openHelp('ctrl');});});}};
 
@@ -1836,6 +1933,32 @@ function debrief(){G.mode='debrief';bgmDucked=false;bgm(G.result==='win'?'win':'
   html+=historyCompareHTML(G.mkey);html+=`<div id="historyVerify"><b>역사 자료 확인 안내</b><p>일러스트·군복·무전·비행 지형·교관·임관식은 교육용 재구성입니다. 링크의 실제 문헌 설명과 게임 연출을 구별해서 살펴보세요.</p><p>승호리는 1952년 1월 12~15일, 351고지 항공지원은 1952~1953년에 걸친 사건입니다. 외부 자료는 온라인 연결 시 확인할 수 있습니다.</p></div>`;html+=`<p class="note">게임 속 무전 대화와 지형은 이해를 돕기 위해 새로 꾸민 장면이에요.</p>
     ${win?'<div class="tip">📝 확인 문제까지 모두 풀면 이 작전이 <b>수료</b>돼요. 네 작전을 모두 수료하면 명예 공군증을 받아요!</div>':''}
     <div class="row"><button class="btn ghost" id="againBtn">다시 출격</button><button class="btn" id="quizBtn">확인 문제 풀기</button></div>`;
+  // 결과 화면: 기록과 다음 행동이 먼저 보이도록 하고 상세 역사 정보는 접어 둔다.
+  const report=document.createElement('div');report.innerHTML=html;
+  const saved=[];
+  const take=(node)=>{if(node){saved.push(node);node.remove();}};
+  take(report.querySelector('.stamp'));
+  take(report.querySelector('h2'));
+  const date=report.querySelector('p.date');
+  const lead=date?.nextElementSibling;take(date);
+  // 성공/실패 요약은 첫 문단으로 간략하게, 나머지는 상세 보기로 이동
+  if(lead&&lead.tagName==='P'){lead.classList.add('debrief-intro');take(lead);}
+  take(report.querySelector('.stat'));
+  const gradeCard=report.querySelector('.star-grade')?.closest('.hcard2');
+  if(gradeCard){gradeCard.classList.add('debrief-grade');take(gradeCard);}
+  const actions=report.querySelector('.row:last-child');
+  if(actions){actions.classList.add('debrief-actions');actions.remove();}
+  const more=document.createElement('details');more.className='debrief-more';
+  const summ=document.createElement('summary');summ.textContent='역사 이야기 · 실제 자료 자세히 보기';more.appendChild(summ);
+  const extra=document.createElement('div');extra.className='debrief-extra';
+  while(report.firstChild)extra.appendChild(report.firstChild);
+  more.appendChild(extra);
+  const brief={temple:'문화유산을 지키기 위한 조종사의 판단을 생각해 보세요.',bridge:'실패를 분석하고 전술을 바꾼 실제 작전을 알아보세요.',hill:'공군·육군·해군의 협력이 왜 중요했는지 생각해 보세요.',show:'전쟁의 하늘에서 평화의 비행으로 이어진 이야기를 살펴보세요.'};
+  const note=document.createElement('p');note.className='debrief-takeaway';note.textContent='📖 역사 한 줄 · '+brief[G.mkey];
+  const compact=document.createElement('div');saved.forEach(n=>compact.appendChild(n));compact.appendChild(note);
+  if(actions)compact.appendChild(actions);
+  compact.appendChild(more);
+  html=compact.innerHTML;
   $('debriefBody').innerHTML=html;showScreen('debrief');$('debrief').scrollTop=0;
   $('againBtn').onclick=()=>startMission(G.mkey);$('quizBtn').onclick=()=>{qi=0;score=0;quizWrong=[];quizReview=false;quizReviewList=[];quizReviewPos=0;renderQuiz();showScreen('quiz');};}
 
@@ -2150,7 +2273,7 @@ function loop(now){requestAnimationFrame(loop);try{frame(now);}catch(e){console.
 function frame(now){const rawDt=(now-last)/1000,dt=Math.min(.05,Math.max(0,rawDt));last=now;
   if(now-PERF.lastEval>2500){PERF.lastEval=now;const active=['play','training','cine','select'].includes(G.mode);if(active&&rawDt>.06){PERF.slow++;PERF.fast=0;}else if(active&&rawDt<.022){PERF.fast++;PERF.slow=Math.max(0,PERF.slow-1);}if(PERF.slow>=3&&PERF.quality!=='low'){applyQuality(PERF.quality==='high'?'medium':'low');PERF.slow=0;}else if(PERF.fast>=12&&PERF.quality==='low'&&autoQuality()!=='low'){applyQuality('medium');PERF.fast=0;}}updateRotationNotice();
   if(G.mode==='play'||G.mode==='ending'){G.t+=dt;if(G.mode==='play')studentCheckpoint(dt);
-    if(G.mode==='play'){flight(dt);}
+    if(G.mode==='play'&&!(G.mkey==='show'&&(MI.exStage>=0||MI.finale))){flight(dt);}
     if(G.mode==='ending'&&G.result==='win'&&G.mkey!=='show'){if(!G.easy)syncEZ();winCruise(dt);}
     if(G.mode!=='pause'){updWing(dt);updMission(dt);updGuns(dt);updProjs(dt);updParts(dt);updRadio(dt);G.cool-=dt;
       spinProps(dt,[PL.mesh,...wing,WD.mos]);updCam(dt);updRing();hudT-=dt;if(hudT<=0){hudT=.1;updHUD();navUpdate();situationMusic(dt);}engineSet(G.mode==='play'||G.result==='win');}
@@ -2171,7 +2294,15 @@ const MISSION_INFO={temple:'1951년 · 가야산의 문화유산을 지키는 �
 function showMissionTransition(key,callback){transitionCallback=callback;const el=$('cinematicTransition');el.querySelector('img').src='images/'+MISSION_ART[key];$('transitionTitle').textContent=MISSION_NAMES[key];$('transitionDesc').textContent=MISSION_INFO[key];el.classList.add('on');}
 $('transitionGo').onclick=()=>{const f=transitionCallback;if(!f)return;transitionCallback=null;$('cinematicTransition').classList.remove('on');if(f)f();};
 function selectOps(key){selectedOps=key;document.querySelectorAll('[data-ops]').forEach(el=>el.classList.toggle('active',el.dataset.ops===key));const detail=$('missionDetail');detail.querySelector('img').src='images/'+MISSION_ART[key];detail.querySelector('strong').textContent=MISSION_NAMES[key];detail.querySelector('p').textContent=MISSION_INFO[key]+' · 아래 작전 출격 버튼을 누르세요.';}
-function openOpsBrief(key){bk=key;bp=0;renderBrief();G.mode='brief';showScreen('brief');}
+// Every mission follows: transition -> cinematic -> concise controls -> takeoff.
+function openOpsBrief(key){
+  audioInit();
+  bk=key; bp=0; G.br2=false;
+  showMissionTransition(key,()=>{
+    startMission(key);
+    playCine(key,()=>{helpFrom='start';helpMax=2;openHelp('ctrl');});
+  });
+}
 document.querySelectorAll('[data-ops]').forEach(el=>el.addEventListener('click',()=>selectOps(el.dataset.ops)));
 $('opsLaunch').onclick=()=>openOpsBrief(selectedOps);selectOps('temple');
 const origCard=document.querySelectorAll('.mcard');origCard.forEach(m=>{m.onclick=()=>{selectOps(m.dataset.m);openOpsBrief(m.dataset.m);};});
