@@ -475,10 +475,54 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
 #app #radio .rname b{font-size:17px;color:#ffd06a}#app #radio .rname small{font-size:13px;color:#b8c6cf}
 @media (max-width:900px) and (max-height:500px){#app #radio{bottom:96px;max-width:62vw;padding:7px 12px 7px 7px;gap:10px}#app #radio .rface{width:46px;height:46px}#app #radio .rtext{font-size:14px}#app #radio .rname b{font-size:14px}#app #radio .rname small{font-size:11px}}
 @media (max-width:620px) and (orientation:portrait){#app #radio{bottom:calc(185px + env(safe-area-inset-bottom,0px));max-width:94vw}#app #radio .rface{width:56px;height:56px}#app #radio .rtext{font-size:15px}}
+/* ---- phone: landscape only + compact HUD ---- */
+#rotationNotice{display:none!important}
+#rotateLock{position:fixed;inset:0;z-index:100000;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#0b1620;color:#eef2f4;text-align:center;padding:24px;-webkit-user-select:none;user-select:none}
+#rotateLock b{font-size:22px}#rotateLock p{margin:0;font-size:15px;color:#c9d4dc}#rotateLock small{font-size:12.5px;color:#8fa0ab}
+.rlPhone{width:46px;height:78px;border:3px solid #d9a441;border-radius:9px;position:relative;margin-bottom:14px;animation:rlTurn 2.2s ease-in-out infinite}
+.rlPhone i{position:absolute;left:50%;bottom:5px;width:10px;height:3px;margin-left:-5px;border-radius:2px;background:#d9a441}
+@keyframes rlTurn{0%,25%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
+@media (orientation:portrait) and (max-width:600px){#rotateLock{display:flex}}
+@media (max-height:520px) and (orientation:landscape){
+ #app #inst{top:4px!important;transform:translateX(-50%) scale(.68)!important;transform-origin:top center}
+ #app #obj{top:4px!important;left:6px!important;padding:4px 8px!important;max-width:24vw!important;font-size:11px!important}
+ #app #obj b{font-size:12.5px!important}
+ #app #mini{width:64px!important;height:64px!important;top:4px!important;right:6px!important}
+ #app #ammo{top:72px!important;right:6px!important;font-size:11px!important;padding:3px 7px!important}
+ #app #ammo .cheer{width:70px!important}
+ #app #pauseBtn,#app #fsHud,#app #helpHud{width:32px!important;height:32px!important;font-size:13px!important;top:6px!important;bottom:auto!important;left:auto!important;min-width:32px!important;padding:0!important}
+ #app #pauseBtn{right:76px!important}#app #fsHud{right:112px!important}#app #helpHud{right:148px!important}
+ #app #hudModeBtn{top:6px!important;bottom:auto!important;left:auto!important;right:184px!important;font-size:11px!important;padding:5px 9px!important}
+ #app #hintBtn{top:6px!important;bottom:auto!important;right:262px!important;left:auto!important;font-size:11px!important;padding:5px 9px!important}
+ #app #mtask{top:44px!important;width:min(52vw,420px)!important;padding:5px 10px!important}
+ #app #mtask b#mtT{font-size:14px!important}#app #mtask span{font-size:11.5px!important;line-height:1.35}#app #mtask .mbar{height:5px!important;margin-top:4px!important}
+ #app #navGuide{font-size:11px!important;padding:3px 9px!important}
+ #app #toast{font-size:18px!important;top:36%!important}#app #toast small{font-size:11px!important}
+ #app #warn{font-size:13px!important;top:60%!important}
+ #app #studentHint{bottom:6px!important;font-size:11.5px!important;padding:5px 10px!important;max-width:40vw!important}
+ #app.radio-on #studentHint{display:none!important}
+ #app #radio{bottom:6px!important;max-width:44vw!important;padding:5px 9px 5px 5px!important;gap:8px!important;border-width:1.5px!important;border-left-width:4px!important}
+ #app #radio .rface{width:38px!important;height:38px!important}#app #radio .rtext{font-size:12px!important;line-height:1.35!important}
+ #app #radio .rname b{font-size:12px!important}#app #radio .rname small{font-size:10px!important}
+ #app #cards{top:auto!important;bottom:122px!important;left:6px!important;width:118px!important}
+ #app .card{padding:4px 8px!important}#app .card b{font-size:12px!important}#app .card small{display:none!important}#app #aaLeft{font-size:10.5px!important;padding:2px 6px!important}
+ #app #schoolNext{top:44px!important;right:6px!important;transform:none!important;font-size:12px!important;padding:6px 10px!important}
+ #app #defbar{height:5px!important}
+ #app #stick{width:104px!important;height:104px!important;left:10px!important;bottom:10px!important}
+ #app #knob{width:42px!important;height:42px!important;margin:-21px 0 0 -21px!important}
+ #app #bA{width:72px!important;height:72px!important;right:10px!important;bottom:12px!important;font-size:13px!important}
+ #app #bA small{font-size:11px!important}
+ #app #bG{width:56px!important;height:56px!important;right:90px!important;bottom:10px!important;font-size:13px!important}
+ #app #bTu,#app #bTd,#app #bV{width:52px!important;height:30px!important;font-size:11px!important;border-radius:7px!important}
+ #app #bTu{right:10px!important;bottom:126px!important}#app #bTd{right:10px!important;bottom:92px!important}#app #bV{right:68px!important;bottom:92px!important}
+ #app #cineCap{padding:7px 12px 9px!important;bottom:calc(9vh + 4px)!important}#app #cineT{font-size:18px!important}#app #cineS{font-size:12px!important;margin:3px auto 6px!important}
+ #app .ctop{top:4px!important}#app .cbar{height:6vh!important}
+ #app .tabbody{min-height:0!important;font-size:13.5px!important}#app .hhead{padding:8px 14px!important}#app .hicon{width:34px!important;height:34px!important;font-size:18px!important}
+}
 </style>
 </head>
 <body>
-<div id="app"><div id="rotationNotice" role="status">📱 비행 조작은 가로 화면이 더 편리합니다. 세로 화면에서도 계속할 수 있어요.<button type="button" id="rotationDismiss" aria-label="회전 안내 닫기">×</button></div>
+<div id="app"><div id="rotateLock" role="alert"><div class="rlPhone"><i></i></div><b>가로로 돌려 주세요</b><p>이 게임은 가로 화면에서만 할 수 있어요</p><small>화면이 돌아가지 않으면 휴대폰의 자동 회전을 켜 주세요</small></div><div id="rotationNotice" role="status">📱 비행 조작은 가로 화면이 더 편리합니다. 세로 화면에서도 계속할 수 있어요.<button type="button" id="rotationDismiss" aria-label="회전 안내 닫기">×</button></div>
   <canvas id="gl"></canvas>
   <canvas id="hud2d"></canvas>
   <div id="landscapeDialog" role="dialog" aria-label="가로 화면 안내"><div class="panel2"><div style="font-size:55px">📱 ↻</div><h2>가로로 돌려 주세요</h2><p>비행 조종은 가로 화면이 편리합니다. 자동 가로 잠금이 지원되지 않는 브라우저는 휴대전화의 자동 회전을 켜 주세요.</p><button class="btn" id="landscapeTry">가로 전체화면 시도</button><button class="btn ghost" id="landscapeContinue">세로로 계속</button></div></div><div id="cinematicTransition"><img src="images/mission_temple.webp" alt="작전 영상 배경"><div class="inner"><p>대한민국 공군 역사 체험</p><h2 id="transitionTitle">작전 준비</h2><p id="transitionDesc">출격 명령을 확인하세요.</p><button id="transitionGo">미션 영상 시작 ▶</button></div></div><div id="loading">비행장 준비 중…</div>
@@ -992,7 +1036,14 @@ function setRadioFace(w){const t=speakerType(w),slug=RSLUG[w],face=$('rFace');fa
   if(slug){const im=new Image();im.alt='';im.onload=()=>{if(face.dataset.t===t){const sv=face.querySelector('svg');if(sv)sv.replaceWith(im);}};im.src=`img/radio/${slug}.png`;}
   $('rRole').textContent=RTYPE[t].role;}
 
-function updRadio(dt){if(radioT>0){radioT-=dt;if(radioT<=0){$('radio').classList.remove('on');if(G.mode==='play')bgmDuck(false);}}
+const isPhone=()=>Math.min(screen.width,screen.height)<=600&&matchMedia('(pointer:coarse)').matches;
+let orientTried=false;function tryLandscape(){if(orientTried||!isPhone())return;orientTried=true;const de=document.documentElement,rq=de.requestFullscreen||de.webkitRequestFullscreen;
+  const lock=()=>{try{const p=screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape');if(p&&p.catch)p.catch(()=>{});}catch(e){}};
+  try{const r=rq&&rq.call(de);if(r&&r.then)r.then(lock).catch(lock);else lock();}catch(e){lock();}}
+window.addEventListener('pointerdown',tryLandscape,{capture:true});
+function portraitGuard(){if(isPhone()&&innerHeight>innerWidth&&G.mode==='play'){try{pauseGame();}catch(e){}}}
+window.addEventListener('resize',portraitGuard);window.addEventListener('orientationchange',portraitGuard);
+function updRadio(dt){$('app').classList.toggle('radio-on',$('radio').classList.contains('on'));if(radioT>0){radioT-=dt;if(radioT<=0){$('radio').classList.remove('on');if(G.mode==='play')bgmDuck(false);}}
   if(radioT<=0&&radioQ.length){const m=radioQ.shift();bgmDuck(true);setRadioFace(m.who);$('rWho').textContent=m.who;$('rTxt').textContent=m.txt;const el=$('radio');el.classList.remove('on');void el.offsetWidth;el.classList.add('on');radioT=m.dur;sfx('radio');sayRadio(m.txt);}}
 function toast(t,s,ms){const el=$('toast');el.innerHTML=t+(s?`<small>${s}</small>`:'');el.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove('on'),ms||2200);}
 
@@ -1209,7 +1260,7 @@ function updMission(dt){
 /* ---------- air show (Black Eagles) ---------- */
 function hShow(x,z){const d=Math.hypot(x*.8,z*.6);let h=(fbm(x/2400+21,z/2400+4)*.55+ridge(x/1500+2,z/1500+9)*.6)*1000-280;
   h=lerp(70+fbm(x/700,z/700,3)*28,h,smooth(1800,3900,d));
-  const rw=(1-smooth(70,180,Math.abs(x-60)))*(1-smooth(1300,1700,Math.abs(z)));return lerp(h,72,rw);}
+  const rw=(1-smooth(130,240,Math.abs(x-60)))*(1-smooth(1360,1760,Math.abs(z)));return lerp(h,71.8,rw);}
 function makeJet(){const g=new T.Group();
   const blk=new T.MeshPhongMaterial({color:0x17181b,specular:0x777777,shininess:90,side:T.DoubleSide});
   const wht=new T.MeshPhongMaterial({color:0xf2f2ee,specular:0x888888,shininess:60,side:T.DoubleSide});
