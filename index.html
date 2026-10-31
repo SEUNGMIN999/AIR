@@ -519,6 +519,18 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
  #app .ctop{top:4px!important}#app .cbar{height:6vh!important}
  #app .tabbody{min-height:0!important;font-size:13.5px!important}#app .hhead{padding:8px 14px!important}#app .hicon{width:34px!important;height:34px!important;font-size:18px!important}
 }
+#thrPill{position:absolute;right:calc(22px + env(safe-area-inset-right,0px));bottom:calc(248px + env(safe-area-inset-bottom,0px));width:52px;text-align:center;font-size:11px;font-weight:700;color:#ffd84a;background:rgba(16,26,34,.75);border-radius:6px;padding:3px 0;pointer-events:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+#touch .tbtn.held{background:#d9a441!important;color:#14212b!important;transform:translateY(2px)}
+#bTu,#bTd{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+@media (max-height:520px) and (orientation:landscape){
+ #app #bTu,#app #bTd{width:60px!important;height:40px!important;font-size:12px!important}
+ #app #bTu{right:10px!important;bottom:142px!important}#app #bTd{right:10px!important;bottom:96px!important}
+ #app #bV{width:52px!important;height:40px!important;right:78px!important;bottom:96px!important}
+ #app #thrPill{right:10px!important;bottom:188px!important;width:60px!important;font-size:10.5px!important}
+}
+#stickZone{position:absolute;left:0;bottom:0;width:44vw;height:62vh;pointer-events:auto;touch-action:none;z-index:0}
+#stick{z-index:1}#stick.float{opacity:.95}
+@media (max-height:520px) and (orientation:landscape){#app #cards{top:56px!important;bottom:auto!important}#stickZone{height:56vh}}
 </style>
 </head>
 <body>
@@ -548,12 +560,13 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
   </div>
 
   <div id="touch">
-    <div id="stick"><div id="knob"></div></div>
+    <div id="stickZone"></div><div id="stick"><div id="knob"></div></div>
     <button class="tbtn" id="bA">투하</button>
     <button class="tbtn" id="bG">기총</button>
     <button class="tbtn" id="bTu">추력▲</button>
     <button class="tbtn" id="bTd">추력▼</button>
     <button class="tbtn" id="bV">시점</button>
+    <div id="thrPill">추력 75%</div>
   </div>
   <div id="cine"><div class="cbar top"></div><div class="cbar bot"></div>
     <div class="ctop"><span class="cbadge">미션 영상</span><b id="cineName"></b><button id="cineSkip">건너뛰기</button></div>
@@ -590,6 +603,7 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
     <div class="order"><h2>일시정지</h2><p class="date">조종 설정</p>
       <div class="toggle"><span>초등학생 체험 모드 (추락 자동 구조·계기판 단순화)</span><button id="tStudent" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>쉬운 조종 (손을 떼면 날개 수평, 목표 신호·조준 보정)</span><button id="tEasy" aria-pressed="true">켜짐</button></div>
+      <div class="toggle"><span>모바일 방향 보조 (손을 떼면 목표 쪽으로 천천히)</span><button id="tMobAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>자동 수평 보조 (손을 떼면 날개가 수평으로)</span><button id="tAssist" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>실제 조종간 방식 (↓ 당기면 상승, ↑ 밀면 하강)</span><button id="tInvert" aria-pressed="true">켜짐</button></div>
       <div class="toggle"><span>소리 (전체)</span><button id="tSound" aria-pressed="true">켜짐</button></div>
@@ -1088,12 +1102,24 @@ function stickMove(e){const r=stEl.getBoundingClientRect();let x=(e.clientX-(r.l
 stEl.addEventListener('pointerdown',e=>{e.preventDefault();stick.id=e.pointerId;stEl.setPointerCapture(e.pointerId);stickMove(e);});
 stEl.addEventListener('pointermove',e=>{if(e.pointerId===stick.id){e.preventDefault();stickMove(e);}});
 const stickEnd=e=>{if(e.pointerId!==stick.id)return;stick.id=null;stick.x=stick.y=0;knob.style.transform='';};
+(function(){const z=$('stickZone');let home=null;
+  z.addEventListener('pointerdown',e=>{e.preventDefault();const r=stEl.getBoundingClientRect();home=home||{l:stEl.style.left,b:stEl.style.bottom,t:stEl.style.top};
+    stEl.style.setProperty('left',(e.clientX-r.width/2)+'px','important');stEl.style.setProperty('top',(e.clientY-r.height/2)+'px','important');stEl.style.setProperty('bottom','auto','important');stEl.classList.add('float');
+    stick.id=e.pointerId;try{z.setPointerCapture(e.pointerId);}catch(_){}stickMove(e);});
+  z.addEventListener('pointermove',e=>{if(e.pointerId===stick.id){e.preventDefault();stickMove(e);}});
+  const end=e=>{if(e.pointerId!==stick.id)return;stick.id=null;stick.x=stick.y=0;knob.style.transform='';stEl.style.removeProperty('left');stEl.style.removeProperty('top');stEl.style.removeProperty('bottom');stEl.classList.remove('float');};
+  z.addEventListener('pointerup',end);z.addEventListener('pointercancel',end);})();
 stEl.addEventListener('pointerup',stickEnd);stEl.addEventListener('pointercancel',stickEnd);stEl.addEventListener('lostpointercapture',()=>{stick.id=null;stick.x=stick.y=0;knob.style.transform='';});
 $('bA').addEventListener('pointerdown',e=>{e.preventDefault();fireMain();});
 $('bG').addEventListener('pointerdown',e=>{e.preventDefault();G.gunHeld=true;});
 ['pointerup','pointercancel','pointerleave'].forEach(n=>$('bG').addEventListener(n,()=>G.gunHeld=false));
-$('bTu').addEventListener('pointerdown',()=>PL.thr=Math.min(1,PL.thr+.1));
-$('bTd').addEventListener('pointerdown',()=>PL.thr=Math.max(.2,PL.thr-.1));
+function thrBtn(id,dir){const b=$(id);let iv=null;const stop=()=>{clearInterval(iv);iv=null;b.classList.remove('held');};
+  const step=k=>{G.thrT=performance.now();PL.thr=clamp(PL.thr+dir*k,.2,1);thrPill();};
+  b.addEventListener('pointerdown',e=>{e.preventDefault();G.thrT=performance.now();try{b.setPointerCapture(e.pointerId);}catch(_){}b.classList.add('held');step(.1);if(navigator.vibrate)navigator.vibrate(8);
+    clearInterval(iv);iv=setInterval(()=>step(.04),70);});
+  ['pointerup','pointercancel','lostpointercapture'].forEach(n=>b.addEventListener(n,stop));b.addEventListener('contextmenu',e=>e.preventDefault());}
+function thrPill(){const el=$('thrPill');if(el)el.textContent=`추력 ${Math.round(PL.thr*100)}%`;}
+thrBtn('bTu',1);thrBtn('bTd',-1);
 $('bV').addEventListener('pointerdown',()=>{PL.view=1-PL.view;camSnap=true;});
 window.addEventListener('touchstart',()=>{if(!touchUI){touchUI=true;if(G.mode==='play')$('touch').classList.add('on');}},{passive:true});
 window.addEventListener('keydown',e=>{G.keys[e.code]=true;if(G.mode!=='play')return;
@@ -1108,7 +1134,9 @@ window.addEventListener('pointercancel',()=>{G.gunHeld=false;});
 /* ---------- flight ---------- */
 function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,r=0;
   if(k.KeyW||k.ArrowUp)p+=1;if(k.KeyS||k.ArrowDown)p-=1;if(k.KeyA||k.ArrowLeft)r-=1;if(k.KeyD||k.ArrowRight)r+=1;
-  p+=-Math.sign(stick.y)*Math.pow(Math.abs(stick.y),1.4);r+=Math.sign(stick.x)*Math.pow(Math.abs(stick.x),1.4);
+  const dz=v=>Math.abs(v)<.14?0:Math.sign(v)*(Math.abs(v)-.14)/.86,sx=dz(stick.x),sy=dz(stick.y);
+  p+=-Math.sign(sy)*Math.pow(Math.abs(sy),1.5);r+=Math.sign(sx)*Math.pow(Math.abs(sx),1.4);
+  if(touchUI&&G.easy&&G.mkey!=='school'&&performance.now()-(G.thrT||0)>6000)PL.thr=lerp(PL.thr,.78,1-Math.exp(-dt*.8));
   p=clamp(p,-1,1);r=clamp(r,-1,1);if(G.invert)p=-p;
   if(k.KeyE||k.Equal||k.NumpadAdd||k.ShiftLeft)PL.thr=Math.min(1,PL.thr+.45*dt);if(k.KeyQ||k.Minus||k.NumpadSubtract)PL.thr=Math.max(.2,PL.thr-.45*dt);
   G.inp.pitch=lerp(G.inp.pitch,p,1-Math.exp(-dt*8));G.inp.roll=lerp(G.inp.roll,r,1-Math.exp(-dt*8));
@@ -1131,7 +1159,12 @@ function flight(dt){if(G.mkey==='show'&&MI.finale)return;const k=G.keys;let p=0,
   if(WD.key==='bridge'&&Math.abs(PL.pos.x)<6&&Math.abs(PL.pos.z)<112&&PL.pos.y<DECK+8&&PL.pos.y>DECK-2){const s=WD.spans[Math.min(3,Math.floor((PL.pos.z+110)/55))];if(s&&s.alive)return crash();}}
 const EZ={yaw:0,pit:0,bank:0},eul=new T.Euler(0,0,0,'YXZ');
 function syncEZ(){const f=fwdOf(PL.q),u=upOf(PL.q),r=rightOf(PL.q);EZ.pit=Math.asin(clamp(f.y,-1,1));EZ.yaw=Math.atan2(-f.x,-f.z);EZ.bank=Math.atan2(-r.y,u.y);}
-function easyFly(dt){const tb=G.inp.roll*.85;
+function mobAssist(dt){if(!(touchUI&&G.easy&&G.mobAssist!==false))return null;const sp=G.mkey==='show'&&(MI.loop||MI.roll||MI.sync||MI.exStage>=0||MI.finale);if(sp)return null;
+  if(Math.abs(G.inp.pitch)<.05)EZ.pit+=clamp(-EZ.pit,-.22*dt,.22*dt);
+  G.idleR=Math.abs(G.inp.roll)<.05?(G.idleR||0)+dt:0;if(G.idleR<.8)return null;
+  let t=null;try{t=targetPoint();}catch(e){}if(!t)return null;const f=fwdOf(PL.q);let e=Math.atan2(t.x-PL.pos.x,-(t.z-PL.pos.z))-Math.atan2(f.x,-f.z);while(e>Math.PI)e-=2*Math.PI;while(e<-Math.PI)e+=2*Math.PI;
+  return clamp(e*1.1,-.45,.45);}
+function easyFly(dt){const as=mobAssist(dt);const tb=as!==null?as:G.inp.roll*.85;
   EZ.pit=clamp(EZ.pit+G.inp.pitch*.32*dt,-1.15,.42);EZ.bank+=(G.mkey==='show'&&(MI.roll||MI.sync&&!MI.sync.done))?G.inp.roll*3.2*dt:clamp((tb-EZ.bank)*3,-1.6,1.6)*dt;EZ.yaw-=Math.sin(EZ.bank)*.7*dt;
   eul.set(EZ.pit,EZ.yaw,-EZ.bank,'YXZ');PL.q.setFromEuler(eul);
   PL.v=lerp(PL.v,clamp(100+PL.thr*28-EZ.pit*70,70,200),1-Math.exp(-dt*.9));PL.pos.addScaledVector(fwdOf(PL.q),PL.v*dt);}
@@ -1694,7 +1727,7 @@ function attract(dt){G.at+=dt;if(!att.length||att[0].parent!==world){att=[0,1,2]
 
 /* ---------- HUD ---------- */
 function hdg(){const f=fwdOf(PL.q);return (Math.atan2(f.x,-f.z)*180/Math.PI+360)%360;}
-function updHUD(){if(G.mkey==='hill')updCards();
+function updHUD(){thrPill();if(G.mkey==='hill')updCards();
   if(G.mkey==='school'){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');$('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
     $('dmg').firstElementChild.style.width=PL.hp+'%';$('objT').textContent='하늘의 비행학교';$('objS').textContent=`${MI.phase+1}/6 · ${SC_STEPS[MI.phase][0]}`;$('ammo').innerHTML=`로켓 <b>${PL.ord}</b> · 기총 <b>${PL.gun}</b>`;return;}
   if(G.mkey==='temple'){$('iSpd').textContent=Math.round(PL.v*KT);$('iAlt').textContent=Math.round(PL.pos.y*FT).toLocaleString('ko-KR');$('iHdg').textContent=String(Math.round(hdg())%360).padStart(3,'0');$('iThr').textContent=Math.round(PL.thr*100);
@@ -1947,7 +1980,7 @@ $('tVoice').onclick=()=>{voiceEnabled=!voiceEnabled;$('tVoice').setAttribute('ar
 function tgl(id,get,set){const b=$(id);const r=()=>{b.setAttribute('aria-pressed',get());b.textContent=get()?'켜짐':'꺼짐';};b.onclick=()=>{set(!get());r();};r();}
 for(const [key,id] of [['bgm','vBgm'],['engine','vEngine'],['sfx','vSfx'],['radio','vRadio']]){const el=$(id),out=$(id+'Out');el.value=Math.round(VOL[key]*100);out.textContent=el.value+'%';el.oninput=()=>{VOL[key]=+el.value/100;out.textContent=el.value+'%';try{localStorage.setItem('f51-vol',JSON.stringify(VOL));}catch(e){}if(key==='bgm'&&bgmEl)bgmFade(bgmEl,VOL.bgm,120);};}
 tgl('tStudent' ,()=>G.student,v=>{G.student=v;if(v){G.easy=true;G.assist=true;syncEZ();$('tEasy').setAttribute('aria-pressed','true');$('tEasy').textContent='켜짐';}document.getElementById('app').classList.toggle('student-mode',v);$('hintBtn').style.display=v?'block':'none';});
-tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);const bgmNow=()=>(G.mode==='play'||G.mode==='pause'||G.mode==='cine')?G.mkey:'menu';
+tgl('tAssist',()=>G.assist,v=>G.assist=v);tgl('tMobAssist',()=>G.mobAssist!==false,v=>G.mobAssist=v);tgl('tEasy',()=>G.easy,v=>{G.easy=v;syncEZ();});tgl('tInvert',()=>G.invert,v=>G.invert=v);const bgmNow=()=>(G.mode==='play'||G.mode==='pause'||G.mode==='cine')?G.mkey:'menu';
 tgl('tSound',()=>!muted,v=>{muted=!v;bgm(null);if(!muted)bgm(bgmNow());});tgl('tMusic',()=>bgmOn,v=>{bgmOn=v;bgm(null);if(v)bgm(bgmNow());});
 
 const CTRL=`<li><b>조종</b> — 실제 비행기 조종간처럼 <kbd>↓</kbd>(<kbd>S</kbd>)를 누르면 기수가 올라가 <mark>상승</mark>하고, <kbd>↑</kbd>(<kbd>W</kbd>)를 누르면 기수가 내려가 <mark>하강</mark>해요. <kbd>A</kbd><kbd>D</kbd>(또는 <kbd>←</kbd><kbd>→</kbd>) 날개를 기울여 돌기. <kbd>E</kbd><kbd>Q</kbd> 추력, <kbd>C</kbd> 조종석 시점, <kbd>Esc</kbd> 일시정지</li>
@@ -2393,7 +2426,7 @@ function updSchool(dt){if(G.mode!=='play')return;
   if(PL.ord<2){PL.ord=6;updStores();if(MI.phase===4)toast('로켓 보급','로켓 6발 다시 장착',1400);}if(PL.gun<300)PL.gun=1600;
   MI.stageT=(MI.stageT||0)+dt;$('schoolNext').classList.toggle('on',MI.stageT>45&&!MI.ground&&!MI.doneT);const agl=PL.pos.y-groundY(PL.pos.x,PL.pos.z),kt=Math.round(PL.v*KT),p=MI.phase;
   if(MI.doneT){MI.doneT-=dt;if(MI.doneT<=0)schoolDone();return;}
-  if(p===0){if(MI.ground)setTask('1단계 · 이륙',PL.v>=52?`<b style="color:#7dff95">조종간 당김 · ${touchUI?'조종간 아래로':(G.invert?'↓ 또는 S':'↑ 또는 W')}</b>`:`추력 올림 · ${touchUI?'추력▲ 버튼':'E 키 (누르고 있기)'} · 속도 ${kt}kt / 100kt`,PL.v/52,PL.v>=52?'#7fbf8a':'#ffd84a');
+  if(p===0){if(MI.ground)setTask('1단계 · 이륙',PL.v>=52?`<b style="color:#7dff95">조종간 당김 · ${touchUI?'조종간 아래로':(G.invert?'↓ 또는 S':'↑ 또는 W')}</b>`:`추력 올림 · ${touchUI?'추력▲ 버튼 누르고 있기':'E 키 (누르고 있기)'} · 속도 ${kt}kt / 100kt`,PL.v/52,PL.v>=52?'#7fbf8a':'#ffd84a');
     else{setTask('1단계 · 이륙','상승 유지',clamp(agl/60,0,1),'#7fbf8a');if(agl>60)schoolStage(1);}}
   else if(p===1){if(agl>100&&agl<300)MI.band=(MI.band||0)+dt;const h=hdg();if(MI.lastH!=null){let d=h-MI.lastH;if(d>180)d-=360;if(d<-180)d+=360;MI.turned=(MI.turned||0)+Math.abs(d);}MI.lastH=h;
     const b=Math.min(1,(MI.band||0)/3),t=Math.min(1,(MI.turned||0)/60);
