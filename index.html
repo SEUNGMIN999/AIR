@@ -531,6 +531,17 @@ html,body{width:100%;height:100%;max-width:none;margin:0;padding:0;overflow:hidd
 #stickZone{position:absolute;left:0;bottom:0;width:44vw;height:62vh;pointer-events:auto;touch-action:none;z-index:0}
 #stick{z-index:1}#stick.float{opacity:.95}
 @media (max-height:520px) and (orientation:landscape){#app #cards{top:56px!important;bottom:auto!important}#stickZone{height:56vh}}
+@media (max-height:520px) and (orientation:landscape){
+ #app #mtask{left:6px!important;right:auto!important;transform:none!important;top:52px!important;width:min(31vw,290px)!important;text-align:left!important;padding:5px 9px!important;border-left-width:3px!important}
+ #app #mtask b#mtT{font-size:13px!important}#app #mtask span{font-size:10.5px!important;display:block}
+ #app #navGuide{left:50%!important;right:auto!important;transform:translateX(-50%)!important;top:54px!important;max-width:40vw;font-size:10.5px!important}
+ #app #navGuide:empty{display:none!important}
+ #app[data-m="hill"] #cards{top:98px!important;left:auto!important;right:6px!important;bottom:auto!important;width:112px!important}
+ #app[data-m="hill"] #aaLeft{display:none!important}
+ #app[data-m="hill"] #thrPill{display:none!important}
+ #app #toast{top:30%!important}
+}
+@keyframes rIn2{from{opacity:0;transform:translate(-50%,16px)}to{opacity:1;transform:translate(-50%,0)}}
 </style>
 </head>
 <body>
@@ -1068,7 +1079,7 @@ const MDEF={
  temple:{start:[0,900,4300],load:'rockets',ord:6,obj:'해인사'},
  show:{start:[0,320,2700],load:'none',ord:0,obj:'에어쇼'},
  hill:{start:[200,800,-3000],load:'rockets',ord:6,obj:'351고지'}};
-function startMission(key){stopVoice();$('schoolNext').classList.remove('on');G.rescues=0;G.checkpoint=null;hintLevel=0;audioInit();bgmDucked=false;bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
+function startMission(key){stopVoice();$('app').dataset.m=key;$('schoolNext').classList.remove('on');G.rescues=0;G.checkpoint=null;hintLevel=0;audioInit();bgmDucked=false;bgm(key);G.mkey=key;buildWorld(key);const d=MDEF[key];
   PL.mesh=key==='show'?makeJet():makePlane({load:d.load});world.add(PL.mesh);PL.pos.set(d.start[0],d.start[1],d.start[2]);PL.q.identity();if(key==='hill')PL.q.setFromAxisAngle(AY,Math.PI);syncEZ();
   PL.v=118;PL.thr=.75;PL.hp=100;G.checkpoint={pos:PL.pos.clone(),q:PL.q.clone(),v:118,time:0};PL.ord=d.ord+(G.easy?2:0);PL.gun=1600;PL.view=0;updStores();
   wing=(key==='show'?[[-14,0,11],[14,0,11],[0,-2,22],[-28,0,22],[28,0,22],[-42,0,30],[42,0,30]]:[[-26,1,-8],[26,1,-8]]).map(o=>{const m=key==='show'?makeJet():makePlane({load:d.load});world.add(m);m.position.copy(PL.pos).add(V(o[0],o[1],o[2]));m.userData.off=V(o[0],o[1],o[2]);return m;});
@@ -1800,7 +1811,7 @@ function updRing(){ring.visible=false;G.ringGo=false;beacon.visible=false;
 /* ---------- end / screens ---------- */
 const HINTS={temple:['사찰 지붕이 보이는 위치로 접근하세요. 해인사 자체는 공격 대상이 아닙니다.','능선의 적 은신처에만 조준하세요. 초록 조준 표시가 나타날 때 발사하세요.','너무 낮으면 상승하세요. 사찰과 거리를 두고 돌아서 접근하세요.'],bridge:['붉은 빛기둥이 있는 철교 방향으로 비행하세요.','2막에서 기수를 낮춰 조준 원을 철교 중앙 경간에 맞추세요.','조준 원이 초록색일 때 폭탄을 투하하고 바로 기수를 올리세요.'],hill:['모스키토 무전과 흰 연막을 따라 적 진지를 찾으세요.','주황색 천은 아군입니다. 사격 전에 위치를 확인하세요.','미니맵과 목표 화살표를 보세요. 지원 카드를 활용하면 대공포 위협을 줄일 수 있어요.'],show:['노란 고리를 앞쪽 정중앙에 두고 천천히 맞춰보세요.','고리를 지날 때는 방향을 크게 꺾지 않는 것이 좋아요.','어려운 곡예는 속도를 충분히 확보한 후 도전하세요.']};
 let hintLevel=0;
-function navPlace(){const n=$('navGuide'),m=$('mtask');if(!n||!m)return;if(m.classList.contains('on')&&m.offsetHeight){n.style.top=(m.offsetTop+m.offsetHeight+8)+'px';}else n.style.top='';}
+function navPlace(){const n=$('navGuide'),m=$('mtask');if(!n||!m)return;if(matchMedia('(max-height:520px) and (orientation:landscape)').matches){n.style.top='';return;}if(m.classList.contains('on')&&m.offsetHeight){n.style.top=(m.offsetTop+m.offsetHeight+8)+'px';}else n.style.top='';}
 function targetPoint(){if(!WD||!PL.mesh)return null;const k=G.mkey;if(k==='school'){const g=schoolGuidePoint();return g&&g[0];}if(k==='bridge')return V(0,DECK+35,0);if(k==='temple'){if(MI.phase==='approach'&&WD.temple)return WD.temple.clone().add(V(0,180,0));const t=WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='hill'){const t=WD.targets[MI.cur]||WD.targets.find(x=>x.alive);return t&&t.pos;}if(k==='show'&&MI.exStage>=0&&MI.exGuide)return MI.exGuide.position.clone();if(k==='show'){const r=WD.rings&&WD.rings[Math.min(MI.ring,WD.rings.length-1)];return r&&r.c;}return null;}
 function navUpdate(){navPlace();const el=$('navGuide'),t=targetPoint();if(!el||!t||!G.student){if(el)el.textContent='';return;}const d=t.clone().sub(PL.pos),forward=fwdOf(PL.q),right=rightOf(PL.q);const angle=Math.atan2(d.dot(right),d.dot(forward))*180/Math.PI;const a=Math.abs(angle),dir=a<12?'⬆':angle>0?(a<65?'↗':'➡'):(a<65?'↖':'⬅');const agl=Math.round(PL.pos.y-groundY(PL.pos.x,PL.pos.z));el.textContent=agl<190?'⚠ 위험 고도 '+agl+'m · 기수를 올리세요':dir+' 목표 '+Math.round(d.length())+'m · 지면 위 '+agl+'m';}
 $('hintBtn').onclick=()=>{if(G.mode!=='play')return;const arr=HINTS[G.mkey]||[];toast('💡 단계별 힌트 '+(hintLevel+1)+'/3',arr[hintLevel],5500);hintLevel=(hintLevel+1)%3;};
